@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -25,15 +24,13 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.ruslanlyalko.agency.R;
-import com.ruslanlyalko.agency.data.models.Project;
-import com.ruslanlyalko.agency.data.models.Report;
+import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.BaseActivity;
 import com.ruslanlyalko.agency.presentation.ui.main.dashboard.report.adapter.OnProjectListListener;
 import com.ruslanlyalko.agency.presentation.ui.main.dashboard.report.adapter.OnProjectSelectClickListener;
 import com.ruslanlyalko.agency.presentation.ui.main.dashboard.report.adapter.ProjectSelectAdapter;
 import com.ruslanlyalko.agency.presentation.ui.main.dashboard.report.adapter.ProjectSelectable;
-import com.ruslanlyalko.agency.presentation.ui.main.dashboard.report.adapter.ProjectsListAdapter;
 import com.ruslanlyalko.agency.presentation.utils.DateUtils;
 import com.ruslanlyalko.agency.presentation.view.SquareButton;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -50,7 +47,6 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
 
     private static final String KEY_USER = "user";
     private static final String KEY_REPORT = "report";
-    private static final String KEY_HOLIDAYS = "holidays";
     private static final String KEY_DATE = "date";
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.button_save) SquareButton mButtonSave;
@@ -67,7 +63,6 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
     @BindView(R.id.image_change_date) AppCompatImageView mImageChangeDate;
     //    @BindView(R.id.edit_search) SearchView mEditSearch;
     ProjectSelectAdapter mProjectSelectAdapter = new ProjectSelectAdapter(this);
-    ProjectsListAdapter mProjectsAdapter = new ProjectsListAdapter(this);
     //    private ImageView mCloseBtn;
     private BottomSheetBehavior mSheetBehavior;
 
@@ -78,10 +73,10 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
         return intent;
     }
 
-    public static Intent getLaunchIntent(final Context activity, User user, Report report){
+    public static Intent getLaunchIntent(final Context activity, User user, Order order) {
         Intent intent = new Intent(activity, ReportEditActivity.class);
         intent.putExtra(KEY_USER, user);
-        intent.putExtra(KEY_REPORT, report);
+        intent.putExtra(KEY_REPORT, order);
         return intent;
     }
 
@@ -119,13 +114,12 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
 
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
-        setToolbarTitle(TextUtils.isEmpty(getPresenter().getReport().getKey())
+        setToolbarTitle(TextUtils.isEmpty(getPresenter().getOrder().getKey())
                 ? R.string.title_new_workload : R.string.title_edit_workload);
 //        mCloseBtn = mEditSearch.findViewById(android.support.v7.appcompat.R.id.search_close_btn);
         mRecyclerProjectsSelect.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mRecyclerProjectsSelect.setAdapter(mProjectSelectAdapter);
         mRecyclerProjects.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerProjects.setAdapter(mProjectsAdapter);
         mSheetBehavior = BottomSheetBehavior.from(mLayoutBottomSheet);
         mSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -182,7 +176,7 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
                 }
                 if (!(mSpinnerStatus.getSelectedItem().toString().startsWith("Vacation")
                         || mSpinnerStatus.getSelectedItem().toString().startsWith("Day"))) {
-                    if (getPresenter().getReport().getDate().after(DateUtils.get1DaysForward().getTime())) {
+                    if (getPresenter().getOrder().getDate().after(DateUtils.get1DaysForward().getTime())) {
                         getPresenter().setReportDate(new Date());
                         forceRippleAnimation(mTextFrom);
                     }
@@ -232,26 +226,26 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
     }
 
     @Override
-    public void showReportData(final Report report) {
+    public void showReportData(final Order order) {
         String[] statuses = getResources().getStringArray(R.array.status);
         for (int i = 0; i < statuses.length; i++) {
-            if (statuses[i].equals(report.getStatus())) {
+            if (statuses[i].equals(order.getStatus())) {
                 mSpinnerStatus.setSelection(i);
                 break;
             }
         }
         List<ProjectSelectable> list = new ArrayList<>();
-        if (report.getT1() > 0) {
-            list.add(new ProjectSelectable(report.getP1(), report.getT1()));
+        if (order.getT1() > 0) {
+            list.add(new ProjectSelectable(order.getP1(), order.getT1()));
         }
-        if (report.getT2() > 0) {
-            list.add(new ProjectSelectable(report.getP2(), report.getT2()));
+        if (order.getT2() > 0) {
+            list.add(new ProjectSelectable(order.getP2(), order.getT2()));
         }
-        if (report.getT3() > 0) {
-            list.add(new ProjectSelectable(report.getP3(), report.getT3()));
+        if (order.getT3() > 0) {
+            list.add(new ProjectSelectable(order.getP3(), order.getT3()));
         }
-        if (report.getT4() > 0) {
-            list.add(new ProjectSelectable(report.getP4(), report.getT4()));
+        if (order.getT4() > 0) {
+            list.add(new ProjectSelectable(order.getP4(), order.getT4()));
         }
         mProjectSelectAdapter.setData(list);
     }
@@ -298,12 +292,6 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
     }
 
     @Override
-    public void showProjects(final List<Project> list) {
-        mProjectsAdapter.setData(list);
-        mTextPlaceholder.setVisibility(list.isEmpty() ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
     public void addProject(final String title) {
         mProjectSelectAdapter.addItem(new ProjectSelectable(title));
     }
@@ -323,7 +311,7 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
         switch (v.getId()) {
             case R.id.text_from:
                 Calendar calendar = Calendar.getInstance();
-                calendar.setTime(getPresenter().getReport().getDate());
+                calendar.setTime(getPresenter().getOrder().getDate());
                 DatePickerDialog datePickerDialog = DatePickerDialog.newInstance((view, year, monthOfYear, dayOfMonth) -> {
                     Date newDate = DateUtils.getDate(calendar.getTime(), year, monthOfYear, dayOfMonth);
                     getPresenter().setReportDate(newDate);

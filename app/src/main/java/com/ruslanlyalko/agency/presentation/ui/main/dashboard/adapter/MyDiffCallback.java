@@ -2,7 +2,7 @@ package com.ruslanlyalko.agency.presentation.ui.main.dashboard.adapter;
 
 import android.support.v7.util.DiffUtil;
 
-import com.ruslanlyalko.agency.data.models.Report;
+import com.ruslanlyalko.agency.data.models.Order;
 
 import java.util.List;
 
@@ -12,10 +12,10 @@ import java.util.List;
  */
 class MyDiffCallback extends DiffUtil.Callback {
 
-    private List<Report> mOldList;
-    private List<Report> mNewList;
+    private List<Order> mOldList;
+    private List<Order> mNewList;
 
-    public MyDiffCallback(final List<Report> oldList, final List<Report> newList) {
+    public MyDiffCallback(final List<Order> oldList, final List<Order> newList) {
         mOldList = oldList;
         mNewList = newList;
     }

@@ -2,7 +2,7 @@ package com.ruslanlyalko.agency.presentation.ui.main.dashboard;
 
 import android.arch.lifecycle.MutableLiveData;
 
-import com.ruslanlyalko.agency.data.models.Report;
+import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.BaseView;
 
@@ -17,13 +17,13 @@ public interface WorkloadView extends BaseView<WorkloadPresenter> {
 
     void showUser(MutableLiveData<User> user);
 
-    void showReportsOnCalendar(MutableLiveData<List<Report>> reports);
+    void showReportsOnCalendar(MutableLiveData<List<Order>> reports);
 
-    void showReports(List<Report> reports);
+    void showReports(List<Order> orders);
 
     void showErrorAndStartLoginScreen();
 
-    void editReport(User user, Report report);
+    void editReport(User user, Order order);
 
     void startAddReportScreen(final User user, final Date date);
 

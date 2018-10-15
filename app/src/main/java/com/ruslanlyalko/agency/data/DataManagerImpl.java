@@ -11,18 +11,18 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.ruslanlyalko.agency.data.models.Report;
+import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.data.models.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.ruslanlyalko.agency.data.Config.DB_REPORTS;
+import static com.ruslanlyalko.agency.data.Config.DB_ORDERS;
 import static com.ruslanlyalko.agency.data.Config.DB_USERS;
-import static com.ruslanlyalko.agency.data.Config.FIELD_NAME;
 import static com.ruslanlyalko.agency.data.Config.FIELD_TOKEN;
 import static com.ruslanlyalko.agency.data.Config.FIELD_USER_ID;
 
@@ -38,7 +38,7 @@ public class DataManagerImpl implements DataManager {
     private FirebaseDatabase mDatabase;
     private FirebaseFirestore mFirestore;
     private MutableLiveData<User> mCurrentUserLiveData;
-    private MutableLiveData<List<Report>> mAllMyReportsListMutableLiveData;
+    private MutableLiveData<List<Order>> mAllMyReportsListMutableLiveData;
     private MutableLiveData<List<User>> mAllUsersListLiveData;
 
     private DataManagerImpl() {
@@ -72,21 +72,11 @@ public class DataManagerImpl implements DataManager {
             return mCurrentUserLiveData;
         }
         mCurrentUserLiveData = new MutableLiveData<>();
-
-        mDatabase.getReference(DB_USERS)
-                .child(key)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                        Log.d(TAG, "getMyUser:onDataChange, Key:" + key);
-                        if (mCurrentUserLiveData != null)
-                            mCurrentUserLiveData.postValue(dataSnapshot.getValue(User.class));
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull final DatabaseError databaseError) {
-                    }
-                });
+        mFirestore.collection(DB_USERS).document(key).addSnapshotListener((documentSnapshot, e) -> {
+            Log.d(TAG, "getMyUser:onDataChange, Key:" + key);
+            if (e == null && mCurrentUserLiveData != null && documentSnapshot != null)
+                mCurrentUserLiveData.postValue(documentSnapshot.toObject(User.class));
+        });
         return mCurrentUserLiveData;
     }
 
@@ -97,19 +87,11 @@ public class DataManagerImpl implements DataManager {
             Log.w(TAG, "getUser has wrong argument");
             return userLiveData;
         }
-        mDatabase.getReference(DB_USERS)
-                .child(key)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                        Log.d(TAG, "getUser:onDataChange, Key:" + key);
-                        userLiveData.postValue(dataSnapshot.getValue(User.class));
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull final DatabaseError databaseError) {
-                    }
-                });
+        mFirestore.collection(DB_USERS).document(key).addSnapshotListener((documentSnapshot, e) -> {
+            Log.d(TAG, "getUser:onDataChange, Key:" + key);
+            if (e == null && mCurrentUserLiveData != null && documentSnapshot != null)
+                userLiveData.postValue(documentSnapshot.toObject(User.class));
+        });
         return userLiveData;
     }
 
@@ -117,23 +99,16 @@ public class DataManagerImpl implements DataManager {
     public MutableLiveData<List<User>> getAllUsers() {
         if (mAllUsersListLiveData != null) return mAllUsersListLiveData;
         mAllUsersListLiveData = new MutableLiveData<>();
-        mDatabase.getReference(DB_USERS)
-                .orderByChild(FIELD_NAME)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                        Log.d(TAG, "getAllUsers:onDataChange");
-                        List<User> list = new ArrayList<>();
-                        for (DataSnapshot snap : dataSnapshot.getChildren()) {
-                            list.add(snap.getValue(User.class));
-                        }
-                        mAllUsersListLiveData.postValue(list);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull final DatabaseError databaseError) {
-                    }
-                });
+        mFirestore.collection(DB_USERS).addSnapshotListener((snapshots, e) -> {
+            Log.d(TAG, "getAllUsers:onDataChange");
+            if (e == null && mCurrentUserLiveData != null && snapshots != null) {
+                List<User> list = new ArrayList<>();
+                for (DocumentSnapshot dc : snapshots.getDocuments()) {
+                    list.add(dc.toObject(User.class));
+                }
+                mAllUsersListLiveData.postValue(list);
+            }
+        });
         return mAllUsersListLiveData;
     }
 
@@ -171,21 +146,21 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
-    public Task<Void> saveReport(final Report newReport) {
-        return mDatabase.getReference(DB_REPORTS)
-                .child(newReport.getKey())
-                .setValue(newReport);
+    public Task<Void> saveReport(final Order newOrder) {
+        return mDatabase.getReference(DB_ORDERS)
+                .child(newOrder.getKey())
+                .setValue(newOrder);
     }
 
     @Override
-    public Task<Void> removeReport(final Report report) {
-        return mDatabase.getReference(DB_REPORTS)
-                .child(report.getKey())
+    public Task<Void> removeReport(final Order order) {
+        return mDatabase.getReference(DB_ORDERS)
+                .child(order.getKey())
                 .removeValue();
     }
 
     @Override
-    public MutableLiveData<List<Report>> getAllMyReports() {
+    public MutableLiveData<List<Order>> getAllMyReports() {
         if (mAllMyReportsListMutableLiveData != null) return mAllMyReportsListMutableLiveData;
         String userId = mAuth.getUid();
         mAllMyReportsListMutableLiveData = new MutableLiveData<>();
@@ -193,18 +168,18 @@ public class DataManagerImpl implements DataManager {
             Log.w(TAG, "getAllMyReports user is not logged in");
             return mAllMyReportsListMutableLiveData;
         }
-        mDatabase.getReference(DB_REPORTS)
+        mDatabase.getReference(DB_ORDERS)
                 .orderByChild(FIELD_USER_ID)
                 .equalTo(userId)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                         Log.d(TAG, "getAllMyReports:onDataChange, userId:" + userId);
-                        List<Report> list = new ArrayList<>();
+                        List<Order> list = new ArrayList<>();
                         for (DataSnapshot snap : dataSnapshot.getChildren()) {
-                            Report report = snap.getValue(Report.class);
-                            if (report != null)
-                                list.add(report);
+                            Order order = snap.getValue(Order.class);
+                            if (order != null)
+                                list.add(order);
                         }
                         if (mAllMyReportsListMutableLiveData != null)
                             mAllMyReportsListMutableLiveData.postValue(list);
@@ -218,23 +193,23 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
-    public MutableLiveData<List<Report>> getVacationReports(final User user) {
-        final MutableLiveData<List<Report>> result = new MutableLiveData<>();
-        mDatabase.getReference(DB_REPORTS)
+    public MutableLiveData<List<Order>> getVacationReports(final User user) {
+        final MutableLiveData<List<Order>> result = new MutableLiveData<>();
+        mDatabase.getReference(DB_ORDERS)
                 .orderByChild(FIELD_USER_ID)
                 .equalTo(user.getKey())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                         Log.d(TAG, "getVacationReports:onDataChange");
-                        List<Report> list = new ArrayList<>();
+                        List<Order> list = new ArrayList<>();
                         for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
-                            Report report = snapReport.getValue(Report.class);
-                            if (report == null) continue;
-                            if (report.getStatus().startsWith("Day")
-                                    || report.getStatus().startsWith("Vacation")
-                                    || report.getStatus().startsWith("Sick"))
-                                list.add(report);
+                            Order order = snapReport.getValue(Order.class);
+                            if (order == null) continue;
+                            if (order.getStatus().startsWith("Day")
+                                    || order.getStatus().startsWith("Vacation")
+                                    || order.getStatus().startsWith("Sick"))
+                                list.add(order);
                         }
                         Collections.sort(list, (o1, o2) -> o2.getDate().compareTo(o1.getDate()));
                         result.postValue(list);
@@ -247,7 +222,7 @@ public class DataManagerImpl implements DataManager {
         return result;
     }
 
-    private int getTotalHoursSpent(final Report report) {
-        return report.getT1() + report.getT2() + report.getT3() + report.getT4();
+    private int getTotalHoursSpent(final Order order) {
+        return order.getT1() + order.getT2() + order.getT3() + order.getT4();
     }
 }

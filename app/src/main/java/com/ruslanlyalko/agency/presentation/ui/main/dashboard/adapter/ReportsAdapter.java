@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ruslanlyalko.agency.R;
-import com.ruslanlyalko.agency.data.models.Report;
+import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.presentation.utils.ColorUtils;
 import com.ruslanlyalko.agency.presentation.utils.DateUtils;
 import com.ruslanlyalko.agency.presentation.view.OnReportClickListener;
@@ -40,7 +40,7 @@ import static android.view.View.VISIBLE;
 public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHolder> {
 
     private final OnReportClickListener mOnReportClickListener;
-    private List<Report> mData = new ArrayList<>();
+    private List<Order> mData = new ArrayList<>();
     private boolean mAllowEdit;
 
     public ReportsAdapter(@Nullable OnReportClickListener onReportClickListener) {
@@ -51,11 +51,11 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHold
         mAllowEdit = allow;
     }
 
-    public List<Report> getData() {
+    public List<Order> getData() {
         return mData;
     }
 
-    public void setData(final List<Report> data) {
+    public void setData(final List<Order> data) {
         if (data.size() <= 1 && mData.size() <= 1) {
             DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MyDiffCallback(mData, data));
             mData = data;
@@ -109,21 +109,21 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHold
             mContext = view.getContext();
         }
 
-        void bind(final Report report) {
-            mTextTitle.setTextColor(ContextCompat.getColor(mContext, ColorUtils.getTextColorByStatus(mTextDate.getResources(), report.getStatus())));
-            mTextTitle.setText(report.getStatus());
-            mTextName.setText(String.format("%s / %s", report.getUserName(), report.getUserDepartment()));
-            mTextProject1.setVisibility(TextUtils.isEmpty(report.getP1()) ? GONE : VISIBLE);
-            mTextProject2.setVisibility(TextUtils.isEmpty(report.getP2()) ? GONE : VISIBLE);
-            mTextProject3.setVisibility(TextUtils.isEmpty(report.getP3()) ? GONE : VISIBLE);
-            mTextProject4.setVisibility(TextUtils.isEmpty(report.getP4()) ? GONE : VISIBLE);
-            mTextProject1.setText(getFormattedText(report.getP1(), report.getT1()));
-            mTextProject2.setText(getFormattedText(report.getP2(), report.getT2()));
-            mTextProject3.setText(getFormattedText(report.getP3(), report.getT3()));
-            mTextProject4.setText(getFormattedText(report.getP4(), report.getT4()));
-            mTextDate.setText(DateUtils.toStringDate(report.getDate()));
+        void bind(final Order order) {
+            mTextTitle.setTextColor(ContextCompat.getColor(mContext, ColorUtils.getTextColorByStatus(mTextDate.getResources(), order.getStatus())));
+            mTextTitle.setText(order.getStatus());
+            mTextName.setText(String.format("%s / %s", order.getUserName(), order.getUserDepartment()));
+            mTextProject1.setVisibility(TextUtils.isEmpty(order.getP1()) ? GONE : VISIBLE);
+            mTextProject2.setVisibility(TextUtils.isEmpty(order.getP2()) ? GONE : VISIBLE);
+            mTextProject3.setVisibility(TextUtils.isEmpty(order.getP3()) ? GONE : VISIBLE);
+            mTextProject4.setVisibility(TextUtils.isEmpty(order.getP4()) ? GONE : VISIBLE);
+            mTextProject1.setText(getFormattedText(order.getP1(), order.getT1()));
+            mTextProject2.setText(getFormattedText(order.getP2(), order.getT2()));
+            mTextProject3.setText(getFormattedText(order.getP3(), order.getT3()));
+            mTextProject4.setText(getFormattedText(order.getP4(), order.getT4()));
+            mTextDate.setText(DateUtils.toStringDate(order.getDate()));
             mImageDelete.setVisibility(mOnReportClickListener != null
-                    && (mAllowEdit || report.getDate().after(DateUtils.get1DaysAgo().getTime()))
+                    && (mAllowEdit || order.getDate().after(DateUtils.get1DaysAgo().getTime()))
                     ? VISIBLE : GONE);
         }
 

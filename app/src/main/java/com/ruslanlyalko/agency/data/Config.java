@@ -7,7 +7,7 @@ package com.ruslanlyalko.agency.data;
 public interface Config {
 
     String DB_USERS = "USERS";
-    String DB_REPORTS = "REPORTS";
+    String DB_ORDERS = "ORDERS";
     //
     String FIELD_TITLE = "title";
     String FIELD_NAME = "name";

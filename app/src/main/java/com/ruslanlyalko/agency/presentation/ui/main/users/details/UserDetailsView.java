@@ -3,7 +3,7 @@ package com.ruslanlyalko.agency.presentation.ui.main.users.details;
 import android.arch.lifecycle.MutableLiveData;
 import android.util.SparseIntArray;
 
-import com.ruslanlyalko.agency.data.models.Report;
+import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.BaseView;
 
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface UserDetailsView extends BaseView<UserDetailsPresenter> {
 
-    void showReports(MutableLiveData<List<Report>> vacationReportsData);
+    void showReports(MutableLiveData<List<Order>> vacationReportsData);
 
     void showReportsByYear(Date firstWorkingDate, SparseIntArray mYears);
 

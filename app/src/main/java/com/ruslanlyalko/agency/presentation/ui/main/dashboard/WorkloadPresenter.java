@@ -1,6 +1,6 @@
 package com.ruslanlyalko.agency.presentation.ui.main.dashboard;
 
-import com.ruslanlyalko.agency.data.models.Report;
+import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.BasePresenter;
 import com.ruslanlyalko.agency.presentation.utils.DateUtils;
@@ -17,7 +17,7 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
 
     private User mUser;
     private Date mDate = new Date();
-    private List<Report> mReports = new ArrayList<>();
+    private List<Order> mOrders = new ArrayList<>();
 
     WorkloadPresenter() {
     }
@@ -27,9 +27,9 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
         getView().showReportsOnCalendar(getDataManager().getAllMyReports());
     }
 
-    private List<Report> getReportsForCurrentDate() {
-        List<Report> result = new ArrayList<>();
-        for (Report r : mReports) {
+    private List<Order> getReportsForCurrentDate() {
+        List<Order> result = new ArrayList<>();
+        for (Order r : mOrders) {
             if (r.getDate().after(DateUtils.getStart(mDate))
                     && r.getDate().before(DateUtils.getEnd(mDate))) {
                 result.add(r);
@@ -43,10 +43,10 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
         getView().showReports(getReportsForCurrentDate());
     }
 
-    public void onReportDeleteClicked(final Report report) {
-        report.setUpdatedAt(new Date());
-        getDataManager().saveReport(report)
-                .addOnSuccessListener(aVoid -> getDataManager().removeReport(report)
+    public void onReportDeleteClicked(final Order order) {
+        order.setUpdatedAt(new Date());
+        getDataManager().saveReport(order)
+                .addOnSuccessListener(aVoid -> getDataManager().removeReport(order)
                         .addOnCompleteListener(task -> {
                             if (getView() == null) return;
                             getView().showReports(getReportsForCurrentDate());
@@ -57,9 +57,9 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
                 });
     }
 
-    public void onReportLongClicked(final Report report) {
-        if (report.getDate().before(DateUtils.get1DaysAgo().getTime())) return;
-        getView().editReport(mUser, report);
+    public void onReportLongClicked(final Order order) {
+        if (order.getDate().before(DateUtils.get1DaysAgo().getTime())) return;
+        getView().editReport(mUser, order);
     }
 
     public void onFabClicked() {
@@ -70,12 +70,12 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
         return mDate;
     }
 
-    public List<Report> getReports() {
-        return mReports;
+    public List<Order> getOrders() {
+        return mOrders;
     }
 
-    public void setReports(final List<Report> reports) {
-        mReports = reports;
+    public void setOrders(final List<Order> orders) {
+        mOrders = orders;
         getView().showReports(getReportsForCurrentDate());
     }
 

@@ -10,7 +10,7 @@ import android.view.MenuInflater;
 import android.widget.TextView;
 
 import com.ruslanlyalko.agency.R;
-import com.ruslanlyalko.agency.data.models.Report;
+import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.BaseFragment;
 import com.ruslanlyalko.agency.presentation.ui.main.dashboard.adapter.ReportsAdapter;
@@ -65,7 +65,7 @@ public class MyVacationsFragment extends BaseFragment<MyVacationsPresenter> impl
     }
 
     @Override
-    public void showReports(final MutableLiveData<List<Report>> vacationReportsData) {
+    public void showReports(final MutableLiveData<List<Order>> vacationReportsData) {
         vacationReportsData.observe(this, list -> getPresenter().setReports(list));
     }
 
@@ -81,7 +81,7 @@ public class MyVacationsFragment extends BaseFragment<MyVacationsPresenter> impl
     }
 
     @Override
-    public void setReportsToAdapter(final List<Report> list) {
+    public void setReportsToAdapter(final List<Order> list) {
         mReportsAdapter.setData(list);
         mTextPlaceholder.setVisibility((list != null && list.isEmpty()) ? VISIBLE : GONE);
     }

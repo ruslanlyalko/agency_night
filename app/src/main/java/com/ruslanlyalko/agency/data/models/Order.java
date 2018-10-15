@@ -11,7 +11,7 @@ import java.util.Objects;
  * Created by Ruslan Lyalko
  * on 05.09.2018.
  */
-public class Report extends BaseModel implements Parcelable {
+public class Order extends BaseModel implements Parcelable {
 
     private String userId;
     private String userName;
@@ -28,7 +28,7 @@ public class Report extends BaseModel implements Parcelable {
     private int t4;
     private Date updatedAt;
 
-    public Report() {
+    public Order() {
         date = new Date();
     }
 
@@ -152,21 +152,21 @@ public class Report extends BaseModel implements Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        Report report = (Report) o;
-        return t1 == report.t1 &&
-                t2 == report.t2 &&
-                t3 == report.t3 &&
-                t4 == report.t4 &&
-                Objects.equals(userId, report.userId) &&
-                Objects.equals(userName, report.userName) &&
-                Objects.equals(userDepartment, report.userDepartment) &&
-                Objects.equals(date, report.date) &&
-                Objects.equals(status, report.status) &&
-                Objects.equals(p1, report.p1) &&
-                Objects.equals(p2, report.p2) &&
-                Objects.equals(p3, report.p3) &&
-                Objects.equals(p4, report.p4) &&
-                Objects.equals(updatedAt, report.updatedAt);
+        Order order = (Order) o;
+        return t1 == order.t1 &&
+                t2 == order.t2 &&
+                t3 == order.t3 &&
+                t4 == order.t4 &&
+                Objects.equals(userId, order.userId) &&
+                Objects.equals(userName, order.userName) &&
+                Objects.equals(userDepartment, order.userDepartment) &&
+                Objects.equals(date, order.date) &&
+                Objects.equals(status, order.status) &&
+                Objects.equals(p1, order.p1) &&
+                Objects.equals(p2, order.p2) &&
+                Objects.equals(p3, order.p3) &&
+                Objects.equals(p4, order.p4) &&
+                Objects.equals(updatedAt, order.updatedAt);
     }
 
     @Override
@@ -196,7 +196,7 @@ public class Report extends BaseModel implements Parcelable {
         dest.writeLong(this.updatedAt != null ? this.updatedAt.getTime() : -1);
     }
 
-    protected Report(Parcel in) {
+    protected Order(Parcel in) {
         super(in);
         this.userId = in.readString();
         this.userName = in.readString();
@@ -216,11 +216,11 @@ public class Report extends BaseModel implements Parcelable {
         this.updatedAt = tmpUpdatedAt == -1 ? null : new Date(tmpUpdatedAt);
     }
 
-    public static final Creator<Report> CREATOR = new Creator<Report>() {
+    public static final Creator<Order> CREATOR = new Creator<Order>() {
         @Override
-        public Report createFromParcel(Parcel source) {return new Report(source);}
+        public Order createFromParcel(Parcel source) {return new Order(source);}
 
         @Override
-        public Report[] newArray(int size) {return new Report[size];}
+        public Order[] newArray(int size) {return new Order[size];}
     };
 }

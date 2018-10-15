@@ -20,7 +20,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ruslanlyalko.agency.R;
-import com.ruslanlyalko.agency.data.models.Report;
+import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.BaseActivity;
 import com.ruslanlyalko.agency.presentation.ui.main.dashboard.adapter.ReportsAdapter;
@@ -59,7 +59,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     }
 
     @Override
-    public void showReports(final MutableLiveData<List<Report>> vacationReportsData) {
+    public void showReports(final MutableLiveData<List<Order>> vacationReportsData) {
         vacationReportsData.observe(this, list -> {
             getPresenter().setReports(list);
             mReportsAdapter.setData(list);

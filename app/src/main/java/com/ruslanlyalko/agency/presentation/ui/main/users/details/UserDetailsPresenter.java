@@ -2,7 +2,7 @@ package com.ruslanlyalko.agency.presentation.ui.main.users.details;
 
 import android.util.SparseIntArray;
 
-import com.ruslanlyalko.agency.data.models.Report;
+import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.BasePresenter;
 import com.ruslanlyalko.agency.presentation.utils.DateUtils;
@@ -26,10 +26,10 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
         getView().showReports(getDataManager().getVacationReports(mUser));
     }
 
-    public void setReports(final List<Report> reports) {
+    public void setReports(final List<Order> orders) {
         SparseIntArray mYears = new SparseIntArray();
-        for (Report report : reports) {
-            int yearInd = DateUtils.getYearIndex(report.getDate(), mUser.getFirstWorkingDate());
+        for (Order order : orders) {
+            int yearInd = DateUtils.getYearIndex(order.getDate(), mUser.getFirstWorkingDate());
             int value = mYears.get(yearInd);
             value = value + 1;
             mYears.append(yearInd, value);

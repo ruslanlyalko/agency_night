@@ -3,7 +3,7 @@ package com.ruslanlyalko.agency.data;
 import android.arch.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.Task;
-import com.ruslanlyalko.agency.data.models.Report;
+import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.data.models.User;
 
 import java.util.List;
@@ -32,11 +32,11 @@ public interface DataManager {
     void clearCache();
 
     //reports
-    Task<Void> saveReport(Report newReport);
+    Task<Void> saveReport(Order newOrder);
 
-    Task<Void> removeReport(Report report);
+    Task<Void> removeReport(Order order);
 
-    MutableLiveData<List<Report>> getAllMyReports();
+    MutableLiveData<List<Order>> getAllMyReports();
 
-    MutableLiveData<List<Report>> getVacationReports(final User user);
+    MutableLiveData<List<Order>> getVacationReports(final User user);
 }

@@ -1,9 +1,6 @@
 package com.ruslanlyalko.agency.presentation.ui.main.dashboard.report;
 
-import android.arch.lifecycle.MutableLiveData;
-
-import com.ruslanlyalko.agency.data.models.Project;
-import com.ruslanlyalko.agency.data.models.Report;
+import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.presentation.base.BaseView;
 
 import java.util.Date;
@@ -23,7 +20,7 @@ public interface ReportEditView extends BaseView<ReportEditPresenter> {
 
     void afterSuccessfullyRangeSaving(int count);
 
-    void showReportData(Report report);
+    void showReportData(Order order);
 
     void showHoliday(String holiday);
 
@@ -38,8 +35,6 @@ public interface ReportEditView extends BaseView<ReportEditPresenter> {
     void showDateFrom(Date date);
 
     void showDateTo(Date date);
-
-    void showProjects(List<Project> projects);
 
     void addProject(String title);
 

@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.ruslanlyalko.agency.R;
-import com.ruslanlyalko.agency.data.models.Report;
+import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.BaseFragment;
 import com.ruslanlyalko.agency.presentation.ui.login.LoginActivity;
@@ -77,21 +77,21 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     }
 
     @Override
-    public void showReportsOnCalendar(final MutableLiveData<List<Report>> reportsData) {
+    public void showReportsOnCalendar(final MutableLiveData<List<Order>> reportsData) {
         reportsData.observe(this, reports -> {
             if (reports == null) return;
-            getPresenter().setReports(reports);
+            getPresenter().setOrders(reports);
             showCalendarsEvents();
         });
     }
 
     @Override
-    public void showReports(List<Report> reports) {
-        if (reports == null || reports.isEmpty())
+    public void showReports(List<Order> orders) {
+        if (orders == null || orders.isEmpty())
             showFab();
         else
             hideFab();
-        mReportsAdapter.setData(reports);
+        mReportsAdapter.setData(orders);
     }
 
     @Override
@@ -102,8 +102,8 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
     }
 
     @Override
-    public void editReport(final User user, final Report report) {
-        startActivityForResult(ReportEditActivity.getLaunchIntent(getContext(), user, report), RC_REPORT);
+    public void editReport(final User user, final Order order) {
+        startActivityForResult(ReportEditActivity.getLaunchIntent(getContext(), user, order), RC_REPORT);
     }
 
     @Override
@@ -118,10 +118,10 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
 
     void showCalendarsEvents() {
         mCalendarView.removeAllEvents();
-        List<Report> reports = getPresenter().getReports();
-        for (Report report : reports) {
+        List<Order> orders = getPresenter().getOrders();
+        for (Order order : orders) {
             mCalendarView.addEvent(new Event(ContextCompat.getColor(getContext(),
-                    ColorUtils.getTextColorByStatus(getResources(), report.getStatus())), report.getDate().getTime()), true);
+                    ColorUtils.getTextColorByStatus(getResources(), order.getStatus())), order.getDate().getTime()), true);
         }
         mCalendarView.invalidate();
     }
