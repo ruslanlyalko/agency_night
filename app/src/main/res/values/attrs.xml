@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ds">
+        <attr name="colorBottomAppBarBackground" format="color"/>
+        <attr name="colorBackground" format="color"/>
+        <attr name="colorBackgroundGray" format="color"/>
+        <attr name="colorCardBackground" format="color"/>
+        <attr name="colorPanelBackground" format="color"/>
+        <attr name="colorBackgroundButton" format="color"/>
+        <attr name="colorBackgroundMenu" format="color"/>
+        <attr name="colorBackgroundMenuItem" format="color"/>
+        <attr name="colorDivider" format="color"/>
+        <attr name="colorStroke" format="color"/>
+        <attr name="colorIcon" format="color"/>
+        <attr name="colorIconGray" format="color"/>
+        <attr name="colorIconWhite" format="color"/>
+
+        <attr name="colorTextDefault" format="color"/>
+        <attr name="colorTextPrimary" format="color"/>
+        <attr name="colorTextSecondary" format="color"/>
+        <attr name="colorTextGray" format="color"/>
+        <attr name="colorTextProject" format="color"/>
+
+        <attr name="drawableMenu" format="reference"/>
+    </declare-styleable>
+</resources>
