@@ -1,4 +1,4 @@
-package com.ruslanlyalko.agency.presentation.ui.main.my_vacations;
+package com.ruslanlyalko.agency.presentation.ui.main.my_orders;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.os.Bundle;
@@ -24,7 +24,7 @@ import butterknife.BindView;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class MyVacationsFragment extends BaseFragment<MyVacationsPresenter> implements MyVacationsView {
+public class MyOrdersFragment extends BaseFragment<MyOrdersPresenter> implements MyOrdersView {
 
     private static final String KEY_USER = "user";
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
@@ -32,9 +32,9 @@ public class MyVacationsFragment extends BaseFragment<MyVacationsPresenter> impl
     @BindView(R.id.text_placeholder) TextView mTextPlaceholder;
     private ReportsAdapter mReportsAdapter;
 
-    public static MyVacationsFragment newInstance(User user) {
+    public static MyOrdersFragment newInstance(User user) {
         Bundle args = new Bundle();
-        MyVacationsFragment fragment = new MyVacationsFragment();
+        MyOrdersFragment fragment = new MyOrdersFragment();
         args.putParcelable(KEY_USER, user);
         fragment.setArguments(args);
         return fragment;
@@ -47,12 +47,12 @@ public class MyVacationsFragment extends BaseFragment<MyVacationsPresenter> impl
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_my_vacations;
+        return R.layout.fragment_my_orders;
     }
 
     @Override
     protected void initPresenter(final Bundle args) {
-        setPresenter(new MyVacationsPresenter(args.getParcelable(KEY_USER)));
+        setPresenter(new MyOrdersPresenter(args.getParcelable(KEY_USER)));
     }
 
     @Override

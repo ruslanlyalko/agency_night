@@ -23,7 +23,7 @@ import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.BaseFragment;
 import com.ruslanlyalko.agency.presentation.ui.login.LoginActivity;
 import com.ruslanlyalko.agency.presentation.ui.main.dashboard.adapter.ReportsAdapter;
-import com.ruslanlyalko.agency.presentation.ui.main.dashboard.report.ReportEditActivity;
+import com.ruslanlyalko.agency.presentation.ui.main.dashboard.order.OrderEditActivity;
 import com.ruslanlyalko.agency.presentation.utils.ColorUtils;
 import com.ruslanlyalko.agency.presentation.utils.DateUtils;
 import com.ruslanlyalko.agency.presentation.view.OnReportClickListener;
@@ -34,7 +34,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements WorkloadView {
+public class DashboardFragment extends BaseFragment<DashbaordPresenter> implements DashboardView {
 
     private static final int RC_REPORT = 1001;
     @BindView(R.id.calendar_view) CompactCalendarView mCalendarView;
@@ -44,9 +44,9 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
 
     private ReportsAdapter mReportsAdapter;
 
-    public static WorkloadFragment newInstance() {
+    public static DashboardFragment newInstance() {
         Bundle args = new Bundle();
-        WorkloadFragment fragment = new WorkloadFragment();
+        DashboardFragment fragment = new DashboardFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -103,12 +103,12 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
 
     @Override
     public void editReport(final User user, final Order order) {
-        startActivityForResult(ReportEditActivity.getLaunchIntent(getContext(), user, order), RC_REPORT);
+        startActivityForResult(OrderEditActivity.getLaunchIntent(getContext(), user, order), RC_REPORT);
     }
 
     @Override
     public void startAddReportScreen(final User user, final Date date) {
-        startActivityForResult(ReportEditActivity.getLaunchIntent(getContext(), user, date), RC_REPORT);
+        startActivityForResult(OrderEditActivity.getLaunchIntent(getContext(), user, date), RC_REPORT);
     }
 
     @Override
@@ -174,12 +174,12 @@ public class WorkloadFragment extends BaseFragment<WorkloadPresenter> implements
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_workload;
+        return R.layout.fragment_dashboard;
     }
 
     @Override
     protected void initPresenter(final Bundle args) {
-        setPresenter(new WorkloadPresenter());
+        setPresenter(new DashbaordPresenter());
     }
 
     @Override

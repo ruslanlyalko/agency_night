@@ -31,12 +31,12 @@ public interface DataManager {
 
     void clearCache();
 
-    //reports
-    Task<Void> saveReport(Order newOrder);
+    //Orders
+    Task<Void> saveOrder(Order newOrder);
 
-    Task<Void> removeReport(Order order);
+    Task<Void> removeOrder(Order order);
 
-    MutableLiveData<List<Order>> getAllMyReports();
+    MutableLiveData<List<Order>> getAllMyOrders();
 
-    MutableLiveData<List<Order>> getVacationReports(final User user);
+    MutableLiveData<List<Order>> getUpcomingOrders(final User user);
 }

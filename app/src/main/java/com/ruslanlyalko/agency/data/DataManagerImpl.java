@@ -1,28 +1,26 @@
 package com.ruslanlyalko.agency.data;
 
 import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.data.models.User;
+import com.ruslanlyalko.agency.presentation.utils.DateUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import static com.ruslanlyalko.agency.data.Config.DB_ORDERS;
 import static com.ruslanlyalko.agency.data.Config.DB_USERS;
+import static com.ruslanlyalko.agency.data.Config.FIELD_DATE_TIME;
 import static com.ruslanlyalko.agency.data.Config.FIELD_TOKEN;
 import static com.ruslanlyalko.agency.data.Config.FIELD_USER_ID;
 
@@ -58,9 +56,9 @@ public class DataManagerImpl implements DataManager {
         if (user.getKey() == null) {
             throw new RuntimeException("user can't be empty");
         }
-        return mDatabase.getReference(DB_USERS)
-                .child(user.getKey())
-                .setValue(user);
+        return mFirestore.collection(DB_USERS)
+                .document(user.getKey())
+                .set(user);
     }
 
     @Override
@@ -121,19 +119,17 @@ public class DataManagerImpl implements DataManager {
     @Override
     public void updateToken() {
         if (mAuth.getCurrentUser() == null) return;
-        mDatabase.getReference(DB_USERS)
-                .child(mAuth.getCurrentUser().getUid())
-                .child(FIELD_TOKEN)
-                .setValue(FirebaseInstanceId.getInstance().getToken());
+        mFirestore.collection(DB_USERS)
+                .document(mAuth.getCurrentUser().getUid())
+                .update(FIELD_TOKEN, FirebaseInstanceId.getInstance().getToken());
     }
 
     @Override
     public void logout() {
         if (mAuth.getCurrentUser() == null) return;
-        mDatabase.getReference(DB_USERS)
-                .child(mAuth.getCurrentUser().getUid())
-                .child(FIELD_TOKEN)
-                .removeValue();
+        mFirestore.collection(DB_USERS)
+                .document(mAuth.getCurrentUser().getUid())
+                .update(FIELD_TOKEN, null);
         mCurrentUserLiveData = null;
         mAllMyReportsListMutableLiveData = null;
         mAuth.signOut();
@@ -146,83 +142,61 @@ public class DataManagerImpl implements DataManager {
     }
 
     @Override
-    public Task<Void> saveReport(final Order newOrder) {
-        return mDatabase.getReference(DB_ORDERS)
-                .child(newOrder.getKey())
-                .setValue(newOrder);
+    public Task<Void> saveOrder(final Order newOrder) {
+        return mFirestore.collection(DB_ORDERS)
+                .document(newOrder.getKey())
+                .set(newOrder);
     }
 
     @Override
-    public Task<Void> removeReport(final Order order) {
-        return mDatabase.getReference(DB_ORDERS)
-                .child(order.getKey())
-                .removeValue();
+    public Task<Void> removeOrder(final Order order) {
+        return mFirestore.collection(DB_ORDERS)
+                .document(order.getKey())
+                .delete();
     }
 
     @Override
-    public MutableLiveData<List<Order>> getAllMyReports() {
+    public MutableLiveData<List<Order>> getAllMyOrders() {
         if (mAllMyReportsListMutableLiveData != null) return mAllMyReportsListMutableLiveData;
         String userId = mAuth.getUid();
         mAllMyReportsListMutableLiveData = new MutableLiveData<>();
         if (TextUtils.isEmpty(userId)) {
-            Log.w(TAG, "getAllMyReports user is not logged in");
+            Log.w(TAG, "getAllMyOrders user is not logged in");
             return mAllMyReportsListMutableLiveData;
         }
-        mDatabase.getReference(DB_ORDERS)
-                .orderByChild(FIELD_USER_ID)
-                .equalTo(userId)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                        Log.d(TAG, "getAllMyReports:onDataChange, userId:" + userId);
+        mFirestore.collection(DB_ORDERS)
+                .whereEqualTo(FIELD_USER_ID, userId)
+                .orderBy(FIELD_DATE_TIME)
+                .addSnapshotListener((snapshots, e) -> {
+                    Log.d(TAG, "getAllMyOrders:onDataChange");
+                    if (e == null && mCurrentUserLiveData != null && snapshots != null) {
                         List<Order> list = new ArrayList<>();
-                        for (DataSnapshot snap : dataSnapshot.getChildren()) {
-                            Order order = snap.getValue(Order.class);
-                            if (order != null)
-                                list.add(order);
+                        for (DocumentSnapshot dc : snapshots.getDocuments()) {
+                            list.add(dc.toObject(Order.class));
                         }
-                        if (mAllMyReportsListMutableLiveData != null)
-                            mAllMyReportsListMutableLiveData.postValue(list);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull final DatabaseError databaseError) {
+                        mAllMyReportsListMutableLiveData.postValue(list);
                     }
                 });
         return mAllMyReportsListMutableLiveData;
     }
 
     @Override
-    public MutableLiveData<List<Order>> getVacationReports(final User user) {
+    public MutableLiveData<List<Order>> getUpcomingOrders(final User user) {
         final MutableLiveData<List<Order>> result = new MutableLiveData<>();
-        mDatabase.getReference(DB_ORDERS)
-                .orderByChild(FIELD_USER_ID)
-                .equalTo(user.getKey())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                        Log.d(TAG, "getVacationReports:onDataChange");
+        mFirestore.collection(DB_ORDERS)
+                .whereEqualTo(FIELD_USER_ID, user.getKey())
+                .whereGreaterThan(FIELD_DATE_TIME, DateUtils.getStart(new Date()).getTime())
+                .orderBy(FIELD_DATE_TIME)
+                .addSnapshotListener((snapshots, e) -> {
+                    Log.d(TAG, "getUpcomingOrders:onDataChange");
+                    if (e == null && mCurrentUserLiveData != null && snapshots != null) {
                         List<Order> list = new ArrayList<>();
-                        for (DataSnapshot snapReport : dataSnapshot.getChildren()) {
-                            Order order = snapReport.getValue(Order.class);
-                            if (order == null) continue;
-                            if (order.getStatus().startsWith("Day")
-                                    || order.getStatus().startsWith("Vacation")
-                                    || order.getStatus().startsWith("Sick"))
-                                list.add(order);
+                        for (DocumentSnapshot dc : snapshots.getDocuments()) {
+                            list.add(dc.toObject(Order.class));
                         }
-                        Collections.sort(list, (o1, o2) -> o2.getDate().compareTo(o1.getDate()));
                         result.postValue(list);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull final DatabaseError databaseError) {
                     }
                 });
         return result;
-    }
-
-    private int getTotalHoursSpent(final Order order) {
-        return order.getT1() + order.getT2() + order.getT3() + order.getT4();
     }
 }

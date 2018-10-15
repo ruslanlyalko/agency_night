@@ -13,18 +13,18 @@ import java.util.List;
  * Created by Ruslan Lyalko
  * on 05.09.2018.
  */
-public class WorkloadPresenter extends BasePresenter<WorkloadView> {
+public class DashbaordPresenter extends BasePresenter<DashboardView> {
 
     private User mUser;
     private Date mDate = new Date();
     private List<Order> mOrders = new ArrayList<>();
 
-    WorkloadPresenter() {
+    DashbaordPresenter() {
     }
 
     public void onViewReady() {
         getView().showUser(getDataManager().getMyUser());
-        getView().showReportsOnCalendar(getDataManager().getAllMyReports());
+        getView().showReportsOnCalendar(getDataManager().getAllMyOrders());
     }
 
     private List<Order> getReportsForCurrentDate() {
@@ -45,8 +45,8 @@ public class WorkloadPresenter extends BasePresenter<WorkloadView> {
 
     public void onReportDeleteClicked(final Order order) {
         order.setUpdatedAt(new Date());
-        getDataManager().saveReport(order)
-                .addOnSuccessListener(aVoid -> getDataManager().removeReport(order)
+        getDataManager().saveOrder(order)
+                .addOnSuccessListener(aVoid -> getDataManager().removeOrder(order)
                         .addOnCompleteListener(task -> {
                             if (getView() == null) return;
                             getView().showReports(getReportsForCurrentDate());

@@ -3,10 +3,10 @@
     // Day
     <color name="colorPrimary">#fff</color>
     <color name="colorPrimaryDark">#fff</color>
-    <color name="colorAccent">#42BC8E</color>
-    <color name="colorBottomAppBarBackground">#42BC8E</color>
+    <color name="colorAccent">#2196F3</color>
+    <color name="colorBottomAppBarBackground">#2196F3</color>
     <color name="colorBackgroundMenu">#fff</color>
-    <color name="colorBackgroundMenuItem">#effbfc</color>
+    <color name="colorBackgroundMenuItem">#eff2fc</color>
     <color name="colorBackground">#fff</color>
     <color name="colorCardBackground">#fff</color>
     <color name="colorPanelBackground">#f0f2f5</color>
@@ -25,10 +25,10 @@
     // Night
     <color name="colorPrimaryNight">#121414</color>
     <color name="colorPrimaryDarkNight">#121414</color>
-    <color name="colorAccentNight">#42BC8E</color>
+    <color name="colorAccentNight">#2196F3</color>
     <color name="colorBottomAppBarBackgroundNight">#262626</color>
     <color name="colorBackgroundMenuNight">#262626</color>
-    <color name="colorBackgroundMenuItemNight">#28393b</color>
+    <color name="colorBackgroundMenuItemNight">#282f3b</color>
     <color name="colorBackgroundNight">#121414</color>
     <color name="colorCardBackgroundNight">#2c2c2c</color>
     <color name="colorPanelBackgroundNight">#2c2c2c</color>
@@ -49,7 +49,7 @@
     <color name="colorWhite">#ffffff</color>
     <color name="colorMenuIcon">#869099</color>
     <color name="colorTopic">#aeb9c5</color>
-    <color name="colorMenuItemSelected">#00b2a8</color>
+    <color name="colorMenuItemSelected">#0050b2</color>
     <color name="colorYellow">#fdcc5d</color>
 
     //

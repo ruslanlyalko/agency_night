@@ -54,7 +54,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".presentation.ui.main.dashboard.order.ReportEditActivity"
+            android:name=".presentation.ui.main.dashboard.order.OrderEditActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />

@@ -1,4 +1,4 @@
-package com.ruslanlyalko.agency.presentation.ui.main.dashboard.report;
+package com.ruslanlyalko.agency.presentation.ui.main.dashboard.order;
 
 import android.content.Context;
 import android.content.Intent;
@@ -27,10 +27,10 @@ import com.ruslanlyalko.agency.R;
 import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.BaseActivity;
-import com.ruslanlyalko.agency.presentation.ui.main.dashboard.report.adapter.OnProjectListListener;
-import com.ruslanlyalko.agency.presentation.ui.main.dashboard.report.adapter.OnProjectSelectClickListener;
-import com.ruslanlyalko.agency.presentation.ui.main.dashboard.report.adapter.ProjectSelectAdapter;
-import com.ruslanlyalko.agency.presentation.ui.main.dashboard.report.adapter.ProjectSelectable;
+import com.ruslanlyalko.agency.presentation.ui.main.dashboard.order.adapter.OnProjectListListener;
+import com.ruslanlyalko.agency.presentation.ui.main.dashboard.order.adapter.OnProjectSelectClickListener;
+import com.ruslanlyalko.agency.presentation.ui.main.dashboard.order.adapter.ProjectSelectAdapter;
+import com.ruslanlyalko.agency.presentation.ui.main.dashboard.order.adapter.ProjectSelectable;
 import com.ruslanlyalko.agency.presentation.utils.DateUtils;
 import com.ruslanlyalko.agency.presentation.view.SquareButton;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -43,7 +43,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implements ReportEditView, OnProjectSelectClickListener, OnProjectListListener {
+public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implements OrderEditView, OnProjectSelectClickListener, OnProjectListListener {
 
     private static final String KEY_USER = "user";
     private static final String KEY_REPORT = "report";
@@ -67,14 +67,14 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
     private BottomSheetBehavior mSheetBehavior;
 
     public static Intent getLaunchIntent(final Context activity, User user, Date date) {
-        Intent intent = new Intent(activity, ReportEditActivity.class);
+        Intent intent = new Intent(activity, OrderEditActivity.class);
         intent.putExtra(KEY_USER, user);
         intent.putExtra(KEY_DATE, date);
         return intent;
     }
 
     public static Intent getLaunchIntent(final Context activity, User user, Order order) {
-        Intent intent = new Intent(activity, ReportEditActivity.class);
+        Intent intent = new Intent(activity, OrderEditActivity.class);
         intent.putExtra(KEY_USER, user);
         intent.putExtra(KEY_REPORT, order);
         return intent;
@@ -109,7 +109,7 @@ public class ReportEditActivity extends BaseActivity<ReportEditPresenter> implem
 
     @Override
     protected void initPresenter(final Intent intent) {
-        setPresenter(new ReportEditPresenter(intent.getParcelableExtra(KEY_USER), intent.getParcelableExtra(KEY_REPORT), (Date) intent.getSerializableExtra(KEY_DATE)));
+        setPresenter(new OrderEditPresenter(intent.getParcelableExtra(KEY_USER), intent.getParcelableExtra(KEY_REPORT), (Date) intent.getSerializableExtra(KEY_DATE)));
     }
 
     @Override

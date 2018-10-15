@@ -1,4 +1,4 @@
-package com.ruslanlyalko.agency.presentation.ui.main.dashboard.report.adapter;
+package com.ruslanlyalko.agency.presentation.ui.main.dashboard.order.adapter;
 
 import android.view.View;
 

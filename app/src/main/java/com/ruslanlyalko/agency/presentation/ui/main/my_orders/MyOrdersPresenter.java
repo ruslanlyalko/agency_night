@@ -1,4 +1,4 @@
-package com.ruslanlyalko.agency.presentation.ui.main.my_vacations;
+package com.ruslanlyalko.agency.presentation.ui.main.my_orders;
 
 import android.util.SparseIntArray;
 
@@ -14,16 +14,16 @@ import java.util.List;
  * Created by Ruslan Lyalko
  * on 05.09.2018.
  */
-public class MyVacationsPresenter extends BasePresenter<MyVacationsView> {
+public class MyOrdersPresenter extends BasePresenter<MyOrdersView> {
 
     private User mUser;
 
-    MyVacationsPresenter(User user) {
+    MyOrdersPresenter(User user) {
         mUser = user;
     }
 
     public void onViewReady() {
-        getView().showReports(getDataManager().getAllMyReports());
+        getView().showReports(getDataManager().getAllMyOrders());
     }
 
     public void setReports(final List<Order> orders) {

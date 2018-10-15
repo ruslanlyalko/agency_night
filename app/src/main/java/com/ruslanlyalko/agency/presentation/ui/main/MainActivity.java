@@ -30,8 +30,8 @@ import android.widget.TextView;
 import com.ruslanlyalko.agency.R;
 import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.multibackstack.BackStackActivity;
-import com.ruslanlyalko.agency.presentation.ui.main.dashboard.WorkloadFragment;
-import com.ruslanlyalko.agency.presentation.ui.main.my_vacations.MyVacationsFragment;
+import com.ruslanlyalko.agency.presentation.ui.main.dashboard.DashboardFragment;
+import com.ruslanlyalko.agency.presentation.ui.main.my_orders.MyOrdersFragment;
 import com.ruslanlyalko.agency.presentation.ui.main.profile.ProfileFragment;
 import com.ruslanlyalko.agency.presentation.ui.main.settings.SettingsFragment;
 import com.ruslanlyalko.agency.presentation.ui.main.users.UsersFragment;
@@ -197,9 +197,9 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
             case TAB_PROFILE:
                 return ProfileFragment.newInstance();
             case TAB_DASHBOARD:
-                return WorkloadFragment.newInstance();
+                return DashboardFragment.newInstance();
             case TAB_VACATION:
-                return MyVacationsFragment.newInstance(getPresenter().getUser());
+                return MyOrdersFragment.newInstance(getPresenter().getUser());
             case TAB_USERS:
                 return UsersFragment.newInstance();
             case TAB_SETTINGS:

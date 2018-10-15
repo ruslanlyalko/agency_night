@@ -1,4 +1,4 @@
-package com.ruslanlyalko.agency.presentation.ui.main.my_vacations;
+package com.ruslanlyalko.agency.presentation.ui.main.my_orders;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.util.SparseIntArray;
@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Ruslan Lyalko
  * on 05.09.2018.
  */
-public interface MyVacationsView extends BaseView<MyVacationsPresenter> {
+public interface MyOrdersView extends BaseView<MyOrdersPresenter> {
 
     void showReports(MutableLiveData<List<Order>> vacationReportsData);
 

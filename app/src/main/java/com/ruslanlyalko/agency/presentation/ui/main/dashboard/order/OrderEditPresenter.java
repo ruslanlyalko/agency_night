@@ -1,11 +1,11 @@
-package com.ruslanlyalko.agency.presentation.ui.main.dashboard.report;
+package com.ruslanlyalko.agency.presentation.ui.main.dashboard.order;
 
 import android.text.TextUtils;
 
 import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.BasePresenter;
-import com.ruslanlyalko.agency.presentation.ui.main.dashboard.report.adapter.ProjectSelectable;
+import com.ruslanlyalko.agency.presentation.ui.main.dashboard.order.adapter.ProjectSelectable;
 import com.ruslanlyalko.agency.presentation.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.List;
  * Created by Ruslan Lyalko
  * on 05.09.2018.
  */
-public class ReportEditPresenter extends BasePresenter<ReportEditView> {
+public class OrderEditPresenter extends BasePresenter<OrderEditView> {
 
     private final User mUser;
     private final Order mOrder;
@@ -26,7 +26,7 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
     private boolean mAddProjectMode = true;
     private int mPosition;
 
-    ReportEditPresenter(User user, Order order, Date date) {
+    OrderEditPresenter(User user, Order order, Date date) {
         if (user == null)
             throw new RuntimeException("User can't be empty");
         mUser = user;
@@ -105,7 +105,7 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
             return;
         }
         mOrder.setKey(DateUtils.toString(mOrder.getDate(), "yyyyMMdd_'" + mUser.getKey() + "'"));
-        getDataManager().saveReport(mOrder)
+        getDataManager().saveOrder(mOrder)
                 .addOnSuccessListener(aVoid -> {
                     if (getView() == null) return;
                     getView().afterSuccessfullySaving();
@@ -131,7 +131,7 @@ public class ReportEditPresenter extends BasePresenter<ReportEditView> {
             if (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY) {
                 mOrder.setDate(date);
                 mOrder.setKey(DateUtils.toString(mOrder.getDate(), "yyyyMMdd_'" + mUser.getKey() + "'"));
-                getDataManager().saveReport(mOrder);
+                getDataManager().saveOrder(mOrder);
                 count++;
             }
         }

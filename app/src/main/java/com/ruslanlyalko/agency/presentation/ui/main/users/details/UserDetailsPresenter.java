@@ -23,7 +23,7 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsView> {
 
     public void onViewReady() {
         getView().showUserDetails(mUser);
-        getView().showReports(getDataManager().getVacationReports(mUser));
+        getView().showReports(getDataManager().getUpcomingOrders(mUser));
     }
 
     public void setReports(final List<Order> orders) {

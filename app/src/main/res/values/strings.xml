@@ -8,7 +8,7 @@
     <string name="title_settings">Settings</string>
     <string name="title_add">Add</string>
     <string name="title_edit">Edit</string>
-    <string name="title_vacations">Vacations &amp; Sick Leave</string>
+    <string name="title_vacations">Upcoming Orders</string>
     <string name="title_user_details">User Details</string>
     <string name="title_new_workload">New Workload</string>
     <string name="title_edit_workload">Edit Workload</string>
@@ -57,13 +57,13 @@
     <string name="menu_workload">Dashboard</string>
     <string name="menu_users">Users</string>
     <string name="menu_settings">Settings</string>
-    <string name="menu_vacations">Vacations</string>
+    <string name="menu_vacations">Upcoming</string>
     <string name="menu_logout">Logout</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_menu">Menu</string>
 
     <!--Placeholder-->
-    <string name="placeholder_no_vacations">No vacations yet..</string>
+    <string name="placeholder_no_vacations">No upcoming orders yet..</string>
     <string name="placeholder_no_projects">No projects. Please contact Administrator</string>
 
     <!--Others-->

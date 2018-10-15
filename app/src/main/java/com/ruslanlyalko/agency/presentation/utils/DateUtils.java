@@ -20,7 +20,7 @@ public class DateUtils {
     private static final String FORMAT_DATE = "EE, d MMM";
     private static final String FORMAT_HOLIDAY_KEY = "yyyyMMdd";
     private static final String FORMAT_TIME = "HH:mm";
-    private static final String FORMAT_MONTH = "MMMM";
+    private static final String FORMAT_MONTH = "MMM";
     private static final String FORMAT_YEAR = "yy";
 
     public static Date getDate(final Date date, final int year, final int month, final int day) {

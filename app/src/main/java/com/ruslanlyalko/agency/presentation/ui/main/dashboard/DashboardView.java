@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Ruslan Lyalko
  * on 05.09.2018.
  */
-public interface WorkloadView extends BaseView<WorkloadPresenter> {
+public interface DashboardView extends BaseView<DashbaordPresenter> {
 
     void showUser(MutableLiveData<User> user);
 

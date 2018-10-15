@@ -1,16 +1,15 @@
-package com.ruslanlyalko.agency.presentation.ui.main.dashboard.report;
+package com.ruslanlyalko.agency.presentation.ui.main.dashboard.order;
 
 import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.presentation.base.BaseView;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Ruslan Lyalko
  * on 05.09.2018.
  */
-public interface ReportEditView extends BaseView<ReportEditPresenter> {
+public interface OrderEditView extends BaseView<OrderEditPresenter> {
 
     void showProgress();
 
