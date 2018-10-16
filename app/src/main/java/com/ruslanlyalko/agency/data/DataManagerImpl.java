@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -33,7 +32,6 @@ public class DataManagerImpl implements DataManager {
     private static final String TAG = "DataManager";
     private static DataManagerImpl mInstance;
     private FirebaseAuth mAuth;
-    private FirebaseDatabase mDatabase;
     private FirebaseFirestore mFirestore;
     private MutableLiveData<User> mCurrentUserLiveData;
     private MutableLiveData<List<Order>> mAllMyReportsListMutableLiveData;
@@ -41,7 +39,6 @@ public class DataManagerImpl implements DataManager {
 
     private DataManagerImpl() {
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance();
         mFirestore = FirebaseFirestore.getInstance();
     }
 

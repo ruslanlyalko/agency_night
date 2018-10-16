@@ -104,7 +104,7 @@ public class ProjectSelectAdapter extends RecyclerView.Adapter<ProjectSelectAdap
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-            mHours = mSpinnerHours.getResources().getStringArray(R.array.hours);
+            mHours = mSpinnerHours.getResources().getStringArray(R.array.durations);
         }
 
         void bind(@Nullable final ProjectSelectable project) {

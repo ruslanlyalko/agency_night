@@ -5,7 +5,7 @@
         <item
             android:id="@+id/action_workload"
             android:icon="@drawable/ic_time"
-            android:title="@string/menu_workload" />
+            android:title="@string/menu_dashboard" />
         <item
             android:id="@+id/action_vacations"
             android:icon="@drawable/ic_upcoming"

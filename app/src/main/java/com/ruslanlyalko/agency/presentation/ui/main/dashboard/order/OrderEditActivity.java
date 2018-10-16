@@ -5,35 +5,22 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.ruslanlyalko.agency.R;
 import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.BaseActivity;
-import com.ruslanlyalko.agency.presentation.ui.main.dashboard.order.adapter.OnProjectListListener;
-import com.ruslanlyalko.agency.presentation.ui.main.dashboard.order.adapter.OnProjectSelectClickListener;
-import com.ruslanlyalko.agency.presentation.ui.main.dashboard.order.adapter.ProjectSelectAdapter;
-import com.ruslanlyalko.agency.presentation.ui.main.dashboard.order.adapter.ProjectSelectable;
 import com.ruslanlyalko.agency.presentation.utils.DateUtils;
 import com.ruslanlyalko.agency.presentation.view.SquareButton;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -41,7 +28,7 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implements OrderEditView, OnProjectSelectClickListener, OnProjectListListener {
+public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implements OrderEditView {
 
     private static final String KEY_USER = "user";
     private static final String KEY_REPORT = "report";
@@ -49,20 +36,9 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.button_save) SquareButton mButtonSave;
     @BindView(R.id.progress) ProgressBar mProgress;
-    @BindView(R.id.text_holiday_name) TextView mTextHolidayName;
-    @BindView(R.id.bottom_sheet) LinearLayout mLayoutBottomSheet;
-    @BindView(R.id.touch_outside) View mTouchOutSide;
-    @BindView(R.id.recycler_projects_select) RecyclerView mRecyclerProjectsSelect;
-    @BindView(R.id.recycler_projects) RecyclerView mRecyclerProjects;
-    @BindView(R.id.spinner_status) Spinner mSpinnerStatus;
-    @BindView(R.id.text_from) TextView mTextFrom;
-    @BindView(R.id.text_to) TextView mTextTo;
-    @BindView(R.id.text_placeholder) TextView mTextPlaceholder;
-    @BindView(R.id.image_change_date) AppCompatImageView mImageChangeDate;
-    //    @BindView(R.id.edit_search) SearchView mEditSearch;
-    ProjectSelectAdapter mProjectSelectAdapter = new ProjectSelectAdapter(this);
-    //    private ImageView mCloseBtn;
-    private BottomSheetBehavior mSheetBehavior;
+    @BindView(R.id.spinner_duration) Spinner mSpinnerDuration;
+    @BindView(R.id.text_date) TextView mTextDate;
+    @BindView(R.id.text_time) TextView mTextTime;
 
     public static Intent getLaunchIntent(final Context activity, User user, Date date) {
         Intent intent = new Intent(activity, OrderEditActivity.class);
@@ -93,14 +69,6 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
     }
 
     @Override
-    public void onBackPressed() {
-        if (mSheetBehavior.getState() != BottomSheetBehavior.STATE_COLLAPSED)
-            mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        else
-            super.onBackPressed();
-    }
-
-    @Override
     protected int getContentView() {
         return R.layout.activity_order_edit;
     }
@@ -114,75 +82,13 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(TextUtils.isEmpty(getPresenter().getOrder().getKey())
                 ? R.string.title_new_workload : R.string.title_edit_workload);
-//        mCloseBtn = mEditSearch.findViewById(android.support.v7.appcompat.R.id.search_close_btn);
-        mRecyclerProjectsSelect.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        mRecyclerProjectsSelect.setAdapter(mProjectSelectAdapter);
-        mRecyclerProjects.setLayoutManager(new LinearLayoutManager(getContext()));
-        mSheetBehavior = BottomSheetBehavior.from(mLayoutBottomSheet);
-        mSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull final View view, final int i) {
-//                if (i == BottomSheetBehavior.STATE_COLLAPSED) {
-//                    hideKeyboard();
-//                    mEditSearch.setQuery("", false);
-//                    mCloseBtn.setVisibility(View.GONE);
-//                }
-            }
-
-            @Override
-            public void onSlide(@NonNull final View view, final float v) {
-                mTouchOutSide.setAlpha(v / 2f);
-                getWindow().setStatusBarColor(adjustAlpha(ContextCompat.getColor(getContext(),
-                        R.color.colorBackgroundTouchOutside), v / 2f));
-                if (v > 0.001f)
-                    mTouchOutSide.setVisibility(View.VISIBLE);
-                else
-                    mTouchOutSide.setVisibility(View.GONE);
-            }
-        });
-//        mEditSearch.setOnCloseListener(() -> true);
-//        mEditSearch.setOnSearchClickListener(v -> {
-//            mCloseBtn.setVisibility(mEditSearch.getQuery().toString().isEmpty() ? View.GONE : View.VISIBLE);
-//        });
-//        mEditSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(final String s) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(final String s) {
-//                mCloseBtn.setVisibility(s.isEmpty() ? View.GONE : View.VISIBLE);
-//                mProjectsAdapter.getFilter().filter(s);
-//                return false;
-//            }
-//        });
-        String[] statuses = getResources().getStringArray(R.array.status);
-        SpinnerAdapter adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_status, statuses);
-        mSpinnerStatus.setAdapter(adapter);
-        mSpinnerStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//        String[] statuses = getResources().getStringArray(R.array.hours);
+//        SpinnerAdapter adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_status, statuses);
+//        mSpinnerDuration.setAdapter(adapter);
+        mSpinnerDuration.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
-                if (mSpinnerStatus.getSelectedItem().toString().startsWith("Day")
-                        || mSpinnerStatus.getSelectedItem().toString().startsWith("Vacation")
-                        || mSpinnerStatus.getSelectedItem().toString().startsWith("Sick")
-                        || mSpinnerStatus.getSelectedItem().toString().startsWith("No")
-                        ) {
-                    mRecyclerProjectsSelect.setVisibility(View.GONE);
-                } else {
-                    mRecyclerProjectsSelect.setVisibility(View.VISIBLE);
-                }
-                if (!(mSpinnerStatus.getSelectedItem().toString().startsWith("Vacation")
-                        || mSpinnerStatus.getSelectedItem().toString().startsWith("Day"))) {
-                    if (getPresenter().getOrder().getDate().after(DateUtils.get1DaysForward().getTime())) {
-                        getPresenter().setReportDate(new Date());
-                        forceRippleAnimation(mTextFrom);
-                    }
-                    if (getPresenter().getDateTo().after(DateUtils.get1DaysForward().getTime())) {
-                        getPresenter().setDateTo(new Date());
-                        forceRippleAnimation(mTextTo);
-                    }
-                }
+                //todo
             }
 
             @Override
@@ -194,8 +100,7 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
 
     @OnClick(R.id.button_save)
     public void onSaveClick() {
-        String status = String.valueOf(mSpinnerStatus.getSelectedItem());
-        getPresenter().onSave(status, mProjectSelectAdapter.getData());
+//        getPresenter().onSave(status, mProjectSelectAdapter.getData());
     }
 
     @Override
@@ -225,10 +130,10 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
 
     @Override
     public void showReportData(final Order order) {
-        String[] statuses = getResources().getStringArray(R.array.status);
+//        String[] statuses = getResources().getStringArray(R.array.durations);
 //        for (int i = 0; i < statuses.length; i++) {
 //            if (statuses[i].equals(order.getStatus())) {
-//                mSpinnerStatus.setSelection(i);
+//                mSpinnerDuration.setSelection(i);
 //                break;
 //            }
 //        }
@@ -249,54 +154,9 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
     }
 
     @Override
-    public void showHoliday(final String holiday) {
-        if (holiday == null)
-            mTextHolidayName.setVisibility(View.GONE);
-        else {
-            mTextHolidayName.setVisibility(View.VISIBLE);
-            mTextHolidayName.setText(holiday);
-        }
-    }
-
-    @Override
-    public void errorCantBeZero() {
-        showError(getString(R.string.error_cant_be_zero));
-    }
-
-    @Override
-    public void errorCantBeMoreThan16() {
-        showError(getString(R.string.error_cant_be_more_than_16));
-    }
-
-    @Override
-    public void errorCantHasTwoEqualsProjects() {
-        showError(getString(R.string.error_cant_be_two_same_projects));
-    }
-
-    @Override
-    public void showDateState(final boolean dateStateOneDay) {
-        mTextTo.setVisibility(dateStateOneDay ? View.GONE : View.VISIBLE);
-        mImageChangeDate.setImageResource(dateStateOneDay ? R.drawable.ic_day : R.drawable.ic_week);
-    }
-
-    @Override
-    public void showDateFrom(Date date) {
-        mTextFrom.setText(DateUtils.toStringDate(date));
-    }
-
-    @Override
-    public void showDateTo(Date date) {
-        mTextTo.setText(DateUtils.toStringDate(date));
-    }
-
-    @Override
-    public void addProject(final String title) {
-        mProjectSelectAdapter.addItem(new ProjectSelectable(title));
-    }
-
-    @Override
-    public void changeProject(final String title, final int position) {
-        mProjectSelectAdapter.changeItem(title, position);
+    public void showDate(Date date) {
+        mTextDate.setText(DateUtils.toStringDate(date));
+        mTextTime.setText(DateUtils.toStringTime(date));
     }
 
     @Override
@@ -304,10 +164,10 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
         showError(getString(R.string.error_check_date));
     }
 
-    @OnClick({R.id.text_from, R.id.text_to, R.id.image_change_date})
+    @OnClick({R.id.text_date, R.id.text_time})
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.text_from:
+            case R.id.text_date:
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(getPresenter().getOrder().getDate());
                 DatePickerDialog datePickerDialog = DatePickerDialog.newInstance((view, year, monthOfYear, dayOfMonth) -> {
@@ -317,48 +177,15 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
                 datePickerDialog.setFirstDayOfWeek(Calendar.MONDAY);
                 datePickerDialog.show(getFragmentManager(), "to");
                 break;
-            case R.id.text_to:
+            case R.id.text_time:
                 Calendar calendar1 = Calendar.getInstance();
-                calendar1.setTime(getPresenter().getDateTo());
-                DatePickerDialog datePickerDialog1 = DatePickerDialog.newInstance((view, year, monthOfYear, dayOfMonth) -> {
-                    Date newDate = DateUtils.getDate(calendar1.getTime(), year, monthOfYear, dayOfMonth);
-                    getPresenter().setDateTo(newDate);
-                }, calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH), calendar1.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog1.setFirstDayOfWeek(Calendar.MONDAY);
-                datePickerDialog1.show(getFragmentManager(), "to");
-                break;
-            case R.id.image_change_date:
-                getPresenter().toggleDateState();
+                calendar1.setTime(getPresenter().getOrder().getDate());
+                TimePickerDialog timePickerDialog = TimePickerDialog.newInstance((view, hours, minutes, is24) -> {
+                    Date newDate = DateUtils.getDate(calendar1.getTime(), hours, minutes);
+                    getPresenter().setReportDate(newDate);
+                }, calendar1.get(Calendar.HOUR_OF_DAY), calendar1.get(Calendar.MINUTE), true);
+                timePickerDialog.show(getFragmentManager(), "to");
                 break;
         }
-    }
-
-    @Override
-    public void onProjectAddClicked(final View view, final int position) {
-//        mEditSearch.setIconified(false);
-//        mEditSearch.clearFocus();
-//        mCloseBtn.setVisibility(View.GONE);
-        mSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        getPresenter().setAddProjectMode();
-    }
-
-    @Override
-    public void onProjectChangeClicked(final View view, final int position) {
-//        mEditSearch.setIconified(false);
-//        mEditSearch.clearFocus();
-//        mCloseBtn.setVisibility(View.GONE);
-        mSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        getPresenter().setChangeProjectMode(position);
-    }
-
-    @Override
-    public void onProjectSelected(final String title) {
-        mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        getPresenter().changeProject(title);
-    }
-
-    @OnClick(R.id.touch_outside)
-    public void onTouchClick() {
-        mSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 }

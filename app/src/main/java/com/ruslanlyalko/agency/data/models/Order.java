@@ -16,6 +16,7 @@ public class Order extends BaseModel implements Parcelable {
     private String name;
     private Date date;
     private String place;
+    private int duration;
     private int childrenCount;
     private int childrenFrom;
     private int childrenTo;
@@ -29,6 +30,14 @@ public class Order extends BaseModel implements Parcelable {
 
     public Order() {
         date = new Date();
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(final int duration) {
+        this.duration = duration;
     }
 
     public int getIncome() {
@@ -149,12 +158,13 @@ public class Order extends BaseModel implements Parcelable {
         if (!(o instanceof Order)) return false;
         if (!super.equals(o)) return false;
         Order order = (Order) o;
-        return getChildrenCount() == order.getChildrenCount() &&
+        return getDuration() == order.getDuration() &&
+                getChildrenCount() == order.getChildrenCount() &&
                 getChildrenFrom() == order.getChildrenFrom() &&
                 getChildrenTo() == order.getChildrenTo() &&
                 getTaxi() == order.getTaxi() &&
-                income == order.income &&
-                expense == order.expense &&
+                getIncome() == order.getIncome() &&
+                getExpense() == order.getExpense() &&
                 Objects.equals(getPhone(), order.getPhone()) &&
                 Objects.equals(getName(), order.getName()) &&
                 Objects.equals(getDate(), order.getDate()) &&
@@ -167,7 +177,7 @@ public class Order extends BaseModel implements Parcelable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getPhone(), getName(), getDate(), getPlace(), getChildrenCount(), getChildrenFrom(), getChildrenTo(), getTaxi(), getComment(), income, expense, getUserId(), getUserName(), getUpdatedAt());
+        return Objects.hash(super.hashCode(), getPhone(), getName(), getDate(), getPlace(), getDuration(), getChildrenCount(), getChildrenFrom(), getChildrenTo(), getTaxi(), getComment(), getIncome(), getExpense(), getUserId(), getUserName(), getUpdatedAt());
     }
 
     @Override
@@ -180,6 +190,7 @@ public class Order extends BaseModel implements Parcelable {
         dest.writeString(this.name);
         dest.writeLong(this.date != null ? this.date.getTime() : -1);
         dest.writeString(this.place);
+        dest.writeInt(this.duration);
         dest.writeInt(this.childrenCount);
         dest.writeInt(this.childrenFrom);
         dest.writeInt(this.childrenTo);
@@ -199,6 +210,7 @@ public class Order extends BaseModel implements Parcelable {
         long tmpDate = in.readLong();
         this.date = tmpDate == -1 ? null : new Date(tmpDate);
         this.place = in.readString();
+        this.duration = in.readInt();
         this.childrenCount = in.readInt();
         this.childrenFrom = in.readInt();
         this.childrenTo = in.readInt();

@@ -21,23 +21,7 @@ public interface OrderEditView extends BaseView<OrderEditPresenter> {
 
     void showReportData(Order order);
 
-    void showHoliday(String holiday);
-
-    void errorCantBeZero();
-
-    void errorCantBeMoreThan16();
-
-    void errorCantHasTwoEqualsProjects();
-
-    void showDateState(boolean dateStateOneDay);
-
-    void showDateFrom(Date date);
-
-    void showDateTo(Date date);
-
-    void addProject(String title);
-
-    void changeProject(String title, int position);
+    void showDate(Date date);
 
     void showWrongDateOnMobileError();
 }

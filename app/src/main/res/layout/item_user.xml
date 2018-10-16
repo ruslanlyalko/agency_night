@@ -59,6 +59,7 @@
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_marginStart="8dp"
+        android:visibility="gone"
         android:layout_marginTop="18dp"
         android:layout_toEndOf="@id/image_admin"
         android:src="@drawable/ic_edit_workload"
