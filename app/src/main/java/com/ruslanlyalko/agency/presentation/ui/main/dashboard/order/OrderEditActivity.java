@@ -35,10 +35,8 @@ import com.ruslanlyalko.agency.presentation.utils.DateUtils;
 import com.ruslanlyalko.agency.presentation.view.SquareButton;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -104,7 +102,7 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_report_edit;
+        return R.layout.activity_order_edit;
     }
 
     @Override
@@ -228,26 +226,26 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
     @Override
     public void showReportData(final Order order) {
         String[] statuses = getResources().getStringArray(R.array.status);
-        for (int i = 0; i < statuses.length; i++) {
-            if (statuses[i].equals(order.getStatus())) {
-                mSpinnerStatus.setSelection(i);
-                break;
-            }
-        }
-        List<ProjectSelectable> list = new ArrayList<>();
-        if (order.getT1() > 0) {
-            list.add(new ProjectSelectable(order.getP1(), order.getT1()));
-        }
-        if (order.getT2() > 0) {
-            list.add(new ProjectSelectable(order.getP2(), order.getT2()));
-        }
-        if (order.getT3() > 0) {
-            list.add(new ProjectSelectable(order.getP3(), order.getT3()));
-        }
-        if (order.getT4() > 0) {
-            list.add(new ProjectSelectable(order.getP4(), order.getT4()));
-        }
-        mProjectSelectAdapter.setData(list);
+//        for (int i = 0; i < statuses.length; i++) {
+//            if (statuses[i].equals(order.getStatus())) {
+//                mSpinnerStatus.setSelection(i);
+//                break;
+//            }
+//        }
+//        List<ProjectSelectable> list = new ArrayList<>();
+//        if (order.getT1() > 0) {
+//            list.add(new ProjectSelectable(order.getP1(), order.getT1()));
+//        }
+//        if (order.getT2() > 0) {
+//            list.add(new ProjectSelectable(order.getP2(), order.getT2()));
+//        }
+//        if (order.getT3() > 0) {
+//            list.add(new ProjectSelectable(order.getP3(), order.getT3()));
+//        }
+//        if (order.getT4() > 0) {
+//            list.add(new ProjectSelectable(order.getP4(), order.getT4()));
+//        }
+//        mProjectSelectAdapter.setData(list);
     }
 
     @Override

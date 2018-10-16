@@ -22,7 +22,7 @@ import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.BaseFragment;
 import com.ruslanlyalko.agency.presentation.ui.login.LoginActivity;
-import com.ruslanlyalko.agency.presentation.ui.main.dashboard.adapter.ReportsAdapter;
+import com.ruslanlyalko.agency.presentation.ui.main.dashboard.adapter.OrdersAdapter;
 import com.ruslanlyalko.agency.presentation.ui.main.dashboard.order.OrderEditActivity;
 import com.ruslanlyalko.agency.presentation.utils.ColorUtils;
 import com.ruslanlyalko.agency.presentation.utils.DateUtils;
@@ -34,7 +34,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class DashboardFragment extends BaseFragment<DashbaordPresenter> implements DashboardView {
+public class DashboardFragment extends BaseFragment<DashboardPresenter> implements DashboardView {
 
     private static final int RC_REPORT = 1001;
     @BindView(R.id.calendar_view) CompactCalendarView mCalendarView;
@@ -42,7 +42,7 @@ public class DashboardFragment extends BaseFragment<DashbaordPresenter> implemen
     @BindView(R.id.text_holiday_name) TextView mTextHolidayName;
     @BindView(R.id.card_holiday) MaterialCardView mCardHoliday;
 
-    private ReportsAdapter mReportsAdapter;
+    private OrdersAdapter mOrdersAdapter;
 
     public static DashboardFragment newInstance() {
         Bundle args = new Bundle();
@@ -91,7 +91,7 @@ public class DashboardFragment extends BaseFragment<DashbaordPresenter> implemen
             showFab();
         else
             hideFab();
-        mReportsAdapter.setData(orders);
+        mOrdersAdapter.setData(orders);
     }
 
     @Override
@@ -121,17 +121,17 @@ public class DashboardFragment extends BaseFragment<DashbaordPresenter> implemen
         List<Order> orders = getPresenter().getOrders();
         for (Order order : orders) {
             mCalendarView.addEvent(new Event(ContextCompat.getColor(getContext(),
-                    ColorUtils.getTextColorByStatus(getResources(), order.getStatus())), order.getDate().getTime()), true);
+                    ColorUtils.getTextColorByStatus(getResources(), null)), order.getDate().getTime()), true);
         }
         mCalendarView.invalidate();
     }
 
     private void setupAdapters() {
-        mReportsAdapter = new ReportsAdapter(new OnReportClickListener() {
+        mOrdersAdapter = new OrdersAdapter(new OnReportClickListener() {
             @Override
             public void onReportClicked(final View view, final int position) {
-                if (mReportsAdapter.getData().size() > position)
-                    getPresenter().onReportLongClicked(mReportsAdapter.getData().get(position));
+                if (mOrdersAdapter.getData().size() > position)
+                    getPresenter().onReportLongClicked(mOrdersAdapter.getData().get(position));
             }
 
             @Override
@@ -139,8 +139,8 @@ public class DashboardFragment extends BaseFragment<DashbaordPresenter> implemen
                 AlertDialog.Builder build = new AlertDialog.Builder(getContext());
                 build.setMessage(R.string.text_delete);
                 build.setPositiveButton(R.string.action_delete, (dialog, which) -> {
-                    if (mReportsAdapter.getData().size() > position)
-                        getPresenter().onReportDeleteClicked(mReportsAdapter.getData().get(position));
+                    if (mOrdersAdapter.getData().size() > position)
+                        getPresenter().onReportDeleteClicked(mOrdersAdapter.getData().get(position));
                     dialog.dismiss();
                 });
                 build.setNegativeButton(R.string.action_cancel, (dialog, which) -> {
@@ -150,7 +150,7 @@ public class DashboardFragment extends BaseFragment<DashbaordPresenter> implemen
             }
         });
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerReports.setAdapter(mReportsAdapter);
+        mRecyclerReports.setAdapter(mOrdersAdapter);
     }
 
     @Override
@@ -164,7 +164,7 @@ public class DashboardFragment extends BaseFragment<DashbaordPresenter> implemen
     @Override
     public void onResume() {
         super.onResume();
-        mReportsAdapter.notifyDataSetChanged();
+        mOrdersAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -179,7 +179,7 @@ public class DashboardFragment extends BaseFragment<DashbaordPresenter> implemen
 
     @Override
     protected void initPresenter(final Bundle args) {
-        setPresenter(new DashbaordPresenter());
+        setPresenter(new DashboardPresenter());
     }
 
     @Override

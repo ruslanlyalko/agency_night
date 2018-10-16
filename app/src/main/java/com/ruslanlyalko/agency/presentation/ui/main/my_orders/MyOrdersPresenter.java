@@ -30,15 +30,15 @@ public class MyOrdersPresenter extends BasePresenter<MyOrdersView> {
         List<Order> listVacationOrders = new ArrayList<>();
         SparseIntArray years = new SparseIntArray();
         for (Order order : orders) {
-            if (order.getStatus().startsWith("Day")
-                    || order.getStatus().startsWith("Vacation")
-                    || order.getStatus().startsWith("Sick")) {
-                listVacationOrders.add(order);
-                int yearInd = DateUtils.getYearIndex(order.getDate(), mUser.getFirstWorkingDate());
-                int value = years.get(yearInd);
-                value = value + 1;
-                years.append(yearInd, value);
-            }
+//            if (order.getStatus().startsWith("Day")
+//                    || order.getStatus().startsWith("Vacation")
+//                    || order.getStatus().startsWith("Sick")) {
+//                listVacationOrders.add(order);
+//                int yearInd = DateUtils.getYearIndex(order.getDate(), mUser.getFirstWorkingDate());
+//                int value = years.get(yearInd);
+//                value = value + 1;
+//                years.append(yearInd, value);
+//            }
         }
         getView().setReportsToAdapter(listVacationOrders);
         getView().showReportsByYear(mUser.getFirstWorkingDate(), years);

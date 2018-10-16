@@ -37,13 +37,13 @@ import static android.view.View.VISIBLE;
  * Created by Ruslan Lyalko
  * on 08.08.2018.
  */
-public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHolder> {
+public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder> {
 
     private final OnReportClickListener mOnReportClickListener;
     private List<Order> mData = new ArrayList<>();
     private boolean mAllowEdit;
 
-    public ReportsAdapter(@Nullable OnReportClickListener onReportClickListener) {
+    public OrdersAdapter(@Nullable OnReportClickListener onReportClickListener) {
         mOnReportClickListener = onReportClickListener;
     }
 
@@ -71,7 +71,7 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHold
     public ViewHolder onCreateViewHolder(ViewGroup parent,
                                          int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_report, parent, false);
+                .inflate(R.layout.item_order, parent, false);
         return new ViewHolder(v);
     }
 
@@ -110,18 +110,18 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHold
         }
 
         void bind(final Order order) {
-            mTextTitle.setTextColor(ContextCompat.getColor(mContext, ColorUtils.getTextColorByStatus(mTextDate.getResources(), order.getStatus())));
-            mTextTitle.setText(order.getStatus());
-            mTextName.setText(String.format("%s / %s", order.getUserName(), order.getUserDepartment()));
-            mTextProject1.setVisibility(TextUtils.isEmpty(order.getP1()) ? GONE : VISIBLE);
-            mTextProject2.setVisibility(TextUtils.isEmpty(order.getP2()) ? GONE : VISIBLE);
-            mTextProject3.setVisibility(TextUtils.isEmpty(order.getP3()) ? GONE : VISIBLE);
-            mTextProject4.setVisibility(TextUtils.isEmpty(order.getP4()) ? GONE : VISIBLE);
-            mTextProject1.setText(getFormattedText(order.getP1(), order.getT1()));
-            mTextProject2.setText(getFormattedText(order.getP2(), order.getT2()));
-            mTextProject3.setText(getFormattedText(order.getP3(), order.getT3()));
-            mTextProject4.setText(getFormattedText(order.getP4(), order.getT4()));
-            mTextDate.setText(DateUtils.toStringDate(order.getDate()));
+//            mTextTitle.setTextColor(ContextCompat.getColor(mContext, ColorUtils.getTextColorByStatus(mTextDate.getResources(), order.getStatus())));
+//            mTextTitle.setText(order.getStatus());
+//            mTextName.setText(String.format("%s / %s", order.getUserName(), order.getUserDepartment()));
+//            mTextProject1.setVisibility(TextUtils.isEmpty(order.getP1()) ? GONE : VISIBLE);
+//            mTextProject2.setVisibility(TextUtils.isEmpty(order.getP2()) ? GONE : VISIBLE);
+//            mTextProject3.setVisibility(TextUtils.isEmpty(order.getP3()) ? GONE : VISIBLE);
+//            mTextProject4.setVisibility(TextUtils.isEmpty(order.getP4()) ? GONE : VISIBLE);
+//            mTextProject1.setText(getFormattedText(order.getP1(), order.getT1()));
+//            mTextProject2.setText(getFormattedText(order.getP2(), order.getT2()));
+//            mTextProject3.setText(getFormattedText(order.getP3(), order.getT3()));
+//            mTextProject4.setText(getFormattedText(order.getP4(), order.getT4()));
+//            mTextDate.setText(DateUtils.toStringDate(order.getDate()));
             mImageDelete.setVisibility(mOnReportClickListener != null
                     && (mAllowEdit || order.getDate().after(DateUtils.get1DaysAgo().getTime()))
                     ? VISIBLE : GONE);

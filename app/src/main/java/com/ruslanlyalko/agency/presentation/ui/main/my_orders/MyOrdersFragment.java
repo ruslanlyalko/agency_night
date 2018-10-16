@@ -13,7 +13,7 @@ import com.ruslanlyalko.agency.R;
 import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.BaseFragment;
-import com.ruslanlyalko.agency.presentation.ui.main.dashboard.adapter.ReportsAdapter;
+import com.ruslanlyalko.agency.presentation.ui.main.dashboard.adapter.OrdersAdapter;
 import com.ruslanlyalko.agency.presentation.utils.DateUtils;
 
 import java.util.Date;
@@ -30,7 +30,7 @@ public class MyOrdersFragment extends BaseFragment<MyOrdersPresenter> implements
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
     @BindView(R.id.text_common) TextView mTextCommon;
     @BindView(R.id.text_placeholder) TextView mTextPlaceholder;
-    private ReportsAdapter mReportsAdapter;
+    private OrdersAdapter mOrdersAdapter;
 
     public static MyOrdersFragment newInstance(User user) {
         Bundle args = new Bundle();
@@ -58,9 +58,9 @@ public class MyOrdersFragment extends BaseFragment<MyOrdersPresenter> implements
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_vacations);
-        mReportsAdapter = new ReportsAdapter(null);
+        mOrdersAdapter = new OrdersAdapter(null);
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerReports.setAdapter(mReportsAdapter);
+        mRecyclerReports.setAdapter(mOrdersAdapter);
         getPresenter().onViewReady();
     }
 
@@ -82,7 +82,7 @@ public class MyOrdersFragment extends BaseFragment<MyOrdersPresenter> implements
 
     @Override
     public void setReportsToAdapter(final List<Order> list) {
-        mReportsAdapter.setData(list);
+        mOrdersAdapter.setData(list);
         mTextPlaceholder.setVisibility((list != null && list.isEmpty()) ? VISIBLE : GONE);
     }
 

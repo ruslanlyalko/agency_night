@@ -8,7 +8,7 @@
             android:title="@string/menu_workload" />
         <item
             android:id="@+id/action_vacations"
-            android:icon="@drawable/ic_vacation"
+            android:icon="@drawable/ic_upcoming"
             android:title="@string/menu_vacations" />
         <item
             android:id="@+id/action_settings"

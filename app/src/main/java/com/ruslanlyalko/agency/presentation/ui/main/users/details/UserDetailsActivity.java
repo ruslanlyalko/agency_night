@@ -23,7 +23,7 @@ import com.ruslanlyalko.agency.R;
 import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.BaseActivity;
-import com.ruslanlyalko.agency.presentation.ui.main.dashboard.adapter.ReportsAdapter;
+import com.ruslanlyalko.agency.presentation.ui.main.dashboard.adapter.OrdersAdapter;
 import com.ruslanlyalko.agency.presentation.ui.main.users.edit.UserEditActivity;
 import com.ruslanlyalko.agency.presentation.utils.DateUtils;
 
@@ -49,7 +49,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @BindView(R.id.divider_comments) View mDividerComments;
     @BindView(R.id.text_comments) TextView mTextComments;
     @BindDimen(R.dimen.margin_mini) int mElevation;
-    private ReportsAdapter mReportsAdapter;
+    private OrdersAdapter mOrdersAdapter;
 
     public static Intent getLaunchIntent(final Context context, User user) {
         Intent intent = new Intent(context, UserDetailsActivity.class);
@@ -61,7 +61,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     public void showReports(final MutableLiveData<List<Order>> vacationReportsData) {
         vacationReportsData.observe(this, list -> {
             getPresenter().setReports(list);
-            mReportsAdapter.setData(list);
+            mOrdersAdapter.setData(list);
         });
     }
 
@@ -173,9 +173,9 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_user_details);
-        mReportsAdapter = new ReportsAdapter(null);
+        mOrdersAdapter = new OrdersAdapter(null);
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerReports.setAdapter(mReportsAdapter);
+        mRecyclerReports.setAdapter(mOrdersAdapter);
         mScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (nestedScrollView, i, i1, i2, i3) -> {
             if (mScrollView.getScrollY() == 0) {
                 mToolbar.setElevation(0);

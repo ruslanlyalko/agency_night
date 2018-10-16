@@ -13,13 +13,13 @@ import java.util.List;
  * Created by Ruslan Lyalko
  * on 05.09.2018.
  */
-public class DashbaordPresenter extends BasePresenter<DashboardView> {
+public class DashboardPresenter extends BasePresenter<DashboardView> {
 
     private User mUser;
     private Date mDate = new Date();
     private List<Order> mOrders = new ArrayList<>();
 
-    DashbaordPresenter() {
+    DashboardPresenter() {
     }
 
     public void onViewReady() {
