@@ -23,6 +23,7 @@
     <string name="hint_password">Password</string>
     <string name="hint_password_confirm">Confirm Password</string>
     <string name="hint_birthday">Birthday</string>
+    <string name="hint_description">Description</string>
     <string name="hint_first_working_day">First Working Day</string>
 
     <!--Texts-->
@@ -80,6 +81,7 @@
     <string name="text_add_project">Add project</string>
     <string name="text_copied">Copied</string>
     <string name="text_immediately_login">Immediately login</string>
+    <string name="text_taxi">Taxi</string>
 
     <!--arrays-->
     <string-array name="durations">
