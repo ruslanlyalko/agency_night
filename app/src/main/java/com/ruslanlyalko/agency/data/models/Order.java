@@ -16,12 +16,12 @@ public class Order extends BaseModel implements Parcelable {
     private String name;
     private Date date;
     private String place;
-    private int duration;
+    private float duration;
     private int childrenCount;
     private int childrenFrom;
     private int childrenTo;
     private boolean taxi;
-    private String comment;
+    private String description;
     private int income;
     private int expense;
     private String userId;
@@ -32,11 +32,11 @@ public class Order extends BaseModel implements Parcelable {
         date = new Date();
     }
 
-    public int getDuration() {
+    public float getDuration() {
         return duration;
     }
 
-    public void setDuration(final int duration) {
+    public void setDuration(final float duration) {
         this.duration = duration;
     }
 
@@ -120,12 +120,12 @@ public class Order extends BaseModel implements Parcelable {
         this.taxi = taxi;
     }
 
-    public String getComment() {
-        return comment;
+    public String getDescription() {
+        return description;
     }
 
-    public void setComment(final String comment) {
-        this.comment = comment;
+    public void setDescription(final String description) {
+        this.description = description;
     }
 
     public String getUserId() {
@@ -169,7 +169,7 @@ public class Order extends BaseModel implements Parcelable {
                 Objects.equals(getName(), order.getName()) &&
                 Objects.equals(getDate(), order.getDate()) &&
                 Objects.equals(getPlace(), order.getPlace()) &&
-                Objects.equals(getComment(), order.getComment()) &&
+                Objects.equals(getDescription(), order.getDescription()) &&
                 Objects.equals(getUserId(), order.getUserId()) &&
                 Objects.equals(getUserName(), order.getUserName()) &&
                 Objects.equals(getUpdatedAt(), order.getUpdatedAt());
@@ -177,7 +177,7 @@ public class Order extends BaseModel implements Parcelable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getPhone(), getName(), getDate(), getPlace(), getDuration(), getChildrenCount(), getChildrenFrom(), getChildrenTo(), getTaxi(), getComment(), getIncome(), getExpense(), getUserId(), getUserName(), getUpdatedAt());
+        return Objects.hash(super.hashCode(), getPhone(), getName(), getDate(), getPlace(), getDuration(), getChildrenCount(), getChildrenFrom(), getChildrenTo(), getTaxi(), getDescription(), getIncome(), getExpense(), getUserId(), getUserName(), getUpdatedAt());
     }
 
     @Override
@@ -190,12 +190,12 @@ public class Order extends BaseModel implements Parcelable {
         dest.writeString(this.name);
         dest.writeLong(this.date != null ? this.date.getTime() : -1);
         dest.writeString(this.place);
-        dest.writeInt(this.duration);
+        dest.writeFloat(this.duration);
         dest.writeInt(this.childrenCount);
         dest.writeInt(this.childrenFrom);
         dest.writeInt(this.childrenTo);
         dest.writeByte(this.taxi ? (byte) 1 : (byte) 0);
-        dest.writeString(this.comment);
+        dest.writeString(this.description);
         dest.writeInt(this.income);
         dest.writeInt(this.expense);
         dest.writeString(this.userId);
@@ -210,12 +210,12 @@ public class Order extends BaseModel implements Parcelable {
         long tmpDate = in.readLong();
         this.date = tmpDate == -1 ? null : new Date(tmpDate);
         this.place = in.readString();
-        this.duration = in.readInt();
+        this.duration = in.readFloat();
         this.childrenCount = in.readInt();
         this.childrenFrom = in.readInt();
         this.childrenTo = in.readInt();
         this.taxi = in.readByte() != 0;
-        this.comment = in.readString();
+        this.description = in.readString();
         this.income = in.readInt();
         this.expense = in.readInt();
         this.userId = in.readString();

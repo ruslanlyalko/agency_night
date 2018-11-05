@@ -1,12 +1,17 @@
 package com.ruslanlyalko.agency.presentation.ui.main.my_orders;
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.MutableLiveData;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.SparseIntArray;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ruslanlyalko.agency.R;
@@ -14,7 +19,9 @@ import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.BaseFragment;
 import com.ruslanlyalko.agency.presentation.ui.main.dashboard.adapter.OrdersAdapter;
+import com.ruslanlyalko.agency.presentation.ui.main.dashboard.order.OrderEditActivity;
 import com.ruslanlyalko.agency.presentation.utils.DateUtils;
+import com.ruslanlyalko.agency.presentation.view.OnReportClickListener;
 
 import java.util.Date;
 import java.util.List;
@@ -58,14 +65,56 @@ public class MyOrdersFragment extends BaseFragment<MyOrdersPresenter> implements
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_vacations);
-        mOrdersAdapter = new OrdersAdapter(null);
+        mOrdersAdapter = new OrdersAdapter(new OnReportClickListener() {
+            @Override
+            public void onPhoneClicked(final View view, final int position) {
+                if (mOrdersAdapter.getData().size() > position)
+                    getPresenter().onReportPhoneClicked(mOrdersAdapter.getData().get(position));
+            }
+
+            @Override
+            public void onReportClicked(final View view, final int position) {
+                if (mOrdersAdapter.getData().size() > position)
+                    getPresenter().onReportLongClicked(mOrdersAdapter.getData().get(position));
+            }
+
+            @Override
+            public void onReportRemoveClicked(final View view, final int position) {
+                AlertDialog.Builder build = new AlertDialog.Builder(getContext());
+                build.setMessage(R.string.text_delete);
+                build.setPositiveButton(R.string.action_delete, (dialog, which) -> {
+                    if (mOrdersAdapter.getData().size() > position)
+                        getPresenter().onReportDeleteClicked(mOrdersAdapter.getData().get(position));
+                    dialog.dismiss();
+                });
+                build.setNegativeButton(R.string.action_cancel, (dialog, which) -> {
+                    dialog.dismiss();
+                });
+                build.show();
+            }
+        });
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerReports.setAdapter(mOrdersAdapter);
         getPresenter().onViewReady();
     }
 
     @Override
-    public void showReports(final MutableLiveData<List<Order>> vacationReportsData) {
+    public void editReport(final User user, final Order order) {
+        startActivity(OrderEditActivity.getLaunchIntent(getContext(), user, order));
+    }
+
+    @Override
+    public void dialNumber(final String name, final String phone) {
+        Uri number = Uri.parse("tel:" + phone);
+        Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
+        startActivity(callIntent);
+        if (!TextUtils.isEmpty(name)) {
+            showMessage(name);
+        }
+    }
+
+    @Override
+    public void showOrders(final MutableLiveData<List<Order>> vacationReportsData) {
         vacationReportsData.observe(this, list -> getPresenter().setReports(list));
     }
 

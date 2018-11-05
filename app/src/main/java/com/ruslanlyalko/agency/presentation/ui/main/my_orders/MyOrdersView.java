@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.util.SparseIntArray;
 
 import com.ruslanlyalko.agency.data.models.Order;
+import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.BaseView;
 
 import java.util.Date;
@@ -15,7 +16,11 @@ import java.util.List;
  */
 public interface MyOrdersView extends BaseView<MyOrdersPresenter> {
 
-    void showReports(MutableLiveData<List<Order>> vacationReportsData);
+    void editReport(User user, Order order);
+
+    void dialNumber(String name, String phone);
+
+    void showOrders(MutableLiveData<List<Order>> vacationReportsData);
 
     void showReportsByYear(final Date firstWorkingDate, SparseIntArray years);
 

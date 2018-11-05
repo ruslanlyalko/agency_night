@@ -140,6 +140,9 @@ public class DataManagerImpl implements DataManager {
 
     @Override
     public Task<Void> saveOrder(final Order newOrder) {
+        if (newOrder.getKey() == null || newOrder.getKey().isEmpty()) {
+            newOrder.setKey(mFirestore.collection(DB_ORDERS).document().getId());
+        }
         return mFirestore.collection(DB_ORDERS)
                 .document(newOrder.getKey())
                 .set(newOrder);

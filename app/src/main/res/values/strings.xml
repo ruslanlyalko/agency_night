@@ -16,6 +16,8 @@
     <!--Hints-->
     <string name="hint_email">Email</string>
     <string name="hint_phone">Phone</string>
+    <string name="hint_income">Income</string>
+    <string name="hint_expense">Expense</string>
     <string name="hint_phone_optional">Phone (optional)</string>
     <string name="hint_comment_optional">Comments (visible only for Admins)</string>
     <string name="hint_name">Name</string>
@@ -133,10 +135,11 @@
         <item>12</item>
     </string-array>
     <string-array name="notification_hours">
+        <item>10:00</item>
+        <item>12:00</item>
+        <item>14:00</item>
         <item>16:00</item>
-        <item>17:00</item>
         <item>18:00</item>
-        <item>19:00</item>
         <item>20:00</item>
     </string-array>
     <string-array name="status">

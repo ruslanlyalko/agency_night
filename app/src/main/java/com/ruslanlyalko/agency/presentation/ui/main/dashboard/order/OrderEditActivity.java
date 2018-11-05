@@ -5,12 +5,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.ruslanlyalko.agency.R;
@@ -36,9 +37,19 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.button_save) SquareButton mButtonSave;
     @BindView(R.id.progress) ProgressBar mProgress;
-    @BindView(R.id.spinner_duration) Spinner mSpinnerDuration;
     @BindView(R.id.text_date) TextView mTextDate;
     @BindView(R.id.text_time) TextView mTextTime;
+    @BindView(R.id.spinner_duration) Spinner mSpinnerDuration;
+    @BindView(R.id.spinner_children_from) Spinner mSpinnerChildrenFrom;
+    @BindView(R.id.spinner_children_to) Spinner mSpinnerChildrenTo;
+    @BindView(R.id.spinner_children_count) Spinner mSpinnerChildrenCount;
+    @BindView(R.id.input_place) TextInputEditText mInputPlace;
+    @BindView(R.id.switch_taxi) Switch mSwitchTaxi;
+    @BindView(R.id.input_name) TextInputEditText mInputName;
+    @BindView(R.id.input_phone) TextInputEditText mInputPhone;
+    @BindView(R.id.input_income) TextInputEditText mInputIncome;
+    @BindView(R.id.input_expense) TextInputEditText mInputExpense;
+    @BindView(R.id.input_description) TextInputEditText mInputDescription;
 
     public static Intent getLaunchIntent(final Context activity, User user, Date date) {
         Intent intent = new Intent(activity, OrderEditActivity.class);
@@ -63,44 +74,46 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
         return Color.argb(alpha, red, green, blue);
     }
 
-    @Override
-    protected Toolbar getToolbar() {
-        return mToolbar;
-    }
-
-    @Override
-    protected int getContentView() {
-        return R.layout.activity_order_edit;
-    }
-
-    @Override
-    protected void initPresenter(final Intent intent) {
-        setPresenter(new OrderEditPresenter(intent.getParcelableExtra(KEY_USER), intent.getParcelableExtra(KEY_REPORT), (Date) intent.getSerializableExtra(KEY_DATE)));
-    }
-
-    @Override
-    protected void onViewReady(final Bundle savedInstanceState) {
-        setToolbarTitle(TextUtils.isEmpty(getPresenter().getOrder().getKey())
-                ? R.string.title_new_workload : R.string.title_edit_workload);
-//        String[] statuses = getResources().getStringArray(R.array.hours);
-//        SpinnerAdapter adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_status, statuses);
-//        mSpinnerDuration.setAdapter(adapter);
-        mSpinnerDuration.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
-                //todo
-            }
-
-            @Override
-            public void onNothingSelected(final AdapterView<?> parent) {
-            }
-        });
-        getPresenter().onViewReady();
-    }
-
     @OnClick(R.id.button_save)
     public void onSaveClick() {
-//        getPresenter().onSave(status, mProjectSelectAdapter.getData());
+        float duration = getFloat(mSpinnerDuration.getSelectedItem().toString().replace("h", ""));
+        int childrenFrom = getInt(mSpinnerChildrenFrom.getSelectedItem().toString());
+        int childrenTo = getInt(mSpinnerChildrenTo.getSelectedItem().toString());
+        int childrenCount = getInt(mSpinnerChildrenCount.getSelectedItem().toString());
+        int income = getInt(mInputIncome.getText().toString());
+        int expense = getInt(mInputExpense.getText().toString());
+        boolean taxi = mSwitchTaxi.isChecked();
+        getPresenter().onSave(
+                duration,
+                childrenCount,
+                childrenFrom,
+                childrenTo,
+                income,
+                expense,
+                mInputPlace.getText().toString(),
+                mInputDescription.getText().toString(),
+                mInputName.getText().toString(),
+                mInputPhone.getText().toString(),
+                taxi
+        );
+    }
+
+    private float getFloat(final String s) {
+        try {
+            return Float.parseFloat(s);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    private int getInt(final String s) {
+        try {
+            return Integer.parseInt(s);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     @Override
@@ -130,13 +143,36 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
 
     @Override
     public void showReportData(final Order order) {
-//        String[] statuses = getResources().getStringArray(R.array.durations);
-//        for (int i = 0; i < statuses.length; i++) {
-//            if (statuses[i].equals(order.getStatus())) {
-//                mSpinnerDuration.setSelection(i);
-//                break;
-//            }
-//        }
+        String[] durations = getResources().getStringArray(R.array.durations);
+        for (int i = 0; i < durations.length; i++) {
+            if (getFloat(durations[i].replace("h", "")) == order.getDuration()) {
+                mSpinnerDuration.setSelection(i);
+                break;
+            }
+        }
+        String[] ages = getResources().getStringArray(R.array.childrenAge);
+        for (int i = 0; i < ages.length; i++) {
+            if (getInt(ages[i]) == order.getChildrenFrom()) {
+                mSpinnerChildrenFrom.setSelection(i);
+            }
+            if (getInt(ages[i]) == order.getChildrenTo()) {
+                mSpinnerChildrenTo.setSelection(i);
+            }
+        }
+        String[] count = getResources().getStringArray(R.array.childrenCount);
+        for (int i = 0; i < count.length; i++) {
+            if (getInt(count[i]) == order.getChildrenCount()) {
+                mSpinnerChildrenCount.setSelection(i);
+                break;
+            }
+        }
+        mInputPlace.setText(order.getPlace());
+        mInputName.setText(order.getName());
+        mInputPhone.setText(order.getPhone());
+        mInputIncome.setText(String.valueOf(order.getIncome()));
+        mInputExpense.setText(String.valueOf(order.getExpense()));
+        mInputDescription.setText(order.getDescription());
+        mSwitchTaxi.setChecked(order.getTaxi());
 //        List<ProjectSelectable> list = new ArrayList<>();
 //        if (order.getT1() > 0) {
 //            list.add(new ProjectSelectable(order.getP1(), order.getT1()));
@@ -187,5 +223,30 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
                 timePickerDialog.show(getFragmentManager(), "to");
                 break;
         }
+    }
+
+    @Override
+    protected Toolbar getToolbar() {
+        return mToolbar;
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_order_edit;
+    }
+
+    @Override
+    protected void initPresenter(final Intent intent) {
+        setPresenter(new OrderEditPresenter(intent.getParcelableExtra(KEY_USER), intent.getParcelableExtra(KEY_REPORT), (Date) intent.getSerializableExtra(KEY_DATE)));
+    }
+
+    @Override
+    protected void onViewReady(final Bundle savedInstanceState) {
+        setToolbarTitle(TextUtils.isEmpty(getPresenter().getOrder().getKey())
+                ? R.string.title_new_workload : R.string.title_edit_workload);
+//        String[] statuses = getResources().getStringArray(R.array.hours);
+//        SpinnerAdapter adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_status, statuses);
+//        mSpinnerDuration.setAdapter(adapter);
+        getPresenter().onViewReady();
     }
 }

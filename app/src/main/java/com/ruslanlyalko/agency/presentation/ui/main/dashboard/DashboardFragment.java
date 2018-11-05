@@ -3,12 +3,14 @@ package com.ruslanlyalko.agency.presentation.ui.main.dashboard;
 import android.app.AlertDialog;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.card.MaterialCardView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -87,10 +89,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
 
     @Override
     public void showReports(List<Order> orders) {
-        if (orders == null || orders.isEmpty())
-            showFab();
-        else
-            hideFab();
+        showFab();
         mOrdersAdapter.setData(orders);
     }
 
@@ -102,11 +101,6 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     }
 
     @Override
-    public void editReport(final User user, final Order order) {
-        startActivityForResult(OrderEditActivity.getLaunchIntent(getContext(), user, order), RC_REPORT);
-    }
-
-    @Override
     public void startAddReportScreen(final User user, final Date date) {
         startActivityForResult(OrderEditActivity.getLaunchIntent(getContext(), user, date), RC_REPORT);
     }
@@ -114,6 +108,21 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     @Override
     public void showWrongDateOnMobileError() {
         showError(getString(R.string.error_check_date));
+    }
+
+    @Override
+    public void editReport(final User user, final Order order) {
+        startActivityForResult(OrderEditActivity.getLaunchIntent(getContext(), user, order), RC_REPORT);
+    }
+
+    @Override
+    public void dialNumber(final String name, final String phone) {
+        Uri number = Uri.parse("tel:" + phone);
+        Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
+        startActivity(callIntent);
+        if (!TextUtils.isEmpty(name)) {
+            showMessage(name);
+        }
     }
 
     void showCalendarsEvents() {
@@ -128,6 +137,12 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
 
     private void setupAdapters() {
         mOrdersAdapter = new OrdersAdapter(new OnReportClickListener() {
+            @Override
+            public void onPhoneClicked(final View view, final int position) {
+                if (mOrdersAdapter.getData().size() > position)
+                    getPresenter().onReportPhoneClicked(mOrdersAdapter.getData().get(position));
+            }
+
             @Override
             public void onReportClicked(final View view, final int position) {
                 if (mOrdersAdapter.getData().size() > position)

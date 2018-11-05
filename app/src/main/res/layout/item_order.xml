@@ -46,16 +46,34 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="12dp"
             android:layout_marginStart="12dp"
+            android:gravity="end"
+            android:lineSpacingExtra="4sp"
+            android:textAlignment="textEnd"
             android:textAppearance="@style/TextAppearance.Body2"
             android:textColor="?attr/colorTextSecondary"
             android:textSize="13sp"
             tools:text="Jul 12, 2018"
             />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/text_income_expense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_title"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="2dp"
+            android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.Body2"
+            android:textColor="?attr/colorTextSecondary"
+            android:textSize="14sp"
+            tools:text="Ivan, 9"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_income_expense"
             android:orientation="horizontal">
 
             <RelativeLayout
@@ -64,75 +82,13 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/text_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
+                    android:id="@+id/text_name_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_marginStart="12dp"
-                    android:layout_marginTop="2dp"
-                    android:maxLines="2"
-                    android:textAppearance="@style/TextAppearance.Body2"
-                    android:textColor="?attr/colorTextSecondary"
-                    android:textSize="14sp"
-                    tools:text="Ivan, 9"
-                    />
-
-                <TextView
-                    android:id="@+id/text_project_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_below="@id/text_name"
-                    android:layout_marginStart="12dp"
-                    android:background="@drawable/bg_project_rounded"
-                    android:gravity="center"
-                    android:paddingEnd="@dimen/padding_medium"
-                    android:paddingStart="@dimen/padding_medium"
-                    android:textAppearance="@style/TextAppearance.Body1"
-                    android:textColor="?attr/colorTextDefault"
-                    android:textSize="13sp"
-                    tools:text="Project 2h" />
-
-                <TextView
-                    android:id="@+id/text_project_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_below="@id/text_name"
-                    android:layout_marginStart="8dp"
-                    android:layout_toEndOf="@id/text_project_1"
-                    android:background="@drawable/bg_project_rounded"
-                    android:gravity="center"
-                    android:paddingEnd="@dimen/padding_medium"
-                    android:paddingStart="@dimen/padding_medium"
-                    android:textAppearance="@style/TextAppearance.Body1"
-                    android:textColor="?attr/colorTextDefault"
-                    android:textSize="13sp"
-                    tools:text="Project 2h" />
-
-                <TextView
-                    android:id="@+id/text_project_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_below="@id/text_project_1"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_project_rounded"
-                    android:gravity="center"
-                    android:paddingEnd="@dimen/padding_medium"
-                    android:paddingStart="@dimen/padding_medium"
-                    android:textAppearance="@style/TextAppearance.Body1"
-                    android:textColor="?attr/colorTextDefault"
-                    android:textSize="13sp"
-                    tools:text="Project 2h" />
-
-                <TextView
-                    android:id="@+id/text_project_4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_below="@id/text_project_1"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_toEndOf="@id/text_project_3"
-                    android:background="@drawable/bg_project_rounded"
+                    android:background="@drawable/bg_project_styled"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center"
                     android:paddingEnd="@dimen/padding_medium"
                     android:paddingStart="@dimen/padding_medium"
@@ -148,7 +104,6 @@
                 android:layout_height="40dp"
                 android:layout_gravity="bottom"
                 android:layout_marginEnd="12dp"
-                android:layout_marginTop="8dp"
                 android:background="@drawable/bg_project_styled"
                 android:clickable="true"
                 android:contentDescription="@string/action_delete"

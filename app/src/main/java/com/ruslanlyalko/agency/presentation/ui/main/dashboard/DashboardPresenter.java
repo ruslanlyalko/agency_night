@@ -43,6 +43,10 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
         getView().showReports(getReportsForCurrentDate());
     }
 
+    public void onReportPhoneClicked(final Order order) {
+        getView().dialNumber(order.getName(), order.getPhone());
+    }
+
     public void onReportDeleteClicked(final Order order) {
         order.setUpdatedAt(new Date());
         getDataManager().saveOrder(order)

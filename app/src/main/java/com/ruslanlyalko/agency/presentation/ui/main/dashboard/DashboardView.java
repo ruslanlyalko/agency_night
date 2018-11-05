@@ -28,4 +28,6 @@ public interface DashboardView extends BaseView<DashboardPresenter> {
     void startAddReportScreen(final User user, final Date date);
 
     void showWrongDateOnMobileError();
+
+    void dialNumber(final String name, String phone);
 }

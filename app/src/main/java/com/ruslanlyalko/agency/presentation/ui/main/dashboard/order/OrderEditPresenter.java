@@ -3,12 +3,9 @@ package com.ruslanlyalko.agency.presentation.ui.main.dashboard.order;
 import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.BasePresenter;
-import com.ruslanlyalko.agency.presentation.ui.main.dashboard.order.adapter.ProjectSelectable;
-import com.ruslanlyalko.agency.presentation.utils.DateUtils;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Ruslan Lyalko
@@ -39,13 +36,26 @@ public class OrderEditPresenter extends BasePresenter<OrderEditView> {
         getView().showReportData(mOrder);
     }
 
-    public void onSave(final String status, final List<ProjectSelectable> data) {
-        //validate
-        getView().showProgress();
+    public void onSave(final float duration, final int childrenCount,
+                       final int childrenFrom, final int childrenTo,
+                       final int income, final int expense,
+                       final String place, final String description,
+                       final String name, final String phone, final boolean taxi) {
+        mOrder.setDuration(duration);
+        mOrder.setChildrenCount(childrenCount);
+        mOrder.setChildrenFrom(childrenFrom);
+        mOrder.setChildrenTo(childrenTo);
+        mOrder.setIncome(income);
+        mOrder.setExpense(expense);
+        mOrder.setPlace(place);
+        mOrder.setDescription(description);
+        mOrder.setName(name);
+        mOrder.setPhone(phone);
         mOrder.setUserId(mUser.getKey());
         mOrder.setUserName(mUser.getName());
         mOrder.setUpdatedAt(new Date());
-        mOrder.setKey(DateUtils.toString(mOrder.getDate(), "yyyyMMdd_'" + mUser.getKey() + "'"));
+        mOrder.setTaxi(taxi);
+        getView().showProgress();
         getDataManager().saveOrder(mOrder)
                 .addOnSuccessListener(aVoid -> {
                     if (getView() == null) return;
