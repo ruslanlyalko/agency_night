@@ -28,6 +28,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.apptik.widget.MultiSlider;
 
 public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implements OrderEditView {
 
@@ -40,8 +41,6 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
     @BindView(R.id.text_date) TextView mTextDate;
     @BindView(R.id.text_time) TextView mTextTime;
     @BindView(R.id.spinner_duration) Spinner mSpinnerDuration;
-    @BindView(R.id.spinner_children_from) Spinner mSpinnerChildrenFrom;
-    @BindView(R.id.spinner_children_to) Spinner mSpinnerChildrenTo;
     @BindView(R.id.spinner_children_count) Spinner mSpinnerChildrenCount;
     @BindView(R.id.input_place) TextInputEditText mInputPlace;
     @BindView(R.id.switch_taxi) Switch mSwitchTaxi;
@@ -50,6 +49,8 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
     @BindView(R.id.input_income) TextInputEditText mInputIncome;
     @BindView(R.id.input_expense) TextInputEditText mInputExpense;
     @BindView(R.id.input_description) TextInputEditText mInputDescription;
+    @BindView(R.id.slider_children_age) MultiSlider mSliderChildrenAge;
+    @BindView(R.id.text_children_age) TextView mTextChildrenAge;
 
     public static Intent getLaunchIntent(final Context activity, User user, Date date) {
         Intent intent = new Intent(activity, OrderEditActivity.class);
@@ -77,8 +78,8 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
     @OnClick(R.id.button_save)
     public void onSaveClick() {
         float duration = getFloat(mSpinnerDuration.getSelectedItem().toString().replace("h", ""));
-        int childrenFrom = getInt(mSpinnerChildrenFrom.getSelectedItem().toString());
-        int childrenTo = getInt(mSpinnerChildrenTo.getSelectedItem().toString());
+        int childrenFrom = mSliderChildrenAge.getThumb(0).getValue();
+        int childrenTo = mSliderChildrenAge.getThumb(1).getValue();
         int childrenCount = getInt(mSpinnerChildrenCount.getSelectedItem().toString());
         int income = getInt(mInputIncome.getText().toString());
         int expense = getInt(mInputExpense.getText().toString());
@@ -150,22 +151,8 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
                 break;
             }
         }
-        String[] ages = getResources().getStringArray(R.array.childrenAge);
-        for (int i = 0; i < ages.length; i++) {
-            if (getInt(ages[i]) == order.getChildrenFrom()) {
-                mSpinnerChildrenFrom.setSelection(i);
-            }
-            if (getInt(ages[i]) == order.getChildrenTo()) {
-                mSpinnerChildrenTo.setSelection(i);
-            }
-        }
-        String[] count = getResources().getStringArray(R.array.childrenCount);
-        for (int i = 0; i < count.length; i++) {
-            if (getInt(count[i]) == order.getChildrenCount()) {
-                mSpinnerChildrenCount.setSelection(i);
-                break;
-            }
-        }
+        mSliderChildrenAge.getThumb(0).setValue(order.getChildrenFrom());
+        mSliderChildrenAge.getThumb(1).setValue(order.getChildrenTo());
         mInputPlace.setText(order.getPlace());
         mInputName.setText(order.getName());
         mInputPhone.setText(order.getPhone());
@@ -173,20 +160,6 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
         mInputExpense.setText(String.valueOf(order.getExpense()));
         mInputDescription.setText(order.getDescription());
         mSwitchTaxi.setChecked(order.getTaxi());
-//        List<ProjectSelectable> list = new ArrayList<>();
-//        if (order.getT1() > 0) {
-//            list.add(new ProjectSelectable(order.getP1(), order.getT1()));
-//        }
-//        if (order.getT2() > 0) {
-//            list.add(new ProjectSelectable(order.getP2(), order.getT2()));
-//        }
-//        if (order.getT3() > 0) {
-//            list.add(new ProjectSelectable(order.getP3(), order.getT3()));
-//        }
-//        if (order.getT4() > 0) {
-//            list.add(new ProjectSelectable(order.getP4(), order.getT4()));
-//        }
-//        mProjectSelectAdapter.setData(list);
     }
 
     @Override
@@ -247,6 +220,8 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
 //        String[] statuses = getResources().getStringArray(R.array.hours);
 //        SpinnerAdapter adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_status, statuses);
 //        mSpinnerDuration.setAdapter(adapter);
+        mSliderChildrenAge.setOnThumbValueChangeListener((multiSlider, thumb, thumbIndex, value) ->
+                mTextChildrenAge.setText(getString(R.string.text_children_age, multiSlider.getThumb(0).getValue(), multiSlider.getThumb(1).getValue())));
         getPresenter().onViewReady();
     }
 }

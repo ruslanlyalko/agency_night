@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -68,50 +69,48 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/layout_children"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:layout_below="@id/layout_date"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/spinner_children_from"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_black_rounded_ripple"
-            android:entries="@array/childrenAge"
-            android:textAppearance="@style/TextAppearance.Body1"
-            android:textColor="?attr/colorTextDefault"
-            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/text_children_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_children_age"
+            android:textAppearance="@style/TextAppearance.Body2" />
 
-        <Spinner
-            android:id="@+id/spinner_children_to"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+        <io.apptik.widget.MultiSlider
+            android:id="@+id/slider_children_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_children_age"
             android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_black_rounded_ripple"
-            android:entries="@array/childrenAge"
-            android:textAppearance="@style/TextAppearance.Body1"
-            android:textColor="?attr/colorTextDefault"
-            android:textSize="15sp" />
+            android:layout_marginTop="4dp"
+            android:layout_toStartOf="@id/spinner_children_count"
+            app:drawThumbsApart="true"
+            app:scaleMax="12"
+            app:scaleMin="1"
+            app:stepsThumbsApart="1"
+            app:thumbNumber="2" />
 
         <Spinner
             android:id="@+id/spinner_children_count"
             android:layout_width="70dp"
             android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
             android:background="@drawable/bg_black_rounded_ripple"
             android:entries="@array/childrenCount"
             android:textAppearance="@style/TextAppearance.Body1"
             android:textColor="?attr/colorTextDefault"
             android:textSize="15sp" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/layout_where"
@@ -136,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_place"
-                android:inputType="textCapWords"
+                android:inputType="textCapSentences"
                 android:textAppearance="@style/TextAppearance.Body2" />
         </android.support.design.widget.TextInputLayout>
 
@@ -255,7 +254,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_description"
-            android:inputType="textCapWords|textMultiLine"
+            android:inputType="textCapSentences|textMultiLine"
             android:textAppearance="@style/TextAppearance.Body2" />
 
     </android.support.design.widget.TextInputLayout>

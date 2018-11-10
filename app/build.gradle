@@ -11,8 +11,8 @@ android {
         applicationId "com.ruslanlyalko.agency"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 5
-        versionName "0.1.05"
+        versionCode 6
+        versionName "0.1.06"
     }
 
     signingConfigs {
@@ -113,6 +113,8 @@ dependencies {
     }
     // Rx Permission
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+    // Multi Slider
+    implementation 'io.apptik.widget:multislider:1.3'
 //     Fast scroll
 //    implementation 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5'
 //    // Glide

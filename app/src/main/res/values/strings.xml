@@ -84,6 +84,7 @@
     <string name="text_copied">Copied</string>
     <string name="text_immediately_login">Immediately login</string>
     <string name="text_taxi">Taxi</string>
+    <string name="text_children_age">Children: %d-%d years old</string>
 
     <!--arrays-->
     <string-array name="durations">
