@@ -22,23 +22,20 @@ public class UpcomingOrdersPresenter extends BasePresenter<UpcomingOrdersView> {
     }
 
     public void onViewReady() {
-        getView().showOrders(getDataManager().getAllMyOrders());
+        if (mUser.getIsAdmin())
+            getView().showOrders(getDataManager().getAllOrders());
+        else
+            getView().showOrders(getDataManager().getAllMyOrders());
     }
 
     public void setReports(final List<Order> orders) {
         List<Order> listVacationOrders = new ArrayList<>();
-//        SparseIntArray years = new SparseIntArray();
         for (Order order : orders) {
             if (order.getDate().after(new Date())) {
                 listVacationOrders.add(order);
-//                int yearInd = DateUtils.getYearIndex(order.getDate(), mUser.getFirstWorkingDate());
-//                int value = years.get(yearInd);
-//                value = value + 1;
-//                years.append(yearInd, value);
             }
         }
         getView().setReportsToAdapter(listVacationOrders);
-//        getView().showReportsByYear(mUser.getFirstWorkingDate(), years);
     }
 
     public void onReportPhoneClicked(final Order order) {
@@ -61,6 +58,5 @@ public class UpcomingOrdersPresenter extends BasePresenter<UpcomingOrdersView> {
     }
 
     public void onFilterClicked() {
-
     }
 }

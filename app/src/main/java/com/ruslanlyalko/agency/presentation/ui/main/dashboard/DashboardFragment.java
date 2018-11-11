@@ -35,6 +35,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class DashboardFragment extends BaseFragment<DashboardPresenter> implements DashboardView {
 
@@ -101,6 +102,11 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     }
 
     @Override
+    public void editReport(final User user, final Order order) {
+        startActivityForResult(OrderEditActivity.getLaunchIntent(getContext(), user, order), RC_REPORT);
+    }
+
+    @Override
     public void startAddReportScreen(final User user, final Date date) {
         startActivityForResult(OrderEditActivity.getLaunchIntent(getContext(), user, date), RC_REPORT);
     }
@@ -108,11 +114,6 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     @Override
     public void showWrongDateOnMobileError() {
         showError(getString(R.string.error_check_date));
-    }
-
-    @Override
-    public void editReport(final User user, final Order order) {
-        startActivityForResult(OrderEditActivity.getLaunchIntent(getContext(), user, order), RC_REPORT);
     }
 
     @Override
@@ -166,6 +167,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
         });
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerReports.setAdapter(mOrdersAdapter);
+        OverScrollDecoratorHelper.setUpOverScroll(mRecyclerReports, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
     }
 
     @Override

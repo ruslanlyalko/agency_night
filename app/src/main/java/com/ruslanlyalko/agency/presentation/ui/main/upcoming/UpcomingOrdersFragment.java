@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.SparseIntArray;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,13 +20,13 @@ import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.BaseFragment;
 import com.ruslanlyalko.agency.presentation.ui.main.dashboard.adapter.OrdersAdapter;
 import com.ruslanlyalko.agency.presentation.ui.main.dashboard.order.OrderEditActivity;
-import com.ruslanlyalko.agency.presentation.utils.DateUtils;
 import com.ruslanlyalko.agency.presentation.view.OnReportClickListener;
 
 import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -36,7 +35,6 @@ public class UpcomingOrdersFragment extends BaseFragment<UpcomingOrdersPresenter
 
     private static final String KEY_USER = "user";
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
-    @BindView(R.id.text_common) TextView mTextCommon;
     @BindView(R.id.text_placeholder) TextView mTextPlaceholder;
     private OrdersAdapter mOrdersAdapter;
 
@@ -63,6 +61,7 @@ public class UpcomingOrdersFragment extends BaseFragment<UpcomingOrdersPresenter
                 return super.onOptionsItemSelected(item);
         }
     }
+
     @Override
     protected int getContentView() {
         return R.layout.fragment_upcoming_orders;
@@ -99,14 +98,13 @@ public class UpcomingOrdersFragment extends BaseFragment<UpcomingOrdersPresenter
                         getPresenter().onReportDeleteClicked(mOrdersAdapter.getData().get(position));
                     dialog.dismiss();
                 });
-                build.setNegativeButton(R.string.action_cancel, (dialog, which) -> {
-                    dialog.dismiss();
-                });
+                build.setNegativeButton(R.string.action_cancel, (dialog, which) -> dialog.dismiss());
                 build.show();
             }
         });
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerReports.setAdapter(mOrdersAdapter);
+        OverScrollDecoratorHelper.setUpOverScroll(mRecyclerReports, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         getPresenter().onViewReady();
     }
 
@@ -136,17 +134,6 @@ public class UpcomingOrdersFragment extends BaseFragment<UpcomingOrdersPresenter
     }
 
     @Override
-    public void showReportsByYear(final Date firstWorkingDate, final SparseIntArray years) {
-        String text = "First Working Day: " + DateUtils.toStringStandardDate(firstWorkingDate) + "\n";
-        for (int i = 0; i < years.size(); i++) {
-            String day = (years.keyAt(i) + 1) + getDayOfMonthSuffix(years.keyAt(i) + 1);
-            int count = years.get(years.keyAt(i));
-            text = text + getString(count == 1 ? R.string.day_taken : R.string.days_taken, day, count);
-        }
-        mTextCommon.setText(text);
-    }
-
-    @Override
     public void setReportsToAdapter(final List<Order> list) {
         mOrdersAdapter.setData(list);
         mTextPlaceholder.setVisibility((list != null && list.isEmpty()) ? VISIBLE : GONE);
@@ -155,21 +142,5 @@ public class UpcomingOrdersFragment extends BaseFragment<UpcomingOrdersPresenter
     @Override
     public void startAddReportScreen(final User user, final Date date) {
         startActivity(OrderEditActivity.getLaunchIntent(getContext(), user, date));
-    }
-
-    private String getDayOfMonthSuffix(final int n) {
-        if (n >= 11 && n <= 13) {
-            return "th";
-        }
-        switch (n % 10) {
-            case 1:
-                return "st";
-            case 2:
-                return "nd";
-            case 3:
-                return "rd";
-            default:
-                return "th";
-        }
     }
 }

@@ -38,5 +38,7 @@ public interface DataManager {
 
     MutableLiveData<List<Order>> getAllMyOrders();
 
+    MutableLiveData<List<Order>> getAllOrders();
+
     MutableLiveData<List<Order>> getUpcomingOrders(final User user);
 }

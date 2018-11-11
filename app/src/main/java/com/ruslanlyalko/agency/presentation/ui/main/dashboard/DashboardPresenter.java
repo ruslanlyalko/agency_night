@@ -24,7 +24,6 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
 
     public void onViewReady() {
         getView().showUser(getDataManager().getMyUser());
-        getView().showReportsOnCalendar(getDataManager().getAllMyOrders());
     }
 
     private List<Order> getReportsForCurrentDate() {
@@ -93,5 +92,9 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
             getAuth().signOut();
             getView().showErrorAndStartLoginScreen();
         }
+        if (mUser.getIsAdmin())
+            getView().showReportsOnCalendar(getDataManager().getAllOrders());
+        else
+            getView().showReportsOnCalendar(getDataManager().getAllMyOrders());
     }
 }

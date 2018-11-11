@@ -38,7 +38,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     }
 
     public List<User> getData() {
-        return mData;
+        return mDataFiltered;
     }
 
     public void setData(final List<User> data) {

@@ -35,6 +35,7 @@ public class DataManagerImpl implements DataManager {
     private FirebaseFirestore mFirestore;
     private MutableLiveData<User> mCurrentUserLiveData;
     private MutableLiveData<List<Order>> mAllMyReportsListMutableLiveData;
+    private MutableLiveData<List<Order>> mAllReportsListMutableLiveData;
     private MutableLiveData<List<User>> mAllUsersListLiveData;
 
     private DataManagerImpl() {
@@ -178,6 +179,30 @@ public class DataManagerImpl implements DataManager {
                     }
                 });
         return mAllMyReportsListMutableLiveData;
+    }
+
+    @Override
+    public MutableLiveData<List<Order>> getAllOrders() {
+        if (mAllReportsListMutableLiveData != null) return mAllReportsListMutableLiveData;
+        String userId = mAuth.getUid();
+        mAllReportsListMutableLiveData = new MutableLiveData<>();
+        if (TextUtils.isEmpty(userId)) {
+            Log.w(TAG, "getAllMyOrders user is not logged in");
+            return mAllReportsListMutableLiveData;
+        }
+        mFirestore.collection(DB_ORDERS)
+                .orderBy(FIELD_DATE_TIME)
+                .addSnapshotListener((snapshots, e) -> {
+                    Log.d(TAG, "getAllMyOrders:onDataChange");
+                    if (e == null && mCurrentUserLiveData != null && snapshots != null) {
+                        List<Order> list = new ArrayList<>();
+                        for (DocumentSnapshot dc : snapshots.getDocuments()) {
+                            list.add(dc.toObject(Order.class));
+                        }
+                        mAllReportsListMutableLiveData.postValue(list);
+                    }
+                });
+        return mAllReportsListMutableLiveData;
     }
 
     @Override

@@ -72,7 +72,9 @@
             android:id="@+id/recycler_reports"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:focusableInTouchMode="false" />
+            android:clipToPadding="false"
+            android:focusableInTouchMode="false"
+            android:paddingBottom="70dp" />
 
         <TextView
             android:id="@+id/text_placeholder"
