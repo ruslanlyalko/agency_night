@@ -76,6 +76,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
         userData.observe(this, user -> {
             if (user == null) return;
             getPresenter().setUser(user);
+            mOrdersAdapter.setUser(user);
         });
     }
 
@@ -131,7 +132,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
         List<Order> orders = getPresenter().getOrders();
         for (Order order : orders) {
             mCalendarView.addEvent(new Event(ContextCompat.getColor(getContext(),
-                    ColorUtils.getTextColorByStatus(getResources(), null)), order.getDate().getTime()), true);
+                    ColorUtils.getTextColorByStatus(getResources(), order.getUserId().equals(getPresenter().getUser().getKey()))), order.getDate().getTime()), true);
         }
         mCalendarView.invalidate();
     }

@@ -104,6 +104,7 @@ public class UpcomingOrdersFragment extends BaseFragment<UpcomingOrdersPresenter
         });
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerReports.setAdapter(mOrdersAdapter);
+        mOrdersAdapter.setUser(getPresenter().getUser());
         OverScrollDecoratorHelper.setUpOverScroll(mRecyclerReports, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         getPresenter().onViewReady();
     }

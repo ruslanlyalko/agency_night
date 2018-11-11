@@ -59,4 +59,8 @@ public class UpcomingOrdersPresenter extends BasePresenter<UpcomingOrdersView> {
 
     public void onFilterClicked() {
     }
+
+    public User getUser() {
+        return mUser;
+    }
 }

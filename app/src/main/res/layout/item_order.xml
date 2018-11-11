@@ -33,7 +33,7 @@
             android:layout_toStartOf="@+id/text_date"
             android:maxLines="2"
             android:textAppearance="@style/TextAppearance.Subhead"
-            android:textColor="?attr/colorTextPrimary"
+            android:textColor="?attr/colorTextDefault"
             android:textSize="16sp"
             android:textStyle="bold"
             tools:text="Ivan, 9"

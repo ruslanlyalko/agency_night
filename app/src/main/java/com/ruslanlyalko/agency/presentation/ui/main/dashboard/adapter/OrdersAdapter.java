@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.card.MaterialCardView;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 
 import com.ruslanlyalko.agency.R;
 import com.ruslanlyalko.agency.data.models.Order;
+import com.ruslanlyalko.agency.data.models.User;
+import com.ruslanlyalko.agency.presentation.utils.ColorUtils;
 import com.ruslanlyalko.agency.presentation.utils.DateUtils;
 import com.ruslanlyalko.agency.presentation.view.OnReportClickListener;
 
@@ -39,14 +42,10 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
 
     private final OnReportClickListener mOnReportClickListener;
     private List<Order> mData = new ArrayList<>();
-    private boolean mAllowEdit;
+    private User mUser;
 
     public OrdersAdapter(@Nullable OnReportClickListener onReportClickListener) {
         mOnReportClickListener = onReportClickListener;
-    }
-
-    public void setAllowEdit(boolean allow) {
-        mAllowEdit = allow;
     }
 
     public List<Order> getData() {
@@ -95,6 +94,14 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         return String.format(Locale.US, "%.1f", duration);
     }
 
+    public User getUser() {
+        return mUser;
+    }
+
+    public void setUser(final User user) {
+        mUser = user;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private final Context mContext;
@@ -112,7 +119,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         }
 
         void bind(final Order order) {
-//            mTextTitle.setTextColor(ContextCompat.getColor(mContext, ColorUtils.getTextColorByStatus(mTextDate.getResources(), order.getStatus())));
+            if (getUser() != null)
+                mTextTitle.setTextColor(ContextCompat.getColor(mContext, ColorUtils.getTextColorByStatus(mTextDate.getResources(), order.getUserId().equals(getUser().getKey()))));
             mTextTitle.setText(order.getPlace());
             mTextIncomeExpense.setText(String.format(Locale.US, "Children: %d, %d-%d years old", order.getChildrenCount(), order.getChildrenFrom(), order.getChildrenTo()));
             mTextNamePhone.setVisibility(TextUtils.isEmpty(order.getName()) && TextUtils.isEmpty(order.getPhone()) ? GONE : VISIBLE);
