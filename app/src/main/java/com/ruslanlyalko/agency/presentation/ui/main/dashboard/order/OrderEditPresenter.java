@@ -6,6 +6,7 @@ import com.ruslanlyalko.agency.presentation.base.BasePresenter;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Ruslan Lyalko
@@ -15,6 +16,7 @@ public class OrderEditPresenter extends BasePresenter<OrderEditView> {
 
     private final User mUser;
     private final Order mOrder;
+    private List<User> mUsers;
 
     OrderEditPresenter(User user, Order order, Date date) {
         if (user == null)
@@ -37,13 +39,15 @@ public class OrderEditPresenter extends BasePresenter<OrderEditView> {
     public void onViewReady() {
         getView().showDate(mOrder.getDate());
         getView().showReportData(mOrder);
+        getView().showSpinnerUsersData(mUser, getDataManager().getAllUsers());
     }
 
     public void onSave(final float duration, final int childrenCount,
                        final int childrenFrom, final int childrenTo,
                        final int income, final int expense,
                        final String place, final String description,
-                       final String name, final String phone, final boolean taxi) {
+                       final String name, final String phone, final boolean taxi,
+                       final String userName) {
         mOrder.setDuration(duration);
         mOrder.setChildrenCount(childrenCount);
         mOrder.setChildrenFrom(childrenFrom);
@@ -54,8 +58,8 @@ public class OrderEditPresenter extends BasePresenter<OrderEditView> {
         mOrder.setDescription(description);
         mOrder.setName(name);
         mOrder.setPhone(phone);
-        mOrder.setUserId(mUser.getKey());
-        mOrder.setUserName(mUser.getName());
+        mOrder.setUserName(userName);
+        mOrder.setUserId(getUserIdByName(userName));
         mOrder.setUpdatedAt(new Date());
         mOrder.setTaxi(taxi);
         getView().showProgress();
@@ -71,6 +75,14 @@ public class OrderEditPresenter extends BasePresenter<OrderEditView> {
                 });
     }
 
+    private String getUserIdByName(final String userName) {
+        for (User user : mUsers) {
+            if (user.getName().equals(userName))
+                return user.getKey();
+        }
+        throw new RuntimeException("No such user!");
+    }
+
     public User getUser() {
         return mUser;
     }
@@ -82,5 +94,9 @@ public class OrderEditPresenter extends BasePresenter<OrderEditView> {
     public void setReportDate(final Date date) {
         mOrder.setDate(date);
         getView().showDate(date);
+    }
+
+    public void setUsers(final List<User> users) {
+        mUsers = users;
     }
 }

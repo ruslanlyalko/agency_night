@@ -1,5 +1,6 @@
 package com.ruslanlyalko.agency.presentation.ui.main.dashboard.order;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -23,8 +25,10 @@ import com.ruslanlyalko.agency.presentation.view.SquareButton;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -51,6 +55,7 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
     @BindView(R.id.input_description) TextInputEditText mInputDescription;
     @BindView(R.id.slider_children_age) MultiSlider mSliderChildrenAge;
     @BindView(R.id.text_children_age) TextView mTextChildrenAge;
+    @BindView(R.id.spinner_users) Spinner mSpinnerUsers;
 
     public static Intent getLaunchIntent(final Context activity, User user, Date date) {
         Intent intent = new Intent(activity, OrderEditActivity.class);
@@ -81,6 +86,7 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
         int childrenFrom = mSliderChildrenAge.getThumb(0).getValue();
         int childrenTo = mSliderChildrenAge.getThumb(1).getValue();
         int childrenCount = getInt(mSpinnerChildrenCount.getSelectedItem().toString());
+        String userName = mSpinnerUsers.getSelectedItem().toString();
         int income = getInt(mInputIncome.getText().toString());
         int expense = getInt(mInputExpense.getText().toString());
         boolean taxi = mSwitchTaxi.isChecked();
@@ -95,7 +101,8 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
                 mInputDescription.getText().toString(),
                 mInputName.getText().toString(),
                 mInputPhone.getText().toString(),
-                taxi
+                taxi,
+                userName
         );
     }
 
@@ -173,6 +180,33 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
     public void showDate(Date date) {
         mTextDate.setText(DateUtils.toStringDate(date));
         mTextTime.setText(DateUtils.toStringTime(date));
+    }
+
+    @Override
+    public void showSpinnerUsersData(final User user1, final MutableLiveData<List<User>> usersData) {
+        mSpinnerUsers.setVisibility(user1.getIsAdmin() ? View.VISIBLE : View.GONE);
+        usersData.observe(this, users -> {
+            if (users == null) return;
+            getPresenter().setUsers(users);
+            List<String> list = new ArrayList<>();
+            for (User user : users) {
+                if (user1.getKey().equals(user.getKey()))
+                    list.add(0, user.getName());
+                else list.add(user.getName());
+            }
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(),
+                    android.R.layout.simple_spinner_item, list);
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mSpinnerUsers.setAdapter(dataAdapter);
+            if (!TextUtils.isEmpty(getPresenter().getOrder().getUserName())) {
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).equals(getPresenter().getOrder().getUserName())) {
+                        mSpinnerUsers.setSelection(i);
+                        break;
+                    }
+                }
+            }
+        });
     }
 
     @Override
