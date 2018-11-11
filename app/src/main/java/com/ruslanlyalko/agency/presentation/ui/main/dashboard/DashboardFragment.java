@@ -200,6 +200,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     @Override
     protected void onViewReady(final Bundle state) {
         setToolbarTitle(R.string.app_name);
+        getBaseActivity().showFab();
         setupAdapters();
         setupCalendar();
         getPresenter().onViewReady();

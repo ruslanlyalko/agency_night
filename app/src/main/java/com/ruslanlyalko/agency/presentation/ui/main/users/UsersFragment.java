@@ -15,8 +15,8 @@ import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.BaseFragment;
 import com.ruslanlyalko.agency.presentation.ui.main.users.adapter.UsersAdapter;
 import com.ruslanlyalko.agency.presentation.ui.main.users.add.UserAddActivity;
-import com.ruslanlyalko.agency.presentation.ui.main.users.edit.UserEditActivity;
 import com.ruslanlyalko.agency.presentation.ui.main.users.details.UserDetailsActivity;
+import com.ruslanlyalko.agency.presentation.ui.main.users.edit.UserEditActivity;
 import com.ruslanlyalko.agency.presentation.view.OnItemClickListener;
 
 import java.util.List;
@@ -44,9 +44,6 @@ public class UsersFragment extends BaseFragment<UsersPresenter> implements Users
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_add:
-                getPresenter().onAddClicked();
-                return true;
             case R.id.action_search:
                 mEditSearch.setVisibility(View.VISIBLE);
                 mEditSearch.setIconified(false);
@@ -70,6 +67,7 @@ public class UsersFragment extends BaseFragment<UsersPresenter> implements Users
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_users);
+        getBaseActivity().showFab();
         mEditSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(final String s) {
@@ -91,6 +89,11 @@ public class UsersFragment extends BaseFragment<UsersPresenter> implements Users
         mRecyclerUsers.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerUsers.setAdapter(mAdapter);
         getPresenter().onViewReady();
+    }
+
+    @Override
+    public void onFabClicked() {
+        getPresenter().onAddClicked();
     }
 
     @Override

@@ -151,6 +151,13 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
                 break;
             }
         }
+        String[] childrenCount = getResources().getStringArray(R.array.childrenCount);
+        for (int i = 0; i < childrenCount.length; i++) {
+            if (getInt(childrenCount[i]) == order.getChildrenCount()) {
+                mSpinnerChildrenCount.setSelection(i);
+                break;
+            }
+        }
         mSliderChildrenAge.getThumb(0).setValue(order.getChildrenFrom());
         mSliderChildrenAge.getThumb(1).setValue(order.getChildrenTo());
         mInputPlace.setText(order.getPlace());

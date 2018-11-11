@@ -1,4 +1,4 @@
-package com.ruslanlyalko.agency.presentation.ui.main.my_orders;
+package com.ruslanlyalko.agency.presentation.ui.main.upcoming;
 
 import com.ruslanlyalko.agency.data.models.Order;
 import com.ruslanlyalko.agency.data.models.User;
@@ -13,11 +13,11 @@ import java.util.List;
  * Created by Ruslan Lyalko
  * on 05.09.2018.
  */
-public class MyOrdersPresenter extends BasePresenter<MyOrdersView> {
+public class UpcomingOrdersPresenter extends BasePresenter<UpcomingOrdersView> {
 
     private User mUser;
 
-    MyOrdersPresenter(User user) {
+    UpcomingOrdersPresenter(User user) {
         mUser = user;
     }
 
@@ -54,5 +54,13 @@ public class MyOrdersPresenter extends BasePresenter<MyOrdersView> {
     public void onReportLongClicked(final Order order) {
         if (order.getDate().before(DateUtils.get1DaysAgo().getTime())) return;
         getView().editReport(mUser, order);
+    }
+
+    public void onFabClicked() {
+        getView().startAddReportScreen(mUser, DateUtils.get1DaysForward().getTime());
+    }
+
+    public void onFilterClicked() {
+
     }
 }

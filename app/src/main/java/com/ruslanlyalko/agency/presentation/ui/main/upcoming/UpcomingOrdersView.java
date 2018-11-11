@@ -1,4 +1,4 @@
-package com.ruslanlyalko.agency.presentation.ui.main.my_orders;
+package com.ruslanlyalko.agency.presentation.ui.main.upcoming;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.util.SparseIntArray;
@@ -14,7 +14,7 @@ import java.util.List;
  * Created by Ruslan Lyalko
  * on 05.09.2018.
  */
-public interface MyOrdersView extends BaseView<MyOrdersPresenter> {
+public interface UpcomingOrdersView extends BaseView<UpcomingOrdersPresenter> {
 
     void editReport(User user, Order order);
 
@@ -25,4 +25,6 @@ public interface MyOrdersView extends BaseView<MyOrdersPresenter> {
     void showReportsByYear(final Date firstWorkingDate, SparseIntArray years);
 
     void setReportsToAdapter(List<Order> list);
+
+    void startAddReportScreen(User user, Date date);
 }

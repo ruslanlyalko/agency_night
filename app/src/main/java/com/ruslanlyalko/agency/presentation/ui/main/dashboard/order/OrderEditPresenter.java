@@ -27,6 +27,9 @@ public class OrderEditPresenter extends BasePresenter<OrderEditView> {
             c.set(Calendar.HOUR_OF_DAY, 16);
             c.set(Calendar.MINUTE, 0);
             order.setDate(c.getTime());
+            order.setChildrenFrom(5);
+            order.setChildrenTo(8);
+            order.setChildrenCount(9);
         }
         mOrder = order;
     }

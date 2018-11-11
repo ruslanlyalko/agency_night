@@ -43,6 +43,7 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_settings);
+        getBaseActivity().hideFab();
         mSwitchNightMode.setChecked(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES);
         mSpinnerNotification.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

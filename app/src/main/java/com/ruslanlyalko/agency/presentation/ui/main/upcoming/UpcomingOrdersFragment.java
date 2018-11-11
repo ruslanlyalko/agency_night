@@ -1,4 +1,4 @@
-package com.ruslanlyalko.agency.presentation.ui.main.my_orders;
+package com.ruslanlyalko.agency.presentation.ui.main.upcoming;
 
 import android.app.AlertDialog;
 import android.arch.lifecycle.MutableLiveData;
@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.util.SparseIntArray;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -31,7 +32,7 @@ import butterknife.BindView;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class MyOrdersFragment extends BaseFragment<MyOrdersPresenter> implements MyOrdersView {
+public class UpcomingOrdersFragment extends BaseFragment<UpcomingOrdersPresenter> implements UpcomingOrdersView {
 
     private static final String KEY_USER = "user";
     @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
@@ -39,9 +40,9 @@ public class MyOrdersFragment extends BaseFragment<MyOrdersPresenter> implements
     @BindView(R.id.text_placeholder) TextView mTextPlaceholder;
     private OrdersAdapter mOrdersAdapter;
 
-    public static MyOrdersFragment newInstance(User user) {
+    public static UpcomingOrdersFragment newInstance(User user) {
         Bundle args = new Bundle();
-        MyOrdersFragment fragment = new MyOrdersFragment();
+        UpcomingOrdersFragment fragment = new UpcomingOrdersFragment();
         args.putParcelable(KEY_USER, user);
         fragment.setArguments(args);
         return fragment;
@@ -49,22 +50,33 @@ public class MyOrdersFragment extends BaseFragment<MyOrdersPresenter> implements
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_vacations, menu);
+        inflater.inflate(R.menu.menu_upcoming, menu);
     }
 
     @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_filter:
+                getPresenter().onFilterClicked();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    @Override
     protected int getContentView() {
-        return R.layout.fragment_my_orders;
+        return R.layout.fragment_upcoming_orders;
     }
 
     @Override
     protected void initPresenter(final Bundle args) {
-        setPresenter(new MyOrdersPresenter(args.getParcelable(KEY_USER)));
+        setPresenter(new UpcomingOrdersPresenter(args.getParcelable(KEY_USER)));
     }
 
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_vacations);
+        getBaseActivity().showFab();
         mOrdersAdapter = new OrdersAdapter(new OnReportClickListener() {
             @Override
             public void onPhoneClicked(final View view, final int position) {
@@ -96,6 +108,11 @@ public class MyOrdersFragment extends BaseFragment<MyOrdersPresenter> implements
         mRecyclerReports.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerReports.setAdapter(mOrdersAdapter);
         getPresenter().onViewReady();
+    }
+
+    @Override
+    public void onFabClicked() {
+        getPresenter().onFabClicked();
     }
 
     @Override
@@ -133,6 +150,11 @@ public class MyOrdersFragment extends BaseFragment<MyOrdersPresenter> implements
     public void setReportsToAdapter(final List<Order> list) {
         mOrdersAdapter.setData(list);
         mTextPlaceholder.setVisibility((list != null && list.isEmpty()) ? VISIBLE : GONE);
+    }
+
+    @Override
+    public void startAddReportScreen(final User user, final Date date) {
+        startActivity(OrderEditActivity.getLaunchIntent(getContext(), user, date));
     }
 
     private String getDayOfMonthSuffix(final int n) {

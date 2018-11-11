@@ -31,9 +31,9 @@ import com.ruslanlyalko.agency.R;
 import com.ruslanlyalko.agency.data.models.User;
 import com.ruslanlyalko.agency.presentation.base.multibackstack.BackStackActivity;
 import com.ruslanlyalko.agency.presentation.ui.main.dashboard.DashboardFragment;
-import com.ruslanlyalko.agency.presentation.ui.main.my_orders.MyOrdersFragment;
 import com.ruslanlyalko.agency.presentation.ui.main.profile.ProfileFragment;
 import com.ruslanlyalko.agency.presentation.ui.main.settings.SettingsFragment;
+import com.ruslanlyalko.agency.presentation.ui.main.upcoming.UpcomingOrdersFragment;
 import com.ruslanlyalko.agency.presentation.ui.main.users.UsersFragment;
 
 import butterknife.BindView;
@@ -156,9 +156,9 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
 
     @Override
     public void fabClickedFragment() {
-        if (mCurTabId == TAB_DASHBOARD)
-            onFabClickedFragment();
-        else onBackPressed();
+//        if (mCurTabId == TAB_DASHBOARD)
+        onFabClickedFragment();
+//        else onBackPressed();
     }
 
     private int getMenuIdByTab(final int tabId) {
@@ -188,7 +188,6 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
             fragment = rootTabFragment(mCurTabId);
         }
         replaceFragment(fragment);
-        toggleFab(tabId == TAB_DASHBOARD);
     }
 
     @NonNull
@@ -199,7 +198,7 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
             case TAB_DASHBOARD:
                 return DashboardFragment.newInstance();
             case TAB_VACATION:
-                return MyOrdersFragment.newInstance(getPresenter().getUser());
+                return UpcomingOrdersFragment.newInstance(getPresenter().getUser());
             case TAB_USERS:
                 return UsersFragment.newInstance();
             case TAB_SETTINGS:
@@ -211,17 +210,17 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
 
     public void toggleFab(final boolean isWorkloadTab) {
         if (isWorkloadTab) {
-            if (mBottomAppBar.getFabAlignmentMode() != BottomAppBar.FAB_ALIGNMENT_MODE_CENTER) {
-                mImageMenu.setVisibility(View.VISIBLE);
-                hideFab();
-                mBottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
-                mFab.setImageResource(R.drawable.ic_add_fab);
-            }
+//            if (mBottomAppBar.getFabAlignmentMode() != BottomAppBar.FAB_ALIGNMENT_MODE_CENTER) {
+//            mImageMenu.setVisibility(View.VISIBLE);
+            //        hideFab();
+//                mBottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
+//                mFab.setImageResource(R.drawable.ic_add_fab);
+//            }
         } else {
-            hideFab();
-            mBottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
-            mFab.setImageResource(R.drawable.ic_reply);
-            showFab();
+//            hideFab();
+//            mBottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
+//            mFab.setImageResource(R.drawable.ic_reply);
+            //showFab();
         }
     }
 
@@ -313,7 +312,6 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         if (state == null) {
             mCurTabId = getPresenter().isStartWithSettings() ? TAB_SETTINGS : TAB_DASHBOARD;
             showFragment(rootTabFragment(mCurTabId));
-            toggleFab(mCurTabId == TAB_DASHBOARD);
         }
     }
 
@@ -374,7 +372,6 @@ public class MainActivity extends BackStackActivity<MainPresenter> implements Ma
         super.onRestoreInstanceState(savedInstanceState);
         mCurFragment = getSupportFragmentManager().findFragmentById(R.id.container);
         mCurTabId = savedInstanceState.getInt(STATE_CURRENT_TAB_ID);
-        toggleFab(mCurTabId == TAB_DASHBOARD);
     }
 
     protected void replaceFragment(@NonNull Fragment fragment) {

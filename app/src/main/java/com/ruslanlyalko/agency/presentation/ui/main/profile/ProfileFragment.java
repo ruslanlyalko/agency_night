@@ -94,6 +94,7 @@ public class ProfileFragment extends BaseFragment<ProfilePresenter> implements P
     @Override
     protected void onViewReady(final Bundle savedInstanceState) {
         setToolbarTitle(R.string.title_profile);
+        getBaseActivity().hideFab();
         getPresenter().onViewReady();
     }
 }

@@ -65,6 +65,7 @@
     <string name="menu_logout">Logout</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_menu">Menu</string>
+    <string name="menu_filter">Filter</string>
 
     <!--Placeholder-->
     <string name="placeholder_no_vacations">No upcoming orders yet..</string>
