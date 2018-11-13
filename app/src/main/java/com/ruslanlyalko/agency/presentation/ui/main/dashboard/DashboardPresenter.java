@@ -61,7 +61,6 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
     }
 
     public void onReportLongClicked(final Order order) {
-        if (order.getDate().before(DateUtils.get1DaysAgo().getTime())) return;
         getView().editReport(mUser, order);
     }
 
