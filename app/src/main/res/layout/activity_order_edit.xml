@@ -218,6 +218,8 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_phone"
                         android:inputType="phone"
+                        android:nextFocusDown="@id/input_income"
+                        android:nextFocusRight="@id/input_income"
                         android:textAppearance="@style/TextAppearance.Body2" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -246,8 +248,8 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_income"
                         android:inputType="number"
-                        android:nextFocusDown="@id/input_phone"
-                        android:nextFocusRight="@id/input_phone"
+                        android:nextFocusDown="@id/input_expense"
+                        android:nextFocusRight="@id/input_expense"
                         android:textAppearance="@style/TextAppearance.Body2" />
 
                 </android.support.design.widget.TextInputLayout>

@@ -1,11 +1,11 @@
 package com.ruslanlyalko.agency.presentation.ui.main.dashboard;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.card.MaterialCardView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,7 +13,12 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.RelativeLayout;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,17 +40,69 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class DashboardFragment extends BaseFragment<DashboardPresenter> implements DashboardView {
 
     private static final int RC_REPORT = 1001;
     @BindView(R.id.calendar_view) CompactCalendarView mCalendarView;
-    @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
+    @BindView(R.id.recycler_orders) RecyclerView mRecyclerOrders;
     @BindView(R.id.text_holiday_name) TextView mTextHolidayName;
     @BindView(R.id.card_holiday) MaterialCardView mCardHoliday;
+    @BindView(R.id.text_month) TextSwitcher mTextMonth;
+    @BindView(R.id.layout_orders) RelativeLayout mLayoutOrders;
 
+    private Date mPrevDate = new Date();
+    private String mPrevDateStr = "";
     private OrdersAdapter mOrdersAdapter;
+    private float mOldX;
+    private float mOldY;
+    View.OnTouchListener mOnTouchListener = new View.OnTouchListener() {
+        private static final int MIN_DISTANCE = 120;
+
+        @SuppressLint("ClickableViewAccessibility")
+        @Override
+        public boolean onTouch(final View v, final MotionEvent event) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    mOldX = event.getX();
+                    mOldY = event.getY();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    float x2 = event.getX();
+                    float y2 = event.getY();
+                    float deltaX = x2 - mOldX;
+                    float deltaY = y2 - mOldY;
+                    Date dateClicked = getPresenter().getDate();
+                    boolean changed = false;
+                    if (deltaX > MIN_DISTANCE) {
+                        dateClicked = DateUtils.addDay(dateClicked, 1);
+                        changed = true;
+                    }
+                    if (deltaX < (0 - MIN_DISTANCE)) {
+                        dateClicked = DateUtils.addDay(dateClicked, -1);
+                        changed = true;
+                    }
+                    if (deltaY > MIN_DISTANCE) {
+                        dateClicked = DateUtils.addWeek(dateClicked, 1);
+                        changed = true;
+                    }
+                    if (deltaY < (0 - MIN_DISTANCE)) {
+                        dateClicked = DateUtils.addWeek(dateClicked, -1);
+                        changed = true;
+                    }
+                    if (changed) {
+                        mCalendarView.setCurrentDate(dateClicked);
+                        getPresenter().fetchReportsForDate(dateClicked);
+                        setNewDate(dateClicked);
+                    }
+//                    else {
+//                        v.performClick();
+//                    }
+                    break;
+            }
+            return true;
+        }
+    };
 
     public static DashboardFragment newInstance() {
         Bundle args = new Bundle();
@@ -66,9 +123,29 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
 
             @Override
             public void onMonthScroll(final Date firstDayOfNewMonth) {
-                setToolbarTitle(getString(R.string.app_name) + " (" + DateUtils.getMonth(firstDayOfNewMonth) + ")");
+                setNewDate(firstDayOfNewMonth);
             }
         });
+    }
+
+    private void setNewDate(Date newDate) {
+        String month = DateUtils.getMonth(newDate);
+        if (month.equals(mPrevDateStr)) return;
+        if (TextUtils.isEmpty(mPrevDateStr) && month.equals(DateUtils.getMonth(new Date()))) return;
+        if (newDate.before(mPrevDate)) {
+            Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
+            Animation out = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
+            mTextMonth.setInAnimation(in);
+            mTextMonth.setOutAnimation(out);
+        } else {
+            Animation in = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_right);
+            Animation out = AnimationUtils.loadAnimation(getContext(), R.anim.slide_out_left);
+            mTextMonth.setInAnimation(in);
+            mTextMonth.setOutAnimation(out);
+        }
+        mTextMonth.setText(month);
+        mPrevDateStr = month;
+        mPrevDate = newDate;
     }
 
     @Override
@@ -137,6 +214,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
         mCalendarView.invalidate();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setupAdapters() {
         mOrdersAdapter = new OrdersAdapter(new OnReportClickListener() {
             @Override
@@ -166,11 +244,11 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
                 build.show();
             }
         });
-        mRecyclerReports.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerReports.setAdapter(mOrdersAdapter);
-        OverScrollDecoratorHelper.setUpOverScroll(mRecyclerReports, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
+        mRecyclerOrders.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerOrders.setAdapter(mOrdersAdapter);
+        mLayoutOrders.setOnTouchListener(mOnTouchListener);
+//        OverScrollDecoratorHelper.setUpOverScroll(mRecyclerOrders, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
     }
-
 
     @Override
     public void onResume() {
@@ -211,6 +289,6 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     public void onClick() {
         mCalendarView.setCurrentDate(new Date());
         getPresenter().fetchReportsForDate(new Date());
-        setToolbarTitle(getString(R.string.app_name));
+        setNewDate(new Date());
     }
 }

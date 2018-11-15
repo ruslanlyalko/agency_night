@@ -34,7 +34,7 @@ import static android.view.View.VISIBLE;
 public class UpcomingOrdersFragment extends BaseFragment<UpcomingOrdersPresenter> implements UpcomingOrdersView {
 
     private static final String KEY_USER = "user";
-    @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
+    @BindView(R.id.recycler_orders) RecyclerView mRecyclerReports;
     @BindView(R.id.text_placeholder) TextView mTextPlaceholder;
     private OrdersAdapter mOrdersAdapter;
 

@@ -34,7 +34,7 @@
     <string name="text_night_mode">Night Mode</string>
     <string name="text_save">Save</string>
     <string name="text_register">Register User</string>
-    <string name="text_report_placeholder">Click to add New Report</string>
+    <string name="text_report_placeholder">Click "+" to add New Order</string>
     <string name="text_delete">Are you sure you want to delete?</string>
     <string name="text_today">Today</string>
     <string name="text_yesterday">Yesterday</string>

@@ -20,7 +20,7 @@ public class DateUtils {
     private static final String FORMAT_DATE = "EE, d MMM";
     private static final String FORMAT_HOLIDAY_KEY = "yyyyMMdd";
     private static final String FORMAT_TIME = "HH:mm";
-    private static final String FORMAT_MONTH = "MMM";
+    private static final String FORMAT_MONTH = "MMMM";
     private static final String FORMAT_YEAR = "yy";
 
     public static Date getDate(final Date date, final int year, final int month, final int day) {
@@ -215,5 +215,19 @@ public class DateUtils {
             yearInd--;
         }
         return yearInd;
+    }
+
+    public static Date addDay(final Date date, final int days) {
+        Calendar c1 = Calendar.getInstance();
+        c1.setTime(date);
+        c1.add(Calendar.DAY_OF_MONTH, days);
+        return c1.getTime();
+    }
+
+    public static Date addWeek(final Date date, final int weeks) {
+        Calendar c1 = Calendar.getInstance();
+        c1.setTime(date);
+        c1.add(Calendar.WEEK_OF_YEAR, weeks);
+        return c1.getTime();
     }
 }

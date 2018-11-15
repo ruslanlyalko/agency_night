@@ -322,5 +322,8 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
         if (text.length() > 1 && text.subSequence(0, 1).toString().equals("0")) {
             text.replace(0, 1, "");
         }
+        if (text.length() == 0) {
+            text.append("0");
+        }
     }
 }

@@ -44,7 +44,7 @@ public class UserDetailsActivity extends BaseActivity<UserDetailsPresenter> impl
     @BindView(R.id.text_phone) TextView mTextPhone;
     @BindView(R.id.text_birthday) TextView mTextBirthday;
     @BindView(R.id.text_common) TextView mTextCommon;
-    @BindView(R.id.recycler_reports) RecyclerView mRecyclerReports;
+    @BindView(R.id.recycler_orders) RecyclerView mRecyclerReports;
     @BindView(R.id.scroll_view) NestedScrollView mScrollView;
     @BindView(R.id.divider_comments) View mDividerComments;
     @BindView(R.id.text_comments) TextView mTextComments;

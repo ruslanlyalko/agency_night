@@ -103,7 +103,7 @@
                 android:textSize="16sp" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_reports"
+                android:id="@+id/recycler_orders"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="false"
