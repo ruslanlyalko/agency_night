@@ -46,7 +46,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     private static final int RC_REPORT = 1001;
     @BindView(R.id.calendar_view) CompactCalendarView mCalendarView;
     @BindView(R.id.recycler_orders) RecyclerView mRecyclerOrders;
-    @BindView(R.id.text_holiday_name) TextView mTextHolidayName;
+    @BindView(R.id.text_placeholder) TextView mTextPlaceholder;
     @BindView(R.id.card_holiday) MaterialCardView mCardHoliday;
     @BindView(R.id.text_month) TextSwitcher mTextMonth;
     @BindView(R.id.layout_orders) RelativeLayout mLayoutOrders;
@@ -170,6 +170,7 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
     public void showReports(List<Order> orders) {
         showFab();
         mOrdersAdapter.setData(orders);
+        mTextPlaceholder.setVisibility(orders.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     @Override

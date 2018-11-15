@@ -115,12 +115,13 @@
             android:id="@+id/text_placeholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:padding="16dp"
             android:text="@string/text_report_placeholder"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.Body2"
-            android:textColor="?attr/colorTextPrimary"
-            android:textSize="16sp"
+            android:textColor="?attr/colorTextSecondary"
+            android:textSize="14sp"
             android:visibility="gone" />
     </RelativeLayout>
 </RelativeLayout>
