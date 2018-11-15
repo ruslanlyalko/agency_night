@@ -20,7 +20,7 @@
     <string name="hint_expense">Expense</string>
     <string name="hint_phone_optional">Phone (optional)</string>
     <string name="hint_comment_optional">Comments (visible only for Admins)</string>
-    <string name="hint_name">Name</string>
+    <string name="hint_name">Client Name</string>
     <string name="hint_place">Place</string>
     <string name="hint_password">Password</string>
     <string name="hint_password_confirm">Confirm Password</string>
@@ -45,6 +45,7 @@
     <string name="text_user_created">User created</string>
     <string name="text_report_saved_workloads">Saved %d workloads</string>
     <string name="text_not_specified">Not specified</string>
+    <string name="version_name">Agency Manager version %s</string>
 
     <!--Errors-->
     <string name="error_wrong_credentials">Wrong email or password</string>
