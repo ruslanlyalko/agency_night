@@ -86,6 +86,8 @@
     <string name="text_immediately_login">Immediately login</string>
     <string name="text_taxi">Taxi</string>
     <string name="text_children_age">Children: %d-%d years old</string>
+    <string name="text_save_before_exit">Save changes before exit?</string>
+    <string name="action_save">Save</string>
 
     <!--arrays-->
     <string-array name="durations">

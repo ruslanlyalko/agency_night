@@ -21,13 +21,11 @@ public interface OrderEditView extends BaseView<OrderEditPresenter> {
 
     void afterSuccessfullySaving();
 
-    void afterSuccessfullyRangeSaving(int count);
-
     void showReportData(Order order);
 
     void showDate(Date date);
 
     void showSpinnerUsersData(final User user1, MutableLiveData<List<User>> usersData);
 
-    void showWrongDateOnMobileError();
+    void showUnSaved();
 }

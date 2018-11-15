@@ -1,280 +1,296 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
 
     <!--include app bar-->
     <include
         android:id="@+id/toolbar"
         layout="@layout/app_bar" />
 
-    <LinearLayout
-        android:id="@+id/layout_date"
+    <ScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_below="@id/toolbar"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/text_date"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_black_rounded_ripple"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:paddingEnd="@dimen/padding_mini"
-            android:paddingStart="@dimen/padding_default"
-            android:textAppearance="@style/TextAppearance.Body2"
-            android:textColor="?attr/colorTextDefault"
-            android:textSize="15sp"
-            tools:text="Mon, 17 Sep" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/text_time"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_black_rounded_ripple"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:paddingEnd="@dimen/padding_mini"
-            android:paddingStart="@dimen/padding_default"
-            android:textAppearance="@style/TextAppearance.Body2"
-            android:textColor="?attr/colorTextDefault"
-            android:textSize="15sp"
-            tools:text="16:00" />
+            <LinearLayout
+                android:id="@+id/layout_date"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/spinner_duration"
-            android:layout_width="70dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_black_rounded_ripple"
-            android:entries="@array/durations"
-            android:textAppearance="@style/TextAppearance.Body1"
-            android:textColor="?attr/colorTextDefault"
-            android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/text_date"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_black_rounded_ripple"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="@dimen/padding_mini"
+                    android:paddingStart="@dimen/padding_default"
+                    android:textAppearance="@style/TextAppearance.Body2"
+                    android:textColor="?attr/colorTextDefault"
+                    android:textSize="15sp"
+                    tools:text="Mon, 17 Sep" />
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/text_time"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_black_rounded_ripple"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="@dimen/padding_mini"
+                    android:paddingStart="@dimen/padding_default"
+                    android:textAppearance="@style/TextAppearance.Body2"
+                    android:textColor="?attr/colorTextDefault"
+                    android:textSize="15sp"
+                    tools:text="16:00" />
+
+                <Spinner
+                    android:id="@+id/spinner_duration"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_black_rounded_ripple"
+                    android:entries="@array/durations"
+                    android:textAppearance="@style/TextAppearance.Body1"
+                    android:textColor="?attr/colorTextDefault"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <Spinner
+                android:id="@+id/spinner_users"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_below="@id/layout_date"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_black_rounded_ripple"
+                android:popupBackground="@drawable/bg_black_rounded_ripple"
+                android:textAppearance="@style/TextAppearance.Body2" />
+
+            <LinearLayout
+                android:id="@+id/layout_where"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/spinner_users"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:baselineAligned="false"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/input_place"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_place"
+                        android:inputType="textCapSentences"
+                        android:textAppearance="@style/TextAppearance.Body2" />
+                </android.support.design.widget.TextInputLayout>
+
+                <Switch
+                    android:id="@+id/switch_taxi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:switchPadding="8dp"
+                    android:text="@string/text_taxi"
+                    android:textAppearance="@style/TextAppearance.Body2" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_children"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_below="@id/layout_where"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_children_age"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="4dp"
+                    android:paddingStart="8dp"
+                    android:text="@string/text_children_age"
+                    android:textAppearance="@style/TextAppearance.Body2" />
+
+                <io.apptik.widget.MultiSlider
+                    android:id="@+id/slider_children_age"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_children_age"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_toStartOf="@id/spinner_children_count"
+                    app:drawThumbsApart="true"
+                    app:scaleMax="12"
+                    app:scaleMin="1"
+                    app:stepsThumbsApart="1"
+                    app:thumbNumber="2" />
+
+                <Spinner
+                    android:id="@+id/spinner_children_count"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/bg_black_rounded_ripple"
+                    android:entries="@array/childrenCount"
+                    android:textAppearance="@style/TextAppearance.Body1"
+                    android:textColor="?attr/colorTextDefault"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_name_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_children"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/input_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_name"
+                        android:inputType="textCapWords"
+                        android:nextFocusDown="@id/input_phone"
+                        android:nextFocusRight="@id/input_phone"
+                        android:textAppearance="@style/TextAppearance.Body2" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/input_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_phone"
+                        android:inputType="phone"
+                        android:textAppearance="@style/TextAppearance.Body2" />
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_income_expense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_name_phone"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/input_income"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_income"
+                        android:inputType="number"
+                        android:nextFocusDown="@id/input_phone"
+                        android:nextFocusRight="@id/input_phone"
+                        android:textAppearance="@style/TextAppearance.Body2" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/input_expense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_expense"
+                        android:inputType="number"
+                        android:textAppearance="@style/TextAppearance.Body2" />
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_income_expense"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/input_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_description"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:textAppearance="@style/TextAppearance.Body2" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </RelativeLayout>
+    </ScrollView>
 
     <RelativeLayout
-        android:id="@+id/layout_children"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_below="@id/layout_date"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/text_children_age"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/text_children_age"
-            android:textAppearance="@style/TextAppearance.Body2" />
-
-        <io.apptik.widget.MultiSlider
-            android:id="@+id/slider_children_age"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/text_children_age"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_toStartOf="@id/spinner_children_count"
-            app:drawThumbsApart="true"
-            app:scaleMax="12"
-            app:scaleMin="1"
-            app:stepsThumbsApart="1"
-            app:thumbNumber="2" />
-
-        <Spinner
-            android:id="@+id/spinner_children_count"
-            android:layout_width="70dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/bg_black_rounded_ripple"
-            android:entries="@array/childrenCount"
-            android:textAppearance="@style/TextAppearance.Body1"
-            android:textColor="?attr/colorTextDefault"
-            android:textSize="15sp" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_where"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/layout_children"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:baselineAligned="false"
-        android:orientation="horizontal">
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/input_place"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_place"
-                android:inputType="textCapSentences"
-                android:textAppearance="@style/TextAppearance.Body2" />
-        </android.support.design.widget.TextInputLayout>
-
-        <Switch
-            android:id="@+id/switch_taxi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:switchPadding="8dp"
-            android:text="@string/text_taxi"
-            android:textAppearance="@style/TextAppearance.Body2" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_name_phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/layout_where"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:baselineAligned="false"
-        android:orientation="horizontal">
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/input_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_name"
-                android:inputType="textCapWords"
-                android:nextFocusDown="@id/input_phone"
-                android:nextFocusRight="@id/input_phone"
-                android:textAppearance="@style/TextAppearance.Body2" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/input_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_phone"
-                android:inputType="phone"
-                android:textAppearance="@style/TextAppearance.Body2" />
-
-        </android.support.design.widget.TextInputLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_income_expense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/layout_name_phone"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:baselineAligned="false"
-        android:orientation="horizontal">
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/input_income"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_income"
-                android:inputType="number"
-                android:nextFocusDown="@id/input_phone"
-                android:nextFocusRight="@id/input_phone"
-                android:textAppearance="@style/TextAppearance.Body2" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/input_expense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_expense"
-                android:inputType="number"
-                android:textAppearance="@style/TextAppearance.Body2" />
-
-        </android.support.design.widget.TextInputLayout>
-    </LinearLayout>
-
-    <Spinner
-        android:id="@+id/spinner_users"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_below="@id/layout_income_expense"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/bg_black_rounded_ripple"
-        android:popupBackground="@drawable/bg_black_rounded_ripple"
-        android:textAppearance="@style/TextAppearance.Body2" />
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/til_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/spinner_users"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/input_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_description"
-            android:inputType="textCapSentences|textMultiLine"
-            android:textAppearance="@style/TextAppearance.Body2" />
-
-    </android.support.design.widget.TextInputLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_margin="16dp">
 
         <com.ruslanlyalko.agency.presentation.view.SquareButton
@@ -296,5 +312,5 @@
             android:indeterminateTint="@color/colorWhite"
             android:visibility="gone" />
     </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>
 

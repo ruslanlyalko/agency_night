@@ -171,13 +171,6 @@ public class DashboardFragment extends BaseFragment<DashboardPresenter> implemen
         OverScrollDecoratorHelper.setUpOverScroll(mRecyclerReports, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
     }
 
-    @Override
-    public void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_REPORT) {
-//            getPresenter().fetchReportsForDate();
-        }
-    }
 
     @Override
     public void onResume() {

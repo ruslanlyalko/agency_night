@@ -47,17 +47,19 @@ public class DashboardPresenter extends BasePresenter<DashboardView> {
     }
 
     public void onReportDeleteClicked(final Order order) {
-        order.setUpdatedAt(new Date());
-        getDataManager().saveOrder(order)
-                .addOnSuccessListener(aVoid -> getDataManager().removeOrder(order)
-                        .addOnCompleteListener(task -> {
-                            if (getView() == null) return;
-                            getView().showReports(getReportsForCurrentDate());
-                        }))
-                .addOnFailureListener(e -> {
+//        order.setUpdatedAt(new Date());
+//        getDataManager().saveOrder(order)
+//                .addOnSuccessListener(aVoid ->
+        getDataManager().removeOrder(order)
+                .addOnCompleteListener(task -> {
                     if (getView() == null) return;
-                    getView().showWrongDateOnMobileError();
+                    getView().showReports(getReportsForCurrentDate());
                 });
+//                )
+//                .addOnFailureListener(e -> {
+//                    if (getView() == null) return;
+//                    getView().showWrongDateOnMobileError();
+//                });
     }
 
     public void onReportLongClicked(final Order order) {

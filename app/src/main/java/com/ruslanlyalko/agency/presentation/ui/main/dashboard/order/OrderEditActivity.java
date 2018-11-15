@@ -1,17 +1,20 @@
 package com.ruslanlyalko.agency.presentation.ui.main.dashboard.order;
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -31,8 +34,11 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import io.apptik.widget.MultiSlider;
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implements OrderEditView {
 
@@ -56,6 +62,8 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
     @BindView(R.id.slider_children_age) MultiSlider mSliderChildrenAge;
     @BindView(R.id.text_children_age) TextView mTextChildrenAge;
     @BindView(R.id.spinner_users) Spinner mSpinnerUsers;
+    @BindView(R.id.scroll_view) ScrollView mScrollView;
+    private boolean mHasUnsavedChanges = false;
 
     public static Intent getLaunchIntent(final Context activity, User user, Date date) {
         Intent intent = new Intent(activity, OrderEditActivity.class);
@@ -71,13 +79,13 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
         return intent;
     }
 
-    @ColorInt
-    public static int adjustAlpha(@ColorInt int color, float factor) {
-        int alpha = Math.round(Color.alpha(color) * factor);
-        int red = Color.red(color);
-        int green = Color.green(color);
-        int blue = Color.blue(color);
-        return Color.argb(alpha, red, green, blue);
+    public boolean isHasUnsavedChanges() {
+        return mHasUnsavedChanges;
+    }
+
+    public void setHasUnsavedChanges(final boolean hasUnsavedChanges) {
+        mHasUnsavedChanges = hasUnsavedChanges;
+        Log.e("unsaved", "" + hasUnsavedChanges);
     }
 
     @OnClick(R.id.button_save)
@@ -90,6 +98,7 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
         int income = getInt(mInputIncome.getText().toString());
         int expense = getInt(mInputExpense.getText().toString());
         boolean taxi = mSwitchTaxi.isChecked();
+        setHasUnsavedChanges(false);
         getPresenter().onSave(
                 duration,
                 childrenCount,
@@ -144,12 +153,6 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
     }
 
     @Override
-    public void afterSuccessfullyRangeSaving(final int count) {
-        showMessage(getString(R.string.text_report_saved_workloads, count));
-        onBackPressed();
-    }
-
-    @Override
     public void showReportData(final Order order) {
         String[] durations = getResources().getStringArray(R.array.durations);
         for (int i = 0; i < durations.length; i++) {
@@ -174,6 +177,7 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
         mInputExpense.setText(String.valueOf(order.getExpense()));
         mInputDescription.setText(order.getDescription());
         mSwitchTaxi.setChecked(order.getTaxi());
+        setHasUnsavedChanges(false);
     }
 
     @Override
@@ -210,8 +214,8 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
     }
 
     @Override
-    public void showWrongDateOnMobileError() {
-        showError(getString(R.string.error_check_date));
+    public void showUnSaved() {
+        setHasUnsavedChanges(true);
     }
 
     @OnClick({R.id.text_date, R.id.text_time})
@@ -223,6 +227,7 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
                 DatePickerDialog datePickerDialog = DatePickerDialog.newInstance((view, year, monthOfYear, dayOfMonth) -> {
                     Date newDate = DateUtils.getDate(calendar.getTime(), year, monthOfYear, dayOfMonth);
                     getPresenter().setReportDate(newDate);
+                    setHasUnsavedChanges(true);
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.setFirstDayOfWeek(Calendar.MONDAY);
                 datePickerDialog.show(getFragmentManager(), "to");
@@ -233,6 +238,7 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
                 TimePickerDialog timePickerDialog = TimePickerDialog.newInstance((view, hours, minutes, is24) -> {
                     Date newDate = DateUtils.getDate(calendar1.getTime(), hours, minutes);
                     getPresenter().setReportDate(newDate);
+                    setHasUnsavedChanges(true);
                 }, calendar1.get(Calendar.HOUR_OF_DAY), calendar1.get(Calendar.MINUTE), true);
                 timePickerDialog.show(getFragmentManager(), "to");
                 break;
@@ -242,6 +248,25 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
     @Override
     protected Toolbar getToolbar() {
         return mToolbar;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mHasUnsavedChanges) {
+            AlertDialog.Builder build = new AlertDialog.Builder(getContext());
+            build.setMessage(R.string.text_save_before_exit);
+            build.setPositiveButton(R.string.action_save, (dialog, which) -> {
+                onSaveClick();
+                dialog.dismiss();
+            });
+            build.setNegativeButton(R.string.action_cancel, (dialog, which) -> {
+                super.onBackPressed();
+                dialog.dismiss();
+            });
+            build.show();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -261,8 +286,41 @@ public class OrderEditActivity extends BaseActivity<OrderEditPresenter> implemen
 //        String[] statuses = getResources().getStringArray(R.array.hours);
 //        SpinnerAdapter adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_status, statuses);
 //        mSpinnerDuration.setAdapter(adapter);
-        mSliderChildrenAge.setOnThumbValueChangeListener((multiSlider, thumb, thumbIndex, value) ->
-                mTextChildrenAge.setText(getString(R.string.text_children_age, multiSlider.getThumb(0).getValue(), multiSlider.getThumb(1).getValue())));
+        mSliderChildrenAge.setOnThumbValueChangeListener((multiSlider, thumb, thumbIndex, value) -> {
+            mTextChildrenAge.setText(getString(R.string.text_children_age, multiSlider.getThumb(0).getValue(), multiSlider.getThumb(1).getValue()));
+            setHasUnsavedChanges(true);
+        });
+        AdapterView.OnItemSelectedListener onItemSelectedListener = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
+                setHasUnsavedChanges(true);
+            }
+
+            @Override
+            public void onNothingSelected(final AdapterView<?> parent) {
+            }
+        };
+        OverScrollDecoratorHelper.setUpOverScroll(mScrollView);
         getPresenter().onViewReady();
+//        mSpinnerDuration.setOnItemSelectedListener(onItemSelectedListener);
+//        mSpinnerChildrenCount.setOnItemSelectedListener(onItemSelectedListener);
+//        mSpinnerUsers.setOnItemSelectedListener(onItemSelectedListener);
+    }
+
+    @OnCheckedChanged(R.id.switch_taxi)
+    void onTaxiChanged(boolean isChecked) {
+        setHasUnsavedChanges(true);
+    }
+
+    @OnTextChanged({R.id.input_place, R.id.input_name, R.id.input_phone, R.id.input_income, R.id.input_expense, R.id.input_description})
+    public void onTextChanged(CharSequence text) {
+        setHasUnsavedChanges(true);
+    }
+
+    @OnTextChanged(value = {R.id.input_income, R.id.input_expense}, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
+    public void onIntChanged(Editable text) {
+        if (text.length() > 1 && text.subSequence(0, 1).toString().equals("0")) {
+            text.replace(0, 1, "");
+        }
     }
 }

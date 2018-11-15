@@ -71,7 +71,7 @@ public class OrderEditPresenter extends BasePresenter<OrderEditView> {
                 })
                 .addOnFailureListener(e -> {
                     if (getView() == null) return;
-                    getView().showWrongDateOnMobileError();
+                    getView().showUnSaved();
                     getView().hideProgress();
                 });
     }
