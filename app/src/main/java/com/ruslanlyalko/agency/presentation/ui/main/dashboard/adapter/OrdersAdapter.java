@@ -122,7 +122,10 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
             if (getUser() != null)
                 mTextTitle.setTextColor(ContextCompat.getColor(mContext, ColorUtils.getTextColorByStatus(mTextDate.getResources(), order.getUserId().equals(getUser().getKey()))));
             mTextTitle.setText(order.getPlace());
-            mTextIncomeExpense.setText(String.format(Locale.US, "Children: %d, %d-%d years old", order.getChildrenCount(), order.getChildrenFrom(), order.getChildrenTo()));
+            if (order.getIncome() > 0)
+                mTextIncomeExpense.setText(String.format(Locale.US, "%d uah / %d uah", order.getIncome(), order.getExpense()));
+            else
+                mTextIncomeExpense.setText(String.format(Locale.US, "Children: %d, %d-%d years old", order.getChildrenCount(), order.getChildrenFrom(), order.getChildrenTo()));
             mTextNamePhone.setVisibility(TextUtils.isEmpty(order.getName()) && TextUtils.isEmpty(order.getPhone()) ? GONE : VISIBLE);
             mTextNamePhone.setText(getFormattedText(order.getName(), order.getPhone()));
             mTextDate.setText(
