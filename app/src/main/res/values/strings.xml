@@ -3,7 +3,6 @@
 
     <!--Title-->
     <string name="title_profile">Profile</string>
-    <string name="title_project">Project</string>
     <string name="title_users">Users</string>
     <string name="title_settings">Settings</string>
     <string name="title_add">Add</string>
@@ -44,16 +43,12 @@
     <string name="text_remind_at">Remind Me At</string>
     <string name="text_report_saved">Saved</string>
     <string name="text_user_created">User created</string>
-    <string name="text_report_saved_workloads">Saved %d workloads</string>
     <string name="text_not_specified">Not specified</string>
     <string name="version_name">Agency Manager version %s</string>
 
     <!--Errors-->
     <string name="error_wrong_credentials">Wrong email or password</string>
     <string name="error_blocked">You have been blocked by administrator!</string>
-    <string name="error_cant_be_zero">Please select at least one project!</string>
-    <string name="error_cant_be_more_than_16">Can\'t be more than 16 working hours per day!</string>
-    <string name="error_cant_be_two_same_projects">You can\'t use the same project twice!</string>
     <string name="error_cant_be_empty">Field can\'t be empty</string>
     <string name="error_passwords_should_be_at_least_6_symbols">Password should be at least 6 symbols</string>
     <string name="error_passwords_should_equals">Password does not match the confirm password</string>
@@ -71,12 +66,10 @@
 
     <!--Placeholder-->
     <string name="placeholder_no_vacations">No upcoming orders yet..</string>
-    <string name="placeholder_no_projects">No projects. Please contact Administrator</string>
 
     <!--Others-->
     <string name="action_delete">Delete</string>
     <string name="action_cancel">Cancel</string>
-    <string name="text_add">Add</string>
     <string name="text_search">Search</string>
     <string name="day_taken">" - %s year: %d  day taken \n"</string>
     <string name="days_taken">" - %s year: %d  days taken \n"</string>
@@ -126,20 +119,6 @@
         <item>40</item>
         <item>50</item>
     </string-array>
-    <string-array name="childrenAge">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-        <item>11</item>
-        <item>12</item>
-    </string-array>
     <string-array name="notification_hours">
         <item>10:00</item>
         <item>12:00</item>
@@ -147,14 +126,5 @@
         <item>16:00</item>
         <item>18:00</item>
         <item>20:00</item>
-    </string-array>
-    <string-array name="status">
-        <item>Worked on project(s)</item>
-        <item>Worked from home</item>
-        <item>Working off</item>
-        <item>No projects (Nothing to do)</item>
-        <item>Day off (Personal reasons)</item>
-        <item>Vacations</item>
-        <item>Sick leave</item>
     </string-array>
 </resources>

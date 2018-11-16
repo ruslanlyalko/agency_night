@@ -55,13 +55,5 @@
     //
     <color name="colorBackgroundTouchOutside">#0e131c</color>
     // Status
-    <color name="bg_event_holiday">#FF0000</color>
-    <color name="bg_status_worked">#57d58e</color>
-    <color name="bg_status_worked_home">#00d1c3</color>
-    <color name="bg_status_working_off">#36bee3</color>
-    <color name="bg_status_no_project">#ffb625</color>
-    <color name="bg_status_day_off">#a877fd</color>
-    <color name="bg_status_vacation">#f673a9</color>
-    <color name="bg_status_sick_leave">#8095ff</color>
 
 </resources>
