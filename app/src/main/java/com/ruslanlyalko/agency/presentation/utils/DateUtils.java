@@ -46,7 +46,7 @@ public class DateUtils {
 
     public static String toStringStandardDate(final Date date) {
         if (date == null) return "";
-        return new SimpleDateFormat(FORMAT_STANDARD_DATE, Locale.US).format(date);
+        return new SimpleDateFormat(FORMAT_STANDARD_DATE, Locale.getDefault()).format(date);
     }
 
     public static String toStringDate(final Date date) {
