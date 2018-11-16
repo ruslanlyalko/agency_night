@@ -47,12 +47,12 @@
                     android:id="@+id/input_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="0123456789 "
                     android:hint="@string/hint_card"
-                    android:inputType="number"
+                    android:inputType="text|number"
                     android:textAppearance="@style/TextAppearance.Body2" />
 
             </android.support.design.widget.TextInputLayout>
-
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"

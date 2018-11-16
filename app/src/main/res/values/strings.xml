@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Agency Manager</string>
+    <string name="app_name">Agency Manager</string>
 
     <!--Title-->
     <string name="title_profile">Profile</string>
@@ -44,7 +44,7 @@
     <string name="text_report_saved">Saved</string>
     <string name="text_user_created">User created</string>
     <string name="text_not_specified">Not specified</string>
-    <string name="version_name">Agency Manager version %s</string>
+    <string name="version_name" translatable="false">Agency Manager version %s</string>
 
     <!--Errors-->
     <string name="error_wrong_credentials">Wrong email or password</string>
@@ -71,18 +71,20 @@
     <string name="action_delete">Delete</string>
     <string name="action_cancel">Cancel</string>
     <string name="text_search">Search</string>
-    <string name="day_taken">" - %s year: %d  day taken \n"</string>
-    <string name="days_taken">" - %s year: %d  days taken \n"</string>
-    <string name="text_minus">-</string>
-    <string name="text_plus">+</string>
+    <string name="day_taken" translatable="false">" - %s year: %d  day taken \n"</string>
+    <string name="days_taken" translatable="false">" - %s year: %d  days taken \n"</string>
+    <string name="text_minus" translatable="false">-</string>
+    <string name="text_plus" translatable="false">+</string>
     <string name="text_change_password">Change password</string>
     <string name="text_add_project">Add project</string>
     <string name="text_copied">Copied</string>
     <string name="text_immediately_login">Immediately login</string>
     <string name="text_taxi">Taxi</string>
     <string name="text_children_age">Children: %d-%d years old</string>
+    <string name="text_children_count_age">"Children: %d, %d-%d years old"</string>
     <string name="text_save_before_exit">Save changes before exit?</string>
     <string name="action_save">Save</string>
+    <string name="text_income_expense">%d uah / %d uah</string>
 
     <!--arrays-->
     <string-array name="durations">

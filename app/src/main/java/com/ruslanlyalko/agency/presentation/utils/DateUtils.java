@@ -50,11 +50,11 @@ public class DateUtils {
     }
 
     public static String toStringDate(final Date date) {
-        return new SimpleDateFormat(FORMAT_DATE, Locale.US).format(date);
+        return new SimpleDateFormat(FORMAT_DATE, Locale.getDefault()).format(date);
     }
 
     public static String toStringTime(final Date date) {
-        return new SimpleDateFormat(FORMAT_TIME, Locale.US).format(date);
+        return new SimpleDateFormat(FORMAT_TIME, Locale.getDefault()).format(date);
     }
 
     public static Date getDate(final Date date, final int hours, final int minutes) {
