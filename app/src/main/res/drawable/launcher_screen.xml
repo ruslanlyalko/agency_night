@@ -5,8 +5,12 @@
     <item
         android:width="120dp"
         android:height="120dp"
+        android:bottom="50dp"
         android:drawable="@drawable/ic_logo"
-        android:gravity="center">
+        android:gravity="center"
+        android:left="50dp"
+        android:right="50dp"
+        android:top="50dp">
         <shape android:shape="rectangle">
             <solid android:color="@android:color/transparent" />
         </shape>

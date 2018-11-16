@@ -14,7 +14,7 @@
 
     <TextSwitcher
         android:id="@+id/text_month"
-        android:layout_width="150dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/title"
         android:layout_alignParentEnd="true">
@@ -28,7 +28,7 @@
             android:textAppearance="@style/TextAppearance.Body2"
             android:textColor="?attr/colorTextSecondary"
             android:textSize="13sp"
-            tools:text="MARCH" />
+            tools:text="NOVEMBER" />
 
         <TextView
             android:layout_width="match_parent"
