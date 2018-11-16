@@ -27,6 +27,7 @@ public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> impl
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.input_phone) TextInputEditText mInputPhone;
+    @BindView(R.id.input_card) TextInputEditText mInputCard;
 
     @BindView(R.id.input_birthday) TextInputEditText mInputBirthday;
     @BindView(R.id.input_password) TextInputEditText mInputPassword;
@@ -46,6 +47,7 @@ public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> impl
                 getPresenter().setUser(user);
                 setToolbarTitle(user.getName());
                 mInputPhone.setText(user.getPhone());
+                mInputCard.setText(user.getCard());
                 mInputBirthday.setText(DateUtils.toStringStandardDate(user.getBirthday()));
             }
         });
@@ -84,7 +86,7 @@ public class ProfileEditActivity extends BaseActivity<ProfileEditPresenter> impl
             mInputPasswordConfirm.setError(getString(R.string.error_passwords_should_equals));
             mInputPasswordConfirm.requestFocus();
         } else
-            getPresenter().onSave(mInputPhone.getText().toString(), mInputPassword.getText().toString());
+            getPresenter().onSave(mInputPhone.getText().toString(), mInputCard.getText().toString(), mInputPassword.getText().toString());
     }
 
     @OnClick(R.id.input_birthday)

@@ -20,7 +20,7 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditView> {
         getView().showUser(getDataManager().getMyUser());
     }
 
-    public void onSave(String phone, final String newPassword) {
+    public void onSave(String phone, String card, final String newPassword) {
         getView().showProgress();
         if (!TextUtils.isEmpty(newPassword)) {
             getDataManager().changePassword(newPassword)
@@ -29,16 +29,15 @@ public class ProfileEditPresenter extends BasePresenter<ProfileEditView> {
                         getView().showError(e.getLocalizedMessage());
                         getView().hideProgress();
                     })
-                    .addOnSuccessListener(aVoid -> {
-                        saveUserData(phone);
-                    });
+                    .addOnSuccessListener(aVoid -> saveUserData(phone, card));
             return;
         }
-        saveUserData(phone);
+        saveUserData(phone, card);
     }
 
-    private void saveUserData(String phone) {
+    private void saveUserData(String phone, String card) {
         mUser.setPhone(phone);
+        mUser.setCard(card);
         getDataManager().saveUser(mUser)
                 .addOnSuccessListener(aVoid1 -> {
                     if (getView() == null) return;

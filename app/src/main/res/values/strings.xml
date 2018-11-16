@@ -16,6 +16,7 @@
     <!--Hints-->
     <string name="hint_email">Email</string>
     <string name="hint_phone">Phone</string>
+    <string name="hint_card">Card</string>
     <string name="hint_income">Income</string>
     <string name="hint_expense">Expense</string>
     <string name="hint_phone_optional">Phone (optional)</string>

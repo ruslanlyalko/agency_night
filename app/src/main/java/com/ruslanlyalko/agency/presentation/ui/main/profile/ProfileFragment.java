@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ruslanlyalko.agency.R;
@@ -17,6 +18,8 @@ import com.ruslanlyalko.agency.presentation.ui.main.profile.edit.ProfileEditActi
 import com.ruslanlyalko.agency.presentation.utils.DateUtils;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 public class ProfileFragment extends BaseFragment<ProfilePresenter> implements ProfileView {
 
@@ -24,6 +27,7 @@ public class ProfileFragment extends BaseFragment<ProfilePresenter> implements P
     @BindView(R.id.text_name) TextView mTextName;
     @BindView(R.id.text_email) TextView mTextEmail;
     @BindView(R.id.text_phone) TextView mTextPhone;
+    @BindView(R.id.text_card) TextView mTextCard;
     @BindView(R.id.text_birthday) TextView mTextBirthday;
     @BindView(R.id.text_first) TextView mTextFirst;
 
@@ -57,6 +61,11 @@ public class ProfileFragment extends BaseFragment<ProfilePresenter> implements P
             mTextPhone.setText(R.string.text_not_specified);
         } else {
             mTextPhone.setText(user.getPhone());
+        }
+        if (TextUtils.isEmpty(user.getCard())) {
+            mTextCard.setText(R.string.text_not_specified);
+        } else {
+            mTextCard.setText(user.getCard());
         }
         mTextBirthday.setText(DateUtils.toStringStandardDate(user.getBirthday()));
         mTextFirst.setText(DateUtils.toStringStandardDate(user.getFirstWorkingDate()));
@@ -96,5 +105,34 @@ public class ProfileFragment extends BaseFragment<ProfilePresenter> implements P
         setToolbarTitle(R.string.title_profile);
         getBaseActivity().hideFab();
         getPresenter().onViewReady();
+    }
+
+    @OnClick({R.id.text_phone, R.id.text_card})
+    public void onClick(View view) {
+        User user = getPresenter().getUser();
+        switch (view.getId()) {
+            case R.id.text_phone:
+                if (!TextUtils.isEmpty(user.getPhone())) {
+                    copyToClipboard(user.getPhone());
+                    showMessage(getString(R.string.text_copied));
+                }
+                break;
+            case R.id.text_card:
+                if (!TextUtils.isEmpty(user.getCard())) {
+                    copyToClipboard(user.getCard());
+                    showMessage(getString(R.string.text_copied));
+                }
+                break;
+        }
+    }
+
+    @OnLongClick(R.id.text_card)
+    public boolean onLongClick() {
+        User user = getPresenter().getUser();
+        if (!TextUtils.isEmpty(user.getCard())) {
+            copyToClipboard(user.getCard() + "\n" + user.getName());
+            showMessage(getString(R.string.text_copied));
+        }
+        return true;
     }
 }

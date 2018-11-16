@@ -9,6 +9,8 @@ import com.ruslanlyalko.agency.presentation.base.BasePresenter;
  */
 public class ProfilePresenter extends BasePresenter<ProfileView> {
 
+    private User mUser;
+
     ProfilePresenter() {
     }
 
@@ -20,12 +22,17 @@ public class ProfilePresenter extends BasePresenter<ProfileView> {
         getView().startProfileEditScreen();
     }
 
-    public void setUser(final User user) {
-        getView().populateUser(user);
-    }
-
     public void onLogoutClicked() {
         getDataManager().logout();
         getView().showLoginScreen();
+    }
+
+    public User getUser() {
+        return mUser;
+    }
+
+    public void setUser(final User user) {
+        mUser = user;
+        getView().populateUser(user);
     }
 }

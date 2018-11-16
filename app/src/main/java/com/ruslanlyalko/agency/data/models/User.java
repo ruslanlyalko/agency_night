@@ -10,16 +10,10 @@ import java.util.Date;
  */
 public class User extends BaseModel {
 
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel source) {return new User(source);}
-
-        @Override
-        public User[] newArray(int size) {return new User[size];}
-    };
     private String name;
     private String email;
     private String phone;
+    private String card;
     private String avatar;
     private Date birthday;
     private Date firstWorkingDate;
@@ -34,24 +28,8 @@ public class User extends BaseModel {
         birthday = new Date();
         notificationHour = "18";
         phone = "";
+        card = "";
         comments = "";
-    }
-
-    protected User(Parcel in) {
-        super(in);
-        this.name = in.readString();
-        this.email = in.readString();
-        this.phone = in.readString();
-        this.avatar = in.readString();
-        long tmpBirthday = in.readLong();
-        this.birthday = tmpBirthday == -1 ? null : new Date(tmpBirthday);
-        long tmpFirstWorkingDate = in.readLong();
-        this.firstWorkingDate = tmpFirstWorkingDate == -1 ? null : new Date(tmpFirstWorkingDate);
-        this.notificationHour = in.readString();
-        this.token = in.readString();
-        this.isBlocked = in.readByte() != 0;
-        this.isAdmin = in.readByte() != 0;
-        this.comments = in.readString();
     }
 
     public String getToken() {
@@ -142,6 +120,14 @@ public class User extends BaseModel {
         this.comments = comments;
     }
 
+    public String getCard() {
+        return card;
+    }
+
+    public void setCard(final String card) {
+        this.card = card;
+    }
+
     @Override
     public int describeContents() { return 0; }
 
@@ -151,6 +137,7 @@ public class User extends BaseModel {
         dest.writeString(this.name);
         dest.writeString(this.email);
         dest.writeString(this.phone);
+        dest.writeString(this.card);
         dest.writeString(this.avatar);
         dest.writeLong(this.birthday != null ? this.birthday.getTime() : -1);
         dest.writeLong(this.firstWorkingDate != null ? this.firstWorkingDate.getTime() : -1);
@@ -160,4 +147,30 @@ public class User extends BaseModel {
         dest.writeByte(this.isAdmin ? (byte) 1 : (byte) 0);
         dest.writeString(this.comments);
     }
+
+    protected User(Parcel in) {
+        super(in);
+        this.name = in.readString();
+        this.email = in.readString();
+        this.phone = in.readString();
+        this.card = in.readString();
+        this.avatar = in.readString();
+        long tmpBirthday = in.readLong();
+        this.birthday = tmpBirthday == -1 ? null : new Date(tmpBirthday);
+        long tmpFirstWorkingDate = in.readLong();
+        this.firstWorkingDate = tmpFirstWorkingDate == -1 ? null : new Date(tmpFirstWorkingDate);
+        this.notificationHour = in.readString();
+        this.token = in.readString();
+        this.isBlocked = in.readByte() != 0;
+        this.isAdmin = in.readByte() != 0;
+        this.comments = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {return new User(source);}
+
+        @Override
+        public User[] newArray(int size) {return new User[size];}
+    };
 }

@@ -59,6 +59,18 @@
         tools:text="Phone" />
 
     <TextView
+        android:id="@+id/text_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:drawablePadding="@dimen/padding_double"
+        android:drawableStart="@drawable/ic_card_gray"
+        android:textAppearance="@style/TextAppearance.Body2"
+        android:textColor="?attr/colorTextProject"
+        android:textSize="18sp"
+        tools:text="Card" />
+
+    <TextView
         android:id="@+id/text_birthday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

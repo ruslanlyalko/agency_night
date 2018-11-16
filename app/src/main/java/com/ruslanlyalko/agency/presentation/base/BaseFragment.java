@@ -1,5 +1,8 @@
 package com.ruslanlyalko.agency.presentation.base;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -128,6 +131,14 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     }
 
     public void onFabClicked() {}
+
+    protected void copyToClipboard(final String text) {
+        ClipboardManager clipboard = (ClipboardManager) getBaseActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText(text, text);
+        if (clipboard != null) {
+            clipboard.setPrimaryClip(clip);
+        }
+    }
 
     protected void hideKeyboard() {
         getBaseActivity().hideKeyboard();
